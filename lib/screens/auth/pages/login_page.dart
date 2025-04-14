@@ -9,6 +9,8 @@ import 'package:flutter_firebase/screens/auth/repositories/auth_repository.dart'
 import 'package:flutter_firebase/screens/auth/widgets/form_input.dart';
 
 class LoginPage extends StatelessWidget {
+  final _formKey = GlobalKey<FormState>();
+
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
@@ -24,6 +26,19 @@ class LoginPage extends StatelessWidget {
     ],
     stops: [0.0, 0.5, 1.0],
   );
+
+  validateForm() {
+    if (!_formKey.currentState!.validate()) {
+      SnackBar(
+        content: Text(
+          _formKey.currentState!.validateGranularly().first.errorText!,
+        ),
+      );
+      return false;
+    }
+
+    return true;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -103,139 +118,153 @@ class LoginPage extends StatelessWidget {
 
                     return Padding(
                       padding: const EdgeInsets.all(16),
-                      child: Column(
-                        children: [
-                          FormInput(
-                            controller: emailController,
-                            hintText: 'vitorqueiroz325@gmail.com',
-                            keyboardType: TextInputType.emailAddress,
-                            validator: emailValidation,
-                            obscureText: false,
-                            labelText: 'Email',
-                          ),
-                          const SizedBox(height: 12),
-                          FormInput(
-                            controller: passwordController,
-                            hintText: '******',
-                            keyboardType: TextInputType.text,
-                            validator: passwordValidation,
-                            obscureText: true,
-                            labelText: 'Senha',
-                          ),
-                          const SizedBox(
-                            height: 4,
-                          ),
-                          const Align(
-                            alignment: Alignment.centerRight,
-                            child: Text(
-                              "Esqueceu sua senha?",
-                              style: TextStyle(fontSize: 14),
+                      child: Form(
+                        child: Column(
+                          children: [
+                            Form(
+                              key: _formKey,
+                              child: FormInput(
+                                controller: emailController,
+                                hintText: 'vitorqueiroz325@gmail.com',
+                                keyboardType: TextInputType.emailAddress,
+                                validator: emailValidation,
+                                obscureText: false,
+                                labelText: 'Email',
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 16),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 16, bottom: 10),
-                            child: ElevatedButton(
+                            const SizedBox(height: 12),
+                            FormInput(
+                              controller: passwordController,
+                              hintText: '******',
+                              keyboardType: TextInputType.text,
+                              validator: passwordValidation,
+                              obscureText: true,
+                              labelText: 'Senha',
+                            ),
+                            const SizedBox(
+                              height: 4,
+                            ),
+                            const Align(
+                              alignment: Alignment.centerRight,
+                              child: Text(
+                                "Esqueceu sua senha?",
+                                style: TextStyle(fontSize: 14),
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(top: 16, bottom: 10),
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: CapybaColors.capybaGreen,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  minimumSize: const Size(180, 50),
+                                ),
+                                onPressed: () {
+                                  print('oi');
+                                  if (!validateForm()) {
+                                    return;
+                                  } else {
+                                    print('kk');
+                                    BlocProvider.of<AuthBloc>(context).add(
+                                      LoginRequested(
+                                        emailController.text,
+                                        passwordController.text,
+                                      ),
+                                    );
+                                  }
+                                },
+                                child: Text(
+                                  "Entrar",
+                                  style: TextStyle(
+                                    color: CapybaColors.white,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text("Não possui uma conta? "),
+                                Text(
+                                  "Cadastre-se",
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: CapybaColors.capybaDarkGreen,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Divider(
+                                      thickness: 1,
+                                      color: Colors.grey[300],
+                                    ),
+                                  ),
+                                  const Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 8.0),
+                                    child: Text(
+                                      'Ou entre com',
+                                      style: TextStyle(color: Colors.grey),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Divider(
+                                      thickness: 1,
+                                      color: Colors.grey[300],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: CapybaColors.capybaGreen,
+                                backgroundColor: CapybaColors.white,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                ),
-                                minimumSize: const Size(180, 50),
-                              ),
-                              onPressed: () {
-                                BlocProvider.of<AuthBloc>(context).add(
-                                  LoginRequested(
-                                    emailController.text,
-                                    passwordController.text,
-                                  ),
-                                );
-                              },
-                              child: Text(
-                                "Entrar",
-                                style: TextStyle(
-                                  color: CapybaColors.white,
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text("Não possui uma conta? "),
-                              Text(
-                                "Cadastre-se",
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    color: CapybaColors.capybaDarkGreen),
-                              ),
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Divider(
-                                    thickness: 1,
-                                    color: Colors.grey[300],
+                                  side: BorderSide(
+                                    color: CapybaColors.gray2,
+                                    width: 0.5,
                                   ),
                                 ),
-                                const Padding(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 8.0),
-                                  child: Text(
-                                    'Ou entre com',
-                                    style: TextStyle(color: Colors.grey),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Divider(
-                                    thickness: 1,
-                                    color: Colors.grey[300],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: CapybaColors.white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                                side: BorderSide(
-                                  color: CapybaColors.gray2,
-                                  width: 0.5,
-                                ),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 12),
+                                elevation: 0, // Remove box shadow
                               ),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 12),
-                              elevation: 0, // Remove box shadow
+                              onPressed: () {},
+                              child: Row(
+                                mainAxisSize:
+                                    MainAxisSize.min, // Adjust size to content
+                                children: [
+                                  Icon(
+                                    Icons.g_mobiledata,
+                                    color: CapybaColors.gray1,
+                                    size: 24,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Text(
+                                    "Google",
+                                    style: TextStyle(
+                                        color: CapybaColors.gray1,
+                                        fontSize: 16),
+                                  ),
+                                ],
+                              ),
                             ),
-                            onPressed: () {},
-                            child: Row(
-                              mainAxisSize:
-                                  MainAxisSize.min, // Adjust size to content
-                              children: [
-                                Icon(
-                                  Icons.g_mobiledata,
-                                  color: CapybaColors.gray1,
-                                  size: 24,
-                                ),
-                                const SizedBox(width: 8),
-                                Text(
-                                  "Google",
-                                  style: TextStyle(
-                                      color: CapybaColors.gray1, fontSize: 16),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     );
                   },
