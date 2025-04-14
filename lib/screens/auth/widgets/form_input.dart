@@ -40,6 +40,13 @@ class FormInput extends StatelessWidget {
           cursorColor: Colors.black,
           style: const TextStyle(fontSize: 20),
           decoration: InputDecoration(
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(13),
+              borderSide: BorderSide(
+                color: CapybaColors.capybaGreen,
+                width: 2.0,
+              ),
+            ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(13),
               borderSide: BorderSide(
@@ -61,7 +68,7 @@ class FormInput extends StatelessWidget {
                 width: 2.0,
               ),
             ),
-            errorStyle: TextStyle(fontSize: 8, color: CapybaColors.red),
+            errorStyle: TextStyle(fontSize: 14, color: CapybaColors.red),
             contentPadding: const EdgeInsets.fromLTRB(23, 16, 23, 16),
             hintText: hintText,
             hintStyle: TextStyle(
