@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/colors.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_firebase/routes.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'firebase_options.dart';
 import 'package:flutter_firebase/screens/auth/pages/login_page.dart';
 
@@ -24,7 +26,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
@@ -33,6 +35,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Montserrat',
       ),
       home: LoginPage(),
+      getPages: Routes.routes,
     );
   }
 }

@@ -177,20 +177,25 @@ class LoginPage extends StatelessWidget {
                                       const SizedBox(
                                         height: 8,
                                       ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          const Text("Não possui uma conta? "),
-                                          Text(
-                                            "Cadastre-se",
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                              color:
-                                                  CapybaColors.capybaDarkGreen,
+                                      GestureDetector(
+                                        onTap: () {
+                                          Navigator.of(context).pushNamed('/signup');
+                                        },
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            const Text("Não possui uma conta? "),
+                                            Text(
+                                              "Cadastre-se",
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                color:
+                                                    CapybaColors.capybaDarkGreen,
+                                              ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.symmetric(

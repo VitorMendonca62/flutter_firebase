@@ -13,7 +13,7 @@ class LoginWithGoogleRequested extends AuthEvent {}
 
 class RegisterRequested extends AuthEvent {
   final String email;
-  final String password;
+  final String name;
 
-  RegisterRequested(this.email, this.password);
+  RegisterRequested(this.email, this.name);
 }
