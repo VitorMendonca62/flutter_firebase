@@ -11,15 +11,3 @@ String? emailValidation(String? value) {
 
   return null;
 }
-
-String? passwordValidation(String? value) {
-  if (value == null || value.isEmpty) {
-    return 'Digite uma senha';
-  }
-
-  if (value.length < 6) {
-    return 'A senha deve ter no mínimo 6 caracteres';
-  }
-
-  return null;
-}

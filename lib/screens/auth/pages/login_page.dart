@@ -13,7 +13,6 @@ class LoginPage extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
 
   LoginPage({super.key});
 
@@ -41,6 +40,7 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    emailController.text = "vitor@gmail.com";
     return SafeArea(
       child: Scaffold(
         backgroundColor: CapybaColors.white,
@@ -103,8 +103,6 @@ class LoginPage extends StatelessWidget {
                                   ),
                                 );
                               } else if (state is AuthFailure) {
-                                print(state.error);
-                                print('00000000000000000000000000000000');
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBarNotification.error(
                                     state.error,
@@ -139,25 +137,6 @@ class LoginPage extends StatelessWidget {
                                           labelText: 'Email',
                                         ),
                                       ),
-                                      const SizedBox(height: 12),
-                                      FormInput(
-                                        controller: passwordController,
-                                        hintText: '******',
-                                        keyboardType: TextInputType.text,
-                                        validator: passwordValidation,
-                                        obscureText: true,
-                                        labelText: 'Senha',
-                                      ),
-                                      const SizedBox(
-                                        height: 4,
-                                      ),
-                                      const Align(
-                                        alignment: Alignment.centerRight,
-                                        child: Text(
-                                          "Esqueceu sua senha?",
-                                          style: TextStyle(fontSize: 14),
-                                        ),
-                                      ),
                                       const SizedBox(height: 16),
                                       Padding(
                                         padding: const EdgeInsets.only(
@@ -182,7 +161,6 @@ class LoginPage extends StatelessWidget {
                                                 .add(
                                               LoginRequested(
                                                 emailController.text,
-                                                passwordController.text,
                                               ),
                                             );
                                           },
@@ -258,7 +236,10 @@ class LoginPage extends StatelessWidget {
                                               horizontal: 16, vertical: 12),
                                           elevation: 0, // Remove box shadow
                                         ),
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          BlocProvider.of<AuthBloc>(context)
+                                              .add(LoginWithGoogleRequested());
+                                        },
                                         child: Row(
                                           mainAxisSize: MainAxisSize
                                               .min, // Adjust size to content

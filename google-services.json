@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "178230949280",
+    "project_id": "desafio-capyba-f75d0",
+    "storage_bucket": "desafio-capyba-f75d0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:178230949280:android:195472e02651b5247720c5",
+        "android_client_info": {
+          "package_name": "com.example.flutter_firebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "178230949280-v0s9qcp8e8598pli9fdm7ms06eep5jfo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.flutter_firebase",
+            "certificate_hash": "070a9aea60ceb23b2ef7bd0abc164170a10dafcf"
+          }
+        },
+        {
+          "client_id": "178230949280-jt9eblh8bptmofo25rfa4porrg6p4det.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDABwXNqtppHDlZ2CAt3AJzjVZlcBMV8as"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "178230949280-8dt879f1pvnf22r6opf8t14h5b8lbc8h.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "178230949280-c50oak1g4l17ohllp6c5ker77b787pqs.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.flutterFirebase"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
