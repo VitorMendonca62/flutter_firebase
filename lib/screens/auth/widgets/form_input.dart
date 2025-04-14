@@ -39,6 +39,7 @@ class FormInput extends StatelessWidget {
           keyboardType: keyboardType,
           cursorColor: Colors.black,
           style: const TextStyle(fontSize: 20),
+          obscureText: obscureText,
           decoration: InputDecoration(
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(13),

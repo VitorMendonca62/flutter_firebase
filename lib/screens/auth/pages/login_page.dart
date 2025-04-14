@@ -7,6 +7,7 @@ import 'package:flutter_firebase/constants.dart';
 import 'package:flutter_firebase/screens/auth/blocs/auth_bloc.dart';
 import 'package:flutter_firebase/screens/auth/repositories/auth_repository.dart';
 import 'package:flutter_firebase/screens/auth/widgets/form_input.dart';
+import 'package:flutter_firebase/screens/widgets/snackbar.dart';
 
 class LoginPage extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
@@ -29,10 +30,8 @@ class LoginPage extends StatelessWidget {
 
   validateForm() {
     if (!_formKey.currentState!.validate()) {
-      SnackBar(
-        content: Text(
-          _formKey.currentState!.validateGranularly().first.errorText!,
-        ),
+      SnackBarNotification.warning(
+        _formKey.currentState!.validateGranularly().first.errorText!,
       );
       return false;
     }
@@ -99,14 +98,16 @@ class LoginPage extends StatelessWidget {
                             listener: (context, state) {
                               if (state is AuthSuccess) {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Login feito com sucesso!'),
+                                  SnackBarNotification.success(
+                                    'Login feito com sucesso!',
                                   ),
                                 );
                               } else if (state is AuthFailure) {
+                                print(state.error);
+                                print('00000000000000000000000000000000');
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(state.error),
+                                  SnackBarNotification.error(
+                                    state.error,
                                   ),
                                 );
                               }
@@ -160,7 +161,9 @@ class LoginPage extends StatelessWidget {
                                       const SizedBox(height: 16),
                                       Padding(
                                         padding: const EdgeInsets.only(
-                                            top: 16, bottom: 10),
+                                          top: 16,
+                                          bottom: 10,
+                                        ),
                                         child: ElevatedButton(
                                           style: ElevatedButton.styleFrom(
                                             backgroundColor:
@@ -172,25 +175,23 @@ class LoginPage extends StatelessWidget {
                                             minimumSize: const Size(180, 50),
                                           ),
                                           onPressed: () {
-                                            print('oi');
                                             if (!validateForm()) {
                                               return;
-                                            } else {
-                                              print('kk');
-                                              BlocProvider.of<AuthBloc>(context)
-                                                  .add(
-                                                LoginRequested(
-                                                  emailController.text,
-                                                  passwordController.text,
-                                                ),
-                                              );
                                             }
+                                            BlocProvider.of<AuthBloc>(context)
+                                                .add(
+                                              LoginRequested(
+                                                emailController.text,
+                                                passwordController.text,
+                                              ),
+                                            );
                                           },
                                           child: Text(
                                             "Entrar",
                                             style: TextStyle(
                                               color: CapybaColors.white,
-                                              fontSize: 16,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
                                             ),
                                           ),
                                         ),
