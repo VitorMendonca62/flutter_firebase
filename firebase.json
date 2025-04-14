@@ -1,0 +1,22 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "desafio-capyba-f75d0",
+          "appId": "1:178230949280:android:195472e02651b5247720c5",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "desafio-capyba-f75d0",
+          "configurations": {
+            "android": "1:178230949280:android:195472e02651b5247720c5",
+            "ios": "1:178230949280:ios:7405e024a21340057720c5"
+          }
+        }
+      }
+    }
+  }
+}
