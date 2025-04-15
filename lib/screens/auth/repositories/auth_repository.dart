@@ -24,34 +24,14 @@ class AuthRepository {
 
       return await _auth.signInWithCredential(credential);
     } on FirebaseAuthException catch (e) {
-      String message;
-      switch (e.code) {
-        case 'account-exists-with-different-credential':
-          message = 'Esta conta existe com um método de login diferente';
-          break;
-        case 'invalid-credential':
-          message = 'Credencial inválida';
-          break;
-        case 'operation-not-allowed':
-          message = 'Login com Google não está habilitado';
-          break;
-        case 'user-disabled':
-          message = 'Conta desativada';
-          break;
-        default:
-          message = 'Erro ao fazer login com Google: ${e.message}';
-      }
-      throw Exception(message);
-    } catch (e) {
-      throw Exception('Erro ao fazer login com Google: $e');
+      throw Exception('Erro ao fazer login com Google: ${e.message}');
     }
   }
 
   Future<void> login(String email) async {
     try {
       final actionCodeSettings = ActionCodeSettings(
-        url:
-            'https://desafio-capyba-f75d0.firebaseapp.com', // Domínio padrão do seu projeto
+        url: 'http://desafio-capyba-f75d0.firebaseapp.com',
         handleCodeInApp: true,
         androidPackageName: 'com.capyba.challenge',
         androidInstallApp: true,
@@ -77,8 +57,28 @@ class AuthRepository {
           message = 'Erro ao fazer login: ${e.message}';
       }
       throw Exception(message);
-    } catch (e) {
-      throw Exception('Erro ao fazer login: $e');
+    }
+  }
+
+  Future<void> register(String email) async {
+    try {
+      final actionCodeSettings = ActionCodeSettings(
+        url: 'https://desafio-capyba-f75d0.firebaseapp.com',
+        handleCodeInApp: true,
+        androidPackageName: 'com.capyba.challenge',
+        androidInstallApp: true,
+        androidMinimumVersion: '21',
+        iOSBundleId: 'com.example.flutterFirebase',
+      );
+
+      await _auth.sendSignInLinkToEmail(
+        email: email.trim(),
+        actionCodeSettings: actionCodeSettings,
+      );
+
+      return await saveEmailForSignIn(email);
+    } on FirebaseAuthException catch (e) {
+      throw Exception('Erro ao fazer login: ${e.message}');
     }
   }
 

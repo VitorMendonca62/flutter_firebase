@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_firebase/models/user/user_model.dart';
-import '../repositories/auth_repository.dart';
+import '../../repositories/auth_repository.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -32,6 +32,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           isEmailVerified: user.user!.emailVerified,
         );
         authRepository.saveUser(userModel);
+   
         emit(AuthSuccess());
       } catch (e) {
         emit(AuthFailure(e.toString()));
@@ -41,7 +42,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<RegisterRequested>((event, emit) async {
       emit(AuthLoading());
       try {
-        // await authRepository.register(event.email, event.password);
+        // await authRepository.register(event.email);
         emit(AuthSuccess());
       } catch (e) {
         emit(AuthFailure(e.toString()));

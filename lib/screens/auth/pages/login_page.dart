@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_firebase/colors.dart';
 import 'package:flutter_firebase/constants.dart';
-import 'package:flutter_firebase/screens/auth/blocs/auth_bloc.dart';
+import 'package:flutter_firebase/routes.dart';
+import 'package:flutter_firebase/screens/auth/blocs/auth/auth_bloc.dart';
 import 'package:flutter_firebase/screens/auth/repositories/auth_repository.dart';
 import 'package:flutter_firebase/screens/auth/widgets/form_input.dart';
 import 'package:flutter_firebase/screens/widgets/snackbar.dart';
@@ -163,6 +164,9 @@ class LoginPage extends StatelessWidget {
                                                 emailController.text,
                                               ),
                                             );
+                                            Navigator.of(context).pushNamed(
+                                              Routes.home,
+                                            );
                                           },
                                           child: Text(
                                             "Entrar",
@@ -179,19 +183,22 @@ class LoginPage extends StatelessWidget {
                                       ),
                                       GestureDetector(
                                         onTap: () {
-                                          Navigator.of(context).pushNamed('/signup');
+                                          Navigator.of(context).pushNamed(
+                                            Routes.signup,
+                                          );
                                         },
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           children: [
-                                            const Text("Não possui uma conta? "),
+                                            const Text(
+                                                "Não possui uma conta? "),
                                             Text(
                                               "Cadastre-se",
                                               style: TextStyle(
                                                 fontSize: 14,
-                                                color:
-                                                    CapybaColors.capybaDarkGreen,
+                                                color: CapybaColors
+                                                    .capybaDarkGreen,
                                               ),
                                             ),
                                           ],
