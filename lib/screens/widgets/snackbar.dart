@@ -37,7 +37,7 @@ class SnackBarNotification {
               fontSize: 16,
             ),
           ),
-          backgroundColor: CapybaColors.capybaDarkGreen,
+          backgroundColor: CapybaColors.capybaGreen,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),

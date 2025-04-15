@@ -8,7 +8,6 @@ class AuthRepository {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   Future<UserCredential> loginWithGoogle() async {
-    print('kkkKKKKKKKKKKKKKKKKKKKKK');
     final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
     if (googleUser == null) {
       throw Exception("Login cancelado pelo usuário");
@@ -25,51 +24,60 @@ class AuthRepository {
     return await _auth.signInWithCredential(credential);
   }
 
-  Future<void> login(String email, String password) async {
-    final userCredential = await _auth.signInWithEmailAndPassword(
-        email: email, password: password);
+  Future<UserCredential> login(String email, String password) async {
+    try {
+      final userCredential = await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
 
-    print('kkkKKKKKKKKKKKKKKKKKKKKK');
-    throw Exception("EOOE");
-    final actionCodeSettings = ActionCodeSettings(
-      url: 'http://desafio-capyba-f75d0.firebaseapp.com',
-      handleCodeInApp: true,
-      androidPackageName: 'com.capyba.challenge',
-      androidInstallApp: true,
-      androidMinimumVersion: '21',
-      iOSBundleId: 'com.example.flutterFirebase',
-    );
-
-    await _auth.sendSignInLinkToEmail(
-      email: email.trim(),
-      actionCodeSettings: actionCodeSettings,
-    );
-
-    await saveEmailForSignIn(email);
+      return userCredential;
+    } on FirebaseAuthException catch (e) {
+      String message;
+      switch (e.code) {
+        case 'user-not-found':
+        case 'wrong-password':
+          message = 'Email e/ou senha inválida';
+          break;
+        default:
+          message = 'Erro ao fazer login: ${e.message}';
+      }
+      throw Exception(message);
+    } catch (e) {
+      throw Exception('Erro ao fazer login: $e');
+    }
   }
 
-  Future<void> register(String email) async {
-    final actionCodeSettings = ActionCodeSettings(
-      url: 'https://desafio-capyba-f75d0.firebaseapp.com',
-      handleCodeInApp: true,
-      androidPackageName: 'com.capyba.challenge',
-      androidInstallApp: true,
-      androidMinimumVersion: '21',
-      iOSBundleId: 'com.example.flutterFirebase',
-    );
+  Future<UserCredential> register({
+    required String email,
+    required String password,
+    required String name,
+  }) async {
+    try {
+      final UserCredential userCredential =
+          await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      await userCredential.user!.updateDisplayName(name);
 
-    await _auth.sendSignInLinkToEmail(
-      email: email.trim(),
-      actionCodeSettings: actionCodeSettings,
-    );
-
-    return await saveEmailForSignIn(email);
-  }
-
-  saveEmailForSignIn(String email) async {
-    final SharedPreferences sharedPreferences =
-        await SharedPreferences.getInstance();
-    await sharedPreferences.setString('email_for_sign_in', email);
+      return userCredential;
+    } on FirebaseAuthException catch (e) {
+      String message;
+      switch (e.code) {
+        case 'weak-password':
+          message = 'A senha é fraca';
+          break;
+        case 'email-already-in-use':
+          message = 'Esse email já está sendo usado';
+          break;
+        default:
+          message = 'Erro ao fazer registro: ${e.message}';
+      }
+      throw Exception(message);
+    } catch (e) {
+      throw Exception('Erro ao fazer registro: $e');
+    }
   }
 
   saveUser(UserModel userModel) async {

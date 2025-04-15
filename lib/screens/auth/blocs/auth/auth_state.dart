@@ -1,16 +1,25 @@
 part of 'auth_bloc.dart';
 
-abstract class AuthState {}
+abstract class AuthState {
+  bool wasHandled;
 
-class AuthInitialState extends AuthState {}
+  AuthState({required this.wasHandled});
+}
 
-class AuthLoadingState extends AuthState {}
+class AuthInitialState extends AuthState {
+  AuthInitialState() : super(wasHandled: false);
+}
 
-class AuthLoadedState extends AuthState {}
+class AuthLoadingState extends AuthState {
+  AuthLoadingState() : super(wasHandled: false);
+}
+
+class AuthLoadedState extends AuthState {
+  AuthLoadedState() : super(wasHandled: false);
+}
 
 class AuthFailureState extends AuthState {
   final String exception;
-  bool wasHandled = false;
 
-  AuthFailureState({required this.exception});
+  AuthFailureState({required this.exception}) : super(wasHandled: false);
 }

@@ -6,7 +6,6 @@ import 'package:get/get_navigation/src/routes/get_route.dart';
 class Routes {
   static String login = '/';
   static String signup = '/signup';
-  static String forgotMatricula = '/forgotMatricula';
   static String photoRegister = '/photoRegister';
   static String home = '/home';
 

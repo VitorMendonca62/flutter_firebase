@@ -21,6 +21,7 @@ class _LoginPageState extends State<LoginPage> {
   late final AuthBloc _authBloc;
 
   final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   final LinearGradient greenGradient = const LinearGradient(
     begin: Alignment.centerLeft,
@@ -42,6 +43,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     emailController.text = "vitor@gmail.com";
+    passwordController.text = "123456";
     return SafeArea(
       child: Scaffold(
         backgroundColor: CapybaColors.white,
@@ -107,16 +109,24 @@ class _LoginPageState extends State<LoginPage> {
                             }
 
                             if (state.data is AuthFailureState &&
-                                !(state.data as AuthFailureState).wasHandled) {
+                                !state.data!.wasHandled) {
                               SnackBarNotification.error(
                                 (state.data as AuthFailureState).exception,
                                 context,
                               );
-                              (state.data as AuthFailureState).wasHandled =
-                                  true;
+                              state.data!.wasHandled = true;
                             }
-                            if (state.data is AuthLoadedState) {
-                              Navigator.of(context).pushNamed(Routes.home);
+
+                            if (state.data is AuthLoadedState &&
+                                !state.data!.wasHandled) {
+                              WidgetsBinding.instance.addPostFrameCallback((_) {
+                                SnackBarNotification.success(
+                                  'Login realizado com sucesso',
+                                  context,
+                                );
+                                Navigator.of(context).pushNamed(Routes.home);
+                                state.data!.wasHandled = true;
+                              });
                             }
 
                             return Padding(
@@ -185,6 +195,7 @@ class _LoginPageState extends State<LoginPage> {
                                           _authBloc.authInput.add(
                                             LoginRequested(
                                               email: emailController.text,
+                                              password: passwordController.text,
                                             ),
                                           );
                                         },

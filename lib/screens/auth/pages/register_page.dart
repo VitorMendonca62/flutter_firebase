@@ -20,6 +20,9 @@ class _RegisterPageState extends State<RegisterPage> {
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
 
   final LinearGradient greenGradient = const LinearGradient(
     begin: Alignment.centerLeft,
@@ -97,13 +100,6 @@ class _RegisterPageState extends State<RegisterPage> {
                           stream: _authBloc.authOutput,
                           initialData: AuthInitialState(),
                           builder: (context, state) {
-                            if (state.data is AuthFailureState) {
-                              SnackBarNotification.error(
-                                (state.data as AuthFailureState).exception,
-                                context,
-                              );
-                            }
-
                             if (state is AuthLoadingState) {
                               return const Padding(
                                 padding: EdgeInsets.all(16),
@@ -111,6 +107,28 @@ class _RegisterPageState extends State<RegisterPage> {
                                   child: CircularProgressIndicator(),
                                 ),
                               );
+                            }
+                            print(state.data);
+                            if (state.data is AuthFailureState &&
+                                !state.data!.wasHandled) {
+                              SnackBarNotification.error(
+                                (state.data as AuthFailureState).exception,
+                                context,
+                              );
+                              state.data!.wasHandled = true;
+                            }
+
+                            if (state.data is AuthLoadedState &&
+                                !state.data!.wasHandled) {
+                              WidgetsBinding.instance.addPostFrameCallback((_) {
+                                SnackBarNotification.success(
+                                  'Registro realizado com sucesso',
+                                  context,
+                                );
+                                Navigator.of(context)
+                                    .pushNamed(Routes.photoRegister);
+                                state.data!.wasHandled = true;
+                              });
                             }
 
                             return Padding(
@@ -141,6 +159,28 @@ class _RegisterPageState extends State<RegisterPage> {
                                       obscureText: false,
                                       labelText: 'Email',
                                     ),
+                                    const SizedBox(height: 16),
+                                    FormInput(
+                                      controller: passwordController,
+                                      hintText: '********',
+                                      keyboardType: TextInputType.text,
+                                      validator: passwordValidation,
+                                      obscureText: true,
+                                      labelText: 'Senha',
+                                    ),
+                                    const SizedBox(height: 16),
+                                    FormInput(
+                                      controller: confirmPasswordController,
+                                      hintText: '********',
+                                      keyboardType: TextInputType.text,
+                                      validator: (String? value) =>
+                                          confirmPasswordValidation(
+                                        passwordController.text,
+                                        value,
+                                      ),
+                                      obscureText: true,
+                                      labelText: 'Confirmação de senha',
+                                    ),
                                     const SizedBox(height: 24),
                                     ElevatedButton(
                                       style: ElevatedButton.styleFrom(
@@ -160,11 +200,11 @@ class _RegisterPageState extends State<RegisterPage> {
 
                                         _authBloc.authInput.add(
                                           RegisterRequested(
-                                              email: emailController.text,
-                                              name: nameController.text),
+                                            email: emailController.text,
+                                            name: nameController.text,
+                                            password: passwordController.text,
+                                          ),
                                         );
-                                        Navigator.of(context)
-                                            .pushNamed(Routes.photoRegister);
                                       },
                                       child: Text(
                                         "Cadastrar",

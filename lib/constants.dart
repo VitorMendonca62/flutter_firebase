@@ -23,3 +23,16 @@ String? passwordValidation(String? value) {
 
   return null;
 }
+
+String? confirmPasswordValidation(String? password, String? confirmPassword) {
+  final String? passwordValidationValue = passwordValidation(confirmPassword);
+  if (passwordValidationValue != null) {
+    return passwordValidationValue;
+  }
+
+  if (password != null && confirmPassword != password) {
+    return 'As senhas devem ser iguais';
+  }
+
+  return null;
+}

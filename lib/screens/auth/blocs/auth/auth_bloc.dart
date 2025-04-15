@@ -23,40 +23,37 @@ class AuthBloc {
   }
 
   void _mapEventToState(AuthEvent event) async {
-    _authControllerOutput.add(AuthLoadingState());
+    try {
+      _authControllerOutput.add(AuthLoadingState());
 
-    if (event is LoginRequested || event is LoginWithGoogleRequested) {
-      try {
-        UserCredential? user;
-        if (event is LoginRequested) {
-          /*  user =  */ await _authRepository.login(event.email);
-        }
+      UserCredential? user;
+      if (event is LoginRequested) {
+        user = await _authRepository.login(event.email, event.password);
+      }
 
-        if (event is LoginWithGoogleRequested) {
-          user = await _authRepository.loginWithGoogle();
-        }
+      if (event is LoginWithGoogleRequested) {
+        user = await _authRepository.loginWithGoogle();
+      }
+
+      if (event is RegisterRequested) {
+        user = await _authRepository.register(
+            email: event.email, password: event.password, name: event.name);
 
         final userModel = UserModel(
-          id: user!.user!.uid,
-          name: user.user!.displayName!,
+          id: user.user!.uid,
+          name: user.user!.displayName,
           email: user.user!.email!,
-          accessToken: user.credential!.accessToken!,
+          accessToken: user.credential?.accessToken,
           isEmailVerified: user.user!.emailVerified,
+          photoUrl: user.user!.photoURL,
         );
         _authRepository.saveUser(userModel);
-      } catch (e) {
-        return _authControllerOutput.add(
-          AuthFailureState(
-            exception: 'Erro ao realizar o login',
-          ),
-        );
       }
-    }
 
-    if (event is RegisterRequested) {
-      await _authRepository.register(event.email);
+      _authControllerOutput.add(AuthLoadedState());
+    } catch (e) {
+      _authControllerOutput.add(AuthFailureState(
+          exception: e.toString().replaceAll("Exception: ", '')));
     }
-
-    _authControllerOutput.add(AuthLoadedState());
   }
 }
