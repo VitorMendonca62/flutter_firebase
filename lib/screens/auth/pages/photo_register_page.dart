@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/colors.dart';
+import 'package:flutter_firebase/routes.dart';
 import 'package:flutter_firebase/screens/auth/blocs/photo/photo_bloc.dart';
 import 'package:flutter_firebase/screens/widgets/snackbar.dart';
 import 'package:image_picker/image_picker.dart';
@@ -120,12 +121,6 @@ class _PhotoRegisterPageState extends State<PhotoRegisterPage> {
                     initialData: PhotoInitialState(),
                     builder: (context, state) {
                       bool oldWasHandled = false;
-                      if (state.data is PhotoFailureState) {
-                        SnackBarNotification.error(
-                          'Erro ao carregar imagem',
-                          context,
-                        );
-                      }
 
                       if (state.data is PhotoFailureState &&
                           !state.data!.wasHandled) {
@@ -136,7 +131,18 @@ class _PhotoRegisterPageState extends State<PhotoRegisterPage> {
                         oldWasHandled = state.data!.wasHandled;
                         state.data!.wasHandled = true;
                       }
-                      print(oldWasHandled);
+
+                      if (state.data is PhotoLoadedState &&
+                          !state.data!.wasHandled) {
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          SnackBarNotification.success(
+                            'Foto de perfil enviada com sucesso',
+                            context,
+                          );
+                          Navigator.of(context).pushNamed(Routes.home);
+                          state.data!.wasHandled = true;
+                        });
+                      }
                       return Column(
                         children: [
                           const SizedBox(height: 40),

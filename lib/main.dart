@@ -1,10 +1,13 @@
 import 'dart:developer';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/colors.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_firebase/routes.dart';
+import 'package:flutter_firebase/screens/auth/pages/login_page.dart';
 import 'package:flutter_firebase/screens/auth/pages/photo_register_page.dart';
+import 'package:flutter_firebase/screens/home/pages/home_page.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'firebase_options.dart';
@@ -43,7 +46,9 @@ class MyApp extends StatelessWidget {
         ),
         fontFamily: 'Montserrat',
       ),
-      home: const PhotoRegisterPage(),
+      home: FirebaseAuth.instance.currentUser == null
+          ? const LoginPage()
+          : const HomePage(),
       getPages: Routes.routes,
     );
   }
