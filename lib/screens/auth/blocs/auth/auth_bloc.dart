@@ -1,7 +1,5 @@
 import 'dart:async';
 
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_firebase/models/user/user_model.dart';
 import '../../repositories/auth_repository.dart';
 
 part 'auth_event.dart';
@@ -26,28 +24,20 @@ class AuthBloc {
     try {
       _authControllerOutput.add(AuthLoadingState());
 
-      UserCredential? user;
       if (event is LoginRequested) {
-        user = await _authRepository.login(event.email, event.password);
+        await _authRepository.login(event.email, event.password);
       }
 
       if (event is LoginWithGoogleRequested) {
-        user = await _authRepository.loginWithGoogle();
+        await _authRepository.loginWithGoogle();
       }
 
       if (event is RegisterRequested) {
-        user = await _authRepository.register(
-            email: event.email, password: event.password, name: event.name);
-
-        final userModel = UserModel(
-          id: user.user!.uid,
-          name: user.user!.displayName,
-          email: user.user!.email!,
-          accessToken: user.credential?.accessToken,
-          isEmailVerified: user.user!.emailVerified,
-          photoUrl: user.user!.photoURL,
+        await _authRepository.register(
+          email: event.email,
+          password: event.password,
+          name: event.name,
         );
-        _authRepository.saveUser(userModel);
       }
 
       _authControllerOutput.add(AuthLoadedState());

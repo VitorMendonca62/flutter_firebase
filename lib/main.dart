@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_firebase/colors.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_firebase/routes.dart';
+import 'package:flutter_firebase/screens/auth/pages/photo_register_page.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'firebase_options.dart';
-import 'package:flutter_firebase/screens/auth/pages/login_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
         ),
         fontFamily: 'Montserrat',
       ),
-      home: const LoginPage(),
+      home: const PhotoRegisterPage(),
       getPages: Routes.routes,
     );
   }

@@ -108,7 +108,6 @@ class _RegisterPageState extends State<RegisterPage> {
                                 ),
                               );
                             }
-                            print(state.data);
                             if (state.data is AuthFailureState &&
                                 !state.data!.wasHandled) {
                               SnackBarNotification.error(

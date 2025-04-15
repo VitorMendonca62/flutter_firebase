@@ -92,89 +92,100 @@ class _PhotoRegisterPageState extends State<PhotoRegisterPage> {
             ),
           ),
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Adicione uma foto para seu perfil",
-                style: TextStyle(
-                  fontSize: 16,
-                  color: CapybaColors.gray2,
-                ),
-              ),
-              StreamBuilder<PhotoState>(
-                stream: _photoBloc.photoOutput,
-                initialData: const PhotoInitialState(),
-                builder: (context, state) {
-                  if (state.data is PhotoFailureState) {
-                    SnackBarNotification.error(
-                      'Erro ao carregar imagem',
-                      context,
-                    );
-                  }
+        body: SingleChildScrollView(
+          child: Align(
+            alignment: Alignment.topCenter,
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                children: [
+                  Text(
+                    "Adicione uma foto para seu perfil",
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: CapybaColors.gray2,
+                    ),
+                  ),
+                  Text(
+                    "( Esse passo é obrigatório )",
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: CapybaColors.gray2,
+                    ),
+                  ),
+                  StreamBuilder<PhotoState>(
+                    stream: _photoBloc.photoOutput,
+                    initialData: const PhotoInitialState(),
+                    builder: (context, state) {
+                      if (state.data is PhotoFailureState) {
+                        SnackBarNotification.error(
+                          'Erro ao carregar imagem',
+                          context,
+                        );
+                      }
 
-                  return Column(
-                    children: [
-                      const SizedBox(height: 40),
-                      GestureDetector(
-                        onTap: () => _showImageSourceActionSheet(
-                            context, state.data?.imageFile),
-                        child: Container(
-                          width: 200,
-                          height: 200,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: CapybaColors.gray2.withOpacity(0.1),
-                            border: Border.all(
-                              color: CapybaColors.capybaGreen,
-                              width: 2,
+                      return Column(
+                        children: [
+                          const SizedBox(height: 40),
+                          GestureDetector(
+                            onTap: () => _showImageSourceActionSheet(
+                                context, state.data?.imageFile),
+                            child: Container(
+                              width: 200,
+                              height: 200,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: CapybaColors.gray2.withOpacity(0.1),
+                                border: Border.all(
+                                  color: CapybaColors.capybaGreen,
+                                  width: 2,
+                                ),
+                              ),
+                              child: state.data is PhotoLoadingState
+                                  ? const CircularProgressIndicator()
+                                  : state.data?.imageFile != null
+                                      ? ClipOval(
+                                          child: Image.file(
+                                            state.data!.imageFile!,
+                                            width: 200,
+                                            height: 200,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        )
+                                      : Icon(
+                                          Icons.add_a_photo,
+                                          size: 40,
+                                          color: CapybaColors.capybaGreen,
+                                        ),
                             ),
                           ),
-                          child: state.data is PhotoLoadingState
-                              ? const CircularProgressIndicator()
-                              : state.data?.imageFile != null
-                                  ? ClipOval(
-                                      child: Image.file(
-                                        state.data!.imageFile!,
-                                        width: 200,
-                                        height: 200,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    )
-                                  : Icon(
-                                      Icons.add_a_photo,
-                                      size: 40,
-                                      color: CapybaColors.capybaGreen,
-                                    ),
-                        ),
-                      ),
-                      const SizedBox(height: 40),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: CapybaColors.capybaGreen,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+                          const SizedBox(height: 40),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: CapybaColors.capybaGreen,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              minimumSize: const Size(180, 50),
+                            ),
+                            onPressed:
+                                state.data?.imageFile != null ? () {} : null,
+                            child: Text(
+                              "Continuar",
+                              style: TextStyle(
+                                color: CapybaColors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ),
-                          minimumSize: const Size(180, 50),
-                        ),
-                        onPressed: state.data?.imageFile != null ? () {} : null,
-                        child: Text(
-                          "Continuar",
-                          style: TextStyle(
-                            color: CapybaColors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ],
-                  );
-                },
+                        ],
+                      );
+                    },
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),

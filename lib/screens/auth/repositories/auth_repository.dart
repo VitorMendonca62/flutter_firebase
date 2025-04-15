@@ -1,7 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_firebase/models/user/user_model.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthRepository {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -78,11 +76,5 @@ class AuthRepository {
     } catch (e) {
       throw Exception('Erro ao fazer registro: $e');
     }
-  }
-
-  saveUser(UserModel userModel) async {
-    final SharedPreferences sharedPreferences =
-        await SharedPreferences.getInstance();
-    await sharedPreferences.setString('user', userModel.toJson().toString());
   }
 }
