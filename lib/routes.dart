@@ -2,6 +2,7 @@ import 'package:flutter_firebase/guards/auth_guard.dart';
 import 'package:flutter_firebase/screens/auth/pages/login_page.dart';
 import 'package:flutter_firebase/screens/auth/pages/photo_register_page.dart';
 import 'package:flutter_firebase/screens/auth/pages/register_page.dart';
+import 'package:flutter_firebase/screens/home/pages/container_page.dart';
 import 'package:flutter_firebase/screens/home/pages/home_page.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 
@@ -35,7 +36,7 @@ class Routes {
     ),
     GetPage(
       name: home,
-      page: () => const HomePage(),
+      page: () => const ContainerPage(),
       middlewares: [
         AuthGuard(),
       ],

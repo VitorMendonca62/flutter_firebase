@@ -17,7 +17,6 @@ class Post extends StatelessWidget {
     return ElevatedButton(
       onPressed: () {},
       style: ElevatedButton.styleFrom(
-        
         backgroundColor: Colors.white,
         padding: const EdgeInsets.all(0),
         overlayColor: Colors.black.withOpacity(0.2),
@@ -30,7 +29,6 @@ class Post extends StatelessWidget {
       ),
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-        // padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -97,34 +95,53 @@ class Post extends StatelessWidget {
                 ),
               ],
             ),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Row(
+                const Row(
                   children: [
                     Icon(
                       Icons.thumb_up_alt_outlined,
-                      size: 18,
+                      size: 22,
+                      color: Colors.black,
                     ),
                     Padding(
                       padding: EdgeInsets.only(left: 4.0),
-                      child: Text(' 0 '),
+                      child: Text(
+                        ' 1 ',
+                        style: TextStyle(
+                          color: Colors.black,
+                        ),
+                      ),
                     ),
-                    Text("curtidas")
                   ],
                 ),
-                Row(
-                  children: [
-                    FaIcon(
-                      FontAwesomeIcons.message,
-                      size: 18,
+                const SizedBox(
+                  width: 8,
+                ),
+                GestureDetector(
+                  onTap: () {},
+                  child: Container(
+                    padding: EdgeInsets.all(8),
+                    child: const Row(
+                      children: [
+                        FaIcon(
+                          FontAwesomeIcons.message,
+                          size: 22,
+                          color: Colors.black,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 4.0),
+                          child: Text(
+                            ' 0',
+                            style: TextStyle(
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 4.0),
-                      child: Text(' 0 '),
-                    ),
-                    Text("comentáarios")
-                  ],
+                  ),
                 ),
               ],
             ),
