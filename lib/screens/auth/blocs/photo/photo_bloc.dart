@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_firebase/screens/auth/repositories/photo_repository.dart';
 
 part 'photo_event.dart';
