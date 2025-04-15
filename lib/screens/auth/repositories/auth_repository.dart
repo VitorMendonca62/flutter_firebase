@@ -5,7 +5,7 @@ class AuthRepository {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
-  Future<UserCredential> loginWithGoogle() async {
+  Future<void> loginWithGoogle() async {
     final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
     if (googleUser == null) {
       throw Exception("Login cancelado pelo usuário");
@@ -19,17 +19,15 @@ class AuthRepository {
       idToken: googleAuth.idToken,
     );
 
-    return await _auth.signInWithCredential(credential);
+    await _auth.signInWithCredential(credential);
   }
 
-  Future<UserCredential> login(String email, String password) async {
+  Future<void> login(String email, String password) async {
     try {
-      final userCredential = await _auth.signInWithEmailAndPassword(
+      await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
-
-      return userCredential;
     } on FirebaseAuthException catch (e) {
       String message;
       switch (e.code) {
@@ -46,7 +44,7 @@ class AuthRepository {
     }
   }
 
-  Future<UserCredential> register({
+  Future<void> register({
     required String email,
     required String password,
     required String name,
@@ -58,8 +56,6 @@ class AuthRepository {
         password: password,
       );
       await userCredential.user!.updateDisplayName(name);
-
-      return userCredential;
     } on FirebaseAuthException catch (e) {
       String message;
       switch (e.code) {

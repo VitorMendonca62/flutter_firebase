@@ -23,16 +23,25 @@ class PhotoBloc {
   }
 
   void _mapEventToState(PhotoEvent event) async {
-    late File photo;
-    _photoControllerOutput.add(const PhotoLoadingState());
+    late File? photo;
+    _photoControllerOutput.add(PhotoLoadingState());
+    try {
+      if (event is PhotoUpdate) {
+        photo = event.photo;
+      }
 
-    if (event is PhotoRequested) {
-      photo = event.photo;
-      await _photoRepository.updatePhoto(event.photo);
+      if (event is PhotoRequested) {
+        photo = event.photo;
+        await _photoRepository.updatePhoto(event.photo);
+      }
+
+      _photoControllerOutput.add(PhotoLoadedState(
+        imageFile: photo!,
+      ));
+    } catch (e) {
+      photo = null;
+      _photoControllerOutput.add(PhotoFailureState(
+          exception: e.toString().replaceAll("Exception: ", '')));
     }
-
-    _photoControllerOutput.add(PhotoSuccessState(
-      imageFile: photo,
-    ));
   }
 }

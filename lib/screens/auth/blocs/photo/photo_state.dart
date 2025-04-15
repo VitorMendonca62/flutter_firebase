@@ -1,26 +1,28 @@
 part of 'photo_bloc.dart';
 
-@immutable
 abstract class PhotoState {
   final File? imageFile;
+  bool wasHandled;
 
-  const PhotoState({required this.imageFile});
+  PhotoState({required this.imageFile, required this.wasHandled});
 }
 
 class PhotoInitialState extends PhotoState {
-  const PhotoInitialState() : super(imageFile: null);
+  PhotoInitialState() : super(imageFile: null, wasHandled: false);
 }
 
 class PhotoLoadingState extends PhotoState {
-  const PhotoLoadingState() : super(imageFile: null);
+  PhotoLoadingState() : super(imageFile: null, wasHandled: false);
 }
 
-class PhotoSuccessState extends PhotoState {
-  const PhotoSuccessState({required File imageFile}) : super(imageFile: imageFile);
+class PhotoLoadedState extends PhotoState {
+  PhotoLoadedState({required File imageFile})
+      : super(imageFile: imageFile, wasHandled: false);
 }
 
 class PhotoFailureState extends PhotoState {
   final String exception;
 
-  const PhotoFailureState({required this.exception}) : super(imageFile: null);
+  PhotoFailureState({required this.exception})
+      : super(imageFile: null, wasHandled: false);
 }

@@ -25,12 +25,14 @@ class _PhotoRegisterPageState extends State<PhotoRegisterPage> {
         maxHeight: 1800,
       );
       if (pickedFile != null) {
-        File imageFile = File(pickedFile.path);
-        _photoBloc.photoInput.add(PhotoRequested(imageFile));
+        _photoBloc.photoInput.add(
+          PhotoUpdate(
+            File(pickedFile.path),
+          ),
+        );
       }
-    } catch (e) {
-      // Tratar erro
-    }
+      // ignore: empty_catches
+    } catch (e) {}
   }
 
   void _showImageSourceActionSheet(
@@ -115,8 +117,9 @@ class _PhotoRegisterPageState extends State<PhotoRegisterPage> {
                   ),
                   StreamBuilder<PhotoState>(
                     stream: _photoBloc.photoOutput,
-                    initialData: const PhotoInitialState(),
+                    initialData: PhotoInitialState(),
                     builder: (context, state) {
+                      bool oldWasHandled = false;
                       if (state.data is PhotoFailureState) {
                         SnackBarNotification.error(
                           'Erro ao carregar imagem',
@@ -124,6 +127,16 @@ class _PhotoRegisterPageState extends State<PhotoRegisterPage> {
                         );
                       }
 
+                      if (state.data is PhotoFailureState &&
+                          !state.data!.wasHandled) {
+                        SnackBarNotification.error(
+                          (state.data as PhotoFailureState).exception,
+                          context,
+                        );
+                        oldWasHandled = state.data!.wasHandled;
+                        state.data!.wasHandled = true;
+                      }
+                      print(oldWasHandled);
                       return Column(
                         children: [
                           const SizedBox(height: 40),
@@ -137,7 +150,10 @@ class _PhotoRegisterPageState extends State<PhotoRegisterPage> {
                                 shape: BoxShape.circle,
                                 color: CapybaColors.gray2.withOpacity(0.1),
                                 border: Border.all(
-                                  color: CapybaColors.capybaGreen,
+                                  color: (state.data is PhotoFailureState &&
+                                          !oldWasHandled)
+                                      ? CapybaColors.red
+                                      : CapybaColors.capybaGreen,
                                   width: 2,
                                 ),
                               ),
@@ -168,8 +184,15 @@ class _PhotoRegisterPageState extends State<PhotoRegisterPage> {
                               ),
                               minimumSize: const Size(180, 50),
                             ),
-                            onPressed:
-                                state.data?.imageFile != null ? () {} : null,
+                            onPressed: state.data?.imageFile != null
+                                ? () {
+                                    _photoBloc.photoInput.add(
+                                      PhotoRequested(
+                                        state.data!.imageFile!,
+                                      ),
+                                    );
+                                  }
+                                : null,
                             child: Text(
                               "Continuar",
                               style: TextStyle(
