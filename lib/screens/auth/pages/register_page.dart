@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_firebase/colors.dart';
 import 'package:flutter_firebase/constants.dart';
 import 'package:flutter_firebase/routes.dart';
 import 'package:flutter_firebase/screens/auth/blocs/auth/auth_bloc.dart';
-import 'package:flutter_firebase/screens/auth/repositories/auth_repository.dart';
 import 'package:flutter_firebase/screens/auth/widgets/form_input.dart';
 import 'package:flutter_firebase/screens/widgets/snackbar.dart';
 
-class RegisterPage extends StatelessWidget {
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
+
+  @override
+  State<RegisterPage> createState() => _RegisterPageState();
+}
+
+class _RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
+
+  late final AuthBloc _authBloc;
+
   final TextEditingController emailController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
-
-  RegisterPage({super.key});
 
   final LinearGradient greenGradient = const LinearGradient(
     begin: Alignment.centerLeft,
@@ -26,14 +32,10 @@ class RegisterPage extends StatelessWidget {
     stops: [0.0, 0.5, 1.0],
   );
 
-  validateForm() {
-    if (!_formKey.currentState!.validate()) {
-      SnackBarNotification.warning(
-        _formKey.currentState!.validateGranularly().first.errorText!,
-      );
-      return false;
-    }
-    return true;
+  @override
+  void initState() {
+    _authBloc = AuthBloc();
+    super.initState();
   }
 
   @override
@@ -91,121 +93,114 @@ class RegisterPage extends StatelessWidget {
                             color: CapybaColors.gray2,
                           ),
                         ),
-                        BlocProvider(
-                          create: (_) => AuthBloc(AuthRepository()),
-                          child: BlocConsumer<AuthBloc, AuthState>(
-                            listener: (context, state) {
-                              if (state is AuthSuccess) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBarNotification.success(
-                                    'Cadastro realizado com sucesso!',
-                                  ),
-                                );
-                              } else if (state is AuthFailure) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBarNotification.error(state.error),
-                                );
-                              }
-                            },
-                            builder: (context, state) {
-                              if (state is AuthLoading) {
-                                return const Padding(
-                                  padding: EdgeInsets.all(16),
-                                  child: Center(
-                                    child: CircularProgressIndicator(),
-                                  ),
-                                );
-                              }
+                        StreamBuilder<AuthState>(
+                          stream: _authBloc.authOutput,
+                          initialData: AuthInitialState(),
+                          builder: (context, state) {
+                            if (state.data is AuthFailureState) {
+                              SnackBarNotification.error(
+                                (state.data as AuthFailureState).exception,
+                                context,
+                              );
+                            }
 
-                              return Padding(
-                                padding: const EdgeInsets.all(16),
-                                child: Form(
-                                  key: _formKey,
-                                  child: Column(
-                                    children: [
-                                      FormInput(
-                                        controller: nameController,
-                                        hintText: 'Seu nome completo',
-                                        keyboardType: TextInputType.name,
-                                        validator: (value) {
-                                          if (value == null || value.isEmpty) {
-                                            return 'Por favor, insira seu nome';
-                                          }
-                                          return null;
-                                        },
-                                        obscureText: false,
-                                        labelText: 'Nome',
-                                      ),
-                                      const SizedBox(height: 16),
-                                      FormInput(
-                                        controller: emailController,
-                                        hintText: 'seu.email@exemplo.com',
-                                        keyboardType:
-                                            TextInputType.emailAddress,
-                                        validator: emailValidation,
-                                        obscureText: false,
-                                        labelText: 'Email',
-                                      ),
-                                      const SizedBox(height: 24),
-                                      ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor:
-                                              CapybaColors.capybaGreen,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(12),
-                                          ),
-                                          minimumSize: const Size(180, 50),
-                                        ),
-                                        onPressed: () {
-                                          if (!validateForm()) return;
-
-                                          BlocProvider.of<AuthBloc>(context)
-                                              .add(
-                                            RegisterRequested(
-                                              emailController.text,
-                                              nameController.text,
-                                            ),
-                                          );
-                                          Navigator.of(context)
-                                              .pushNamed(Routes.photoRegister);
-                                        },
-                                        child: Text(
-                                          "Cadastrar",
-                                          style: TextStyle(
-                                            color: CapybaColors.white,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(height: 16),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          const Text("Já possui uma conta? "),
-                                          GestureDetector(
-                                            onTap: () {
-                                              Navigator.pop(context);
-                                            },
-                                            child: Text(
-                                              "Faça login",
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                                color: CapybaColors
-                                                    .capybaDarkGreen,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
+                            if (state is AuthLoadingState) {
+                              return const Padding(
+                                padding: EdgeInsets.all(16),
+                                child: Center(
+                                  child: CircularProgressIndicator(),
                                 ),
                               );
-                            },
-                          ),
+                            }
+
+                            return Padding(
+                              padding: const EdgeInsets.all(16),
+                              child: Form(
+                                key: _formKey,
+                                child: Column(
+                                  children: [
+                                    FormInput(
+                                      controller: nameController,
+                                      hintText: 'Seu nome completo',
+                                      keyboardType: TextInputType.name,
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return 'Por favor, insira seu nome';
+                                        }
+                                        return null;
+                                      },
+                                      obscureText: false,
+                                      labelText: 'Nome',
+                                    ),
+                                    const SizedBox(height: 16),
+                                    FormInput(
+                                      controller: emailController,
+                                      hintText: 'seu.email@exemplo.com',
+                                      keyboardType: TextInputType.emailAddress,
+                                      validator: emailValidation,
+                                      obscureText: false,
+                                      labelText: 'Email',
+                                    ),
+                                    const SizedBox(height: 24),
+                                    ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor:
+                                            CapybaColors.capybaGreen,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                        ),
+                                        minimumSize: const Size(180, 50),
+                                      ),
+                                      onPressed: () {
+                                        if (!_formKey.currentState!
+                                            .validate()) {
+                                          return;
+                                        }
+
+                                        _authBloc.authInput.add(
+                                          RegisterRequested(
+                                              email: emailController.text,
+                                              name: nameController.text),
+                                        );
+                                        Navigator.of(context)
+                                            .pushNamed(Routes.photoRegister);
+                                      },
+                                      child: Text(
+                                        "Cadastrar",
+                                        style: TextStyle(
+                                          color: CapybaColors.white,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 16),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        const Text("Já possui uma conta? "),
+                                        GestureDetector(
+                                          onTap: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text(
+                                            "Faça login",
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              color:
+                                                  CapybaColors.capybaDarkGreen,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
                         ),
                       ],
                     ),

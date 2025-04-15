@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/colors.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -15,7 +17,7 @@ void main() async {
       options: DefaultFirebaseOptions.currentPlatform,
     );
   } catch (e) {
-    print('Firebase initialization error: $e');
+    log('Firebase initialization error: $e');
   }
 
   runApp(const MyApp());
@@ -41,7 +43,7 @@ class MyApp extends StatelessWidget {
         ),
         fontFamily: 'Montserrat',
       ),
-      home: LoginPage(),
+      home: const LoginPage(),
       getPages: Routes.routes,
     );
   }

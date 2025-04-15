@@ -1,17 +1,12 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_firebase/colors.dart';
-import 'package:flutter_firebase/screens/auth/blocs/auth/auth_bloc.dart';
 import 'package:flutter_firebase/screens/auth/blocs/photo/photo_bloc.dart';
-import 'package:flutter_firebase/screens/auth/repositories/auth_repository.dart';
-import 'package:flutter_firebase/screens/auth/repositories/photo_repository.dart';
 import 'package:flutter_firebase/screens/widgets/snackbar.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:image_cropper/image_cropper.dart';
 
 class PhotoRegisterPage extends StatefulWidget {
-  PhotoRegisterPage({super.key});
+  const PhotoRegisterPage({super.key});
 
   @override
   State<PhotoRegisterPage> createState() => _PhotoRegisterPageState();
@@ -20,7 +15,7 @@ class PhotoRegisterPage extends StatefulWidget {
 class _PhotoRegisterPageState extends State<PhotoRegisterPage> {
   final ImagePicker picker = ImagePicker();
 
-  File? _imageFile;
+  late final PhotoBloc _photoBloc;
 
   Future<void> _pickImage(ImageSource source, BuildContext context) async {
     try {
@@ -30,15 +25,16 @@ class _PhotoRegisterPageState extends State<PhotoRegisterPage> {
         maxHeight: 1800,
       );
       if (pickedFile != null) {
-        _imageFile = File(pickedFile.path);
-        setState(() {});
+        File imageFile = File(pickedFile.path);
+        _photoBloc.photoInput.add(PhotoRequested(imageFile));
       }
     } catch (e) {
       // Tratar erro
     }
   }
 
-  void _showImageSourceActionSheet(BuildContext parentContext) {
+  void _showImageSourceActionSheet(
+      BuildContext parentContext, File? imageFile) {
     showModalBottomSheet(
       context: parentContext,
       builder: (BuildContext context) {
@@ -51,11 +47,6 @@ class _PhotoRegisterPageState extends State<PhotoRegisterPage> {
                 onTap: () {
                   Navigator.pop(context);
                   _pickImage(ImageSource.gallery, parentContext);
-                  if (_imageFile != null) {
-                    BlocProvider.of<PhotoBloc>(parentContext).add(
-                      PhotoRequested(_imageFile!),
-                    );
-                  }
                 },
               ),
               ListTile(
@@ -64,11 +55,6 @@ class _PhotoRegisterPageState extends State<PhotoRegisterPage> {
                 onTap: () {
                   Navigator.pop(context);
                   _pickImage(ImageSource.camera, parentContext);
-                  if (_imageFile != null) {
-                    BlocProvider.of<PhotoBloc>(parentContext).add(
-                      PhotoRequested(_imageFile!),
-                    );
-                  }
                 },
               ),
             ],
@@ -76,6 +62,12 @@ class _PhotoRegisterPageState extends State<PhotoRegisterPage> {
         );
       },
     );
+  }
+
+  @override
+  void initState() {
+    _photoBloc = PhotoBloc();
+    super.initState();
   }
 
   @override
@@ -113,75 +105,75 @@ class _PhotoRegisterPageState extends State<PhotoRegisterPage> {
                   color: CapybaColors.gray2,
                 ),
               ),
-              BlocProvider(
-                  create: (_) => PhotoBloc(PhotoRepository()),
-                  child: BlocConsumer<PhotoBloc, PhotoState>(
-                    listener: (context, state) {
-                      if (state is PhotoSuccess) {
-                        SnackBarNotification.success('DEU CERTO');
-                      }
-                      if (state is PhotoFailure) {
-                        SnackBarNotification.success('DEU CERTO');
-                      }
-                    },
-                    builder: (context, state) {
-                      return Column(
-                        children: [
-                          const SizedBox(height: 40),
-                          GestureDetector(
-                            onTap: () => _showImageSourceActionSheet(context),
-                            child: Container(
-                              width: 200,
-                              height: 200,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: CapybaColors.gray2.withOpacity(0.1),
-                                border: Border.all(
-                                  color: CapybaColors.capybaGreen,
-                                  width: 2,
-                                ),
-                              ),
-                              child: state is PhotoLoading
-                                  ? const CircularProgressIndicator()
-                                  : _imageFile != null
-                                      ? ClipOval(
-                                          child: Image.file(
-                                            _imageFile!,
-                                            width: 200,
-                                            height: 200,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        )
-                                      : Icon(
-                                          Icons.add_a_photo,
-                                          size: 40,
-                                          color: CapybaColors.capybaGreen,
-                                        ),
+              StreamBuilder<PhotoState>(
+                stream: _photoBloc.photoOutput,
+                initialData: const PhotoInitialState(),
+                builder: (context, state) {
+                  if (state.data is PhotoFailureState) {
+                    SnackBarNotification.error(
+                      'Erro ao carregar imagem',
+                      context,
+                    );
+                  }
+
+                  return Column(
+                    children: [
+                      const SizedBox(height: 40),
+                      GestureDetector(
+                        onTap: () => _showImageSourceActionSheet(
+                            context, state.data?.imageFile),
+                        child: Container(
+                          width: 200,
+                          height: 200,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: CapybaColors.gray2.withOpacity(0.1),
+                            border: Border.all(
+                              color: CapybaColors.capybaGreen,
+                              width: 2,
                             ),
                           ),
-                          const SizedBox(height: 40),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: CapybaColors.capybaGreen,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              minimumSize: const Size(180, 50),
-                            ),
-                            onPressed: _imageFile != null ? () {} : null,
-                            child: Text(
-                              "Continuar",
-                              style: TextStyle(
-                                color: CapybaColors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
+                          child: state.data is PhotoLoadingState
+                              ? const CircularProgressIndicator()
+                              : state.data?.imageFile != null
+                                  ? ClipOval(
+                                      child: Image.file(
+                                        state.data!.imageFile!,
+                                        width: 200,
+                                        height: 200,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    )
+                                  : Icon(
+                                      Icons.add_a_photo,
+                                      size: 40,
+                                      color: CapybaColors.capybaGreen,
+                                    ),
+                        ),
+                      ),
+                      const SizedBox(height: 40),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: CapybaColors.capybaGreen,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
                           ),
-                        ],
-                      );
-                    },
-                  ))
+                          minimumSize: const Size(180, 50),
+                        ),
+                        onPressed: state.data?.imageFile != null ? () {} : null,
+                        child: Text(
+                          "Continuar",
+                          style: TextStyle(
+                            color: CapybaColors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
             ],
           ),
         ),

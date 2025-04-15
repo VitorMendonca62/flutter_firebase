@@ -13,15 +13,15 @@ class Routes {
   static final routes = [
     GetPage(
       name: login,
-      page: () => LoginPage(),
+      page: () => const LoginPage(),
     ),
     GetPage(
       name: signup,
-      page: () => RegisterPage(),
+      page: () => const RegisterPage(),
     ),
     GetPage(
       name: photoRegister,
-      page: () =>  PhotoRegisterPage(),
+      page: () => const PhotoRegisterPage(),
     ),
   ];
 }

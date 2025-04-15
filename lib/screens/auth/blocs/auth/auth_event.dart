@@ -1,12 +1,11 @@
 part of 'auth_bloc.dart';
 
-@immutable
 abstract class AuthEvent {}
 
 class LoginRequested extends AuthEvent {
   final String email;
 
-  LoginRequested(this.email);
+  LoginRequested({required this.email});
 }
 
 class LoginWithGoogleRequested extends AuthEvent {}
@@ -15,5 +14,8 @@ class RegisterRequested extends AuthEvent {
   final String email;
   final String name;
 
-  RegisterRequested(this.email, this.name);
+  RegisterRequested({
+    required this.email,
+    required this.name,
+  });
 }

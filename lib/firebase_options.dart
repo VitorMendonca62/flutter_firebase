@@ -63,6 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '178230949280',
     projectId: 'desafio-capyba-f75d0',
     storageBucket: 'desafio-capyba-f75d0.firebasestorage.app',
+    androidClientId: '178230949280-v0s9qcp8e8598pli9fdm7ms06eep5jfo.apps.googleusercontent.com',
+    iosClientId: '178230949280-c50oak1g4l17ohllp6c5ker77b787pqs.apps.googleusercontent.com',
     iosBundleId: 'com.example.flutterFirebase',
   );
 

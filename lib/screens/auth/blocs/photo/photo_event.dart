@@ -1,10 +1,9 @@
 part of 'photo_bloc.dart';
 
-@immutable
 abstract class PhotoEvent {}
 
 class PhotoRequested extends PhotoEvent {
-  final File file;
+  final File photo;
 
-  PhotoRequested(this.file);
+  PhotoRequested(this.photo);
 }
