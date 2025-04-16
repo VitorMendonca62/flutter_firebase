@@ -50,26 +50,22 @@ class Post extends StatelessWidget {
                   const Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'Titulo',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 24,
-                        ),
-                      ),
-                      Row(
-                        children: [
-                          Text("vitormendonca "),
-                          Text(" • "),
-                          Text("23/23/24 12:45"),
-                        ],
-                      ),
+                      Text("vitormendonca "),
+                      Text("23/23/24 12:45"),
                     ],
                   ),
                 ],
               ),
             ),
+            const Text(
+              'Titulo',
+              style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontSize: 24,
+              ),
+            ),
+            const SizedBox(height: 12),
             const Text(
               'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vitae ipsum iaculis, rhoncus purus quis, ultrices mi. Donec ornare sodales convallis. Sed at auctor mauris, eget maximus mi. Nulla placerat finibus enim id volutpat. Mauris tellus ligula, blandit vitae finibus ac, accumsan at ex. Sed pretium porta lorem, et mollis quam fringilla vitae. Sed sed dolor diam. Nulla nunc justo, suscipit at velit a, gravida aliquam risus. Donec consectetur nulla quis velit dictum condimentum. Mauris laoreet id erat efficitur elementum. Maecenas quis finibus massa. Cras dui lacus, tincidunt ut quam vitae, semper maximus odio. Aenean consectetur accumsan dui, eget convallis magna dignissim vitae. Aenean tempor, ipsum et consectetur scelerisque, mi mi venenatis diam, in lacinia lacus urna nec lacus. Phasellus sit amet neque eu diam iaculis facilisis.',
               maxLines: 5,
@@ -117,7 +113,7 @@ class Post extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(
-                  width: 8,
+                  width: 12,
                 ),
                 GestureDetector(
                   onTap: () {},

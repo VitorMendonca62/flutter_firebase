@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase/screens/home/blocs/posts/posts_bloc.dart';
 import 'package:flutter_firebase/screens/home/widgets/post.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -10,6 +11,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late final PostsBloc _postsBloc;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -24,6 +27,20 @@ class _HomePageState extends State<HomePage> {
         ),
         SizedBox(
           height: 20,
+        ),
+        StreamBuilder<PostsState>(
+          stream: _postsBloc.postsOutput,
+          initialData: PostsInitialState(),
+          builder: (context, state) {
+            if (state.data is AuthLoadingState) {
+              return const Padding(
+                padding: EdgeInsets.all(16),
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            }
+          },
         ),
         Expanded(
           child: ListView.separated(
