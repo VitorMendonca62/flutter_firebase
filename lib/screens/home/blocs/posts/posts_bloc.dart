@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import '../../repositories/posts_repository.dart';
 import 'package:flutter_firebase/models/post/post_model.dart';
 
@@ -22,7 +24,7 @@ class PostsBloc {
   }
 
   void _mapEventToState(PostsEvent event) async {
-    try {
+  /*   try { */
       _postsControllerOutput.add(PostsLoadingState());
 
       if (event is GetPosts) {
@@ -34,9 +36,9 @@ class PostsBloc {
       //   await _postsRepository.createPost();
       //   _postsControllerOutput.add(PostCreateState());
       // }
-    } catch (e) {
+   /*  } catch (e) {
       _postsControllerOutput.add(PostsFailureState(
           exception: e.toString().replaceAll("Exception: ", '')));
-    }
+    } */
   }
 }

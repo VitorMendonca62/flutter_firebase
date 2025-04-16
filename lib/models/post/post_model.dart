@@ -20,11 +20,11 @@ class PostModel {
     required this.title,
     required this.content,
     required this.author,
+    required this.comments,
+    required this.likes,
     required this.createdAt,
     required this.updatedAt,
     required this.photos,
-    required this.likes,
-    required this.comments,
   });
 
   factory PostModel.fromDocumentSnapshot(doc) {
@@ -33,8 +33,8 @@ class PostModel {
       title: doc['title'],
       content: doc['content'],
       author: doc['author'],
-      comments: int.parse(doc['comments']),
-      likes: int.parse(doc['likes']),
+      comments: doc['comments'],
+      likes: doc['likes'],
       createdAt: DateTime.parse(doc['createdAt']),
       updatedAt: DateTime.parse(doc['updatedAt']),
       photos: doc['photos'],

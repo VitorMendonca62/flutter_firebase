@@ -6,9 +6,12 @@ class PostsRepository {
 
   Stream<List<PostModel>>? getAll() {
     try {
-      return postsCollection.snapshots().map((snapshot) => snapshot.docs
-          .map((doc) => PostModel.fromDocumentSnapshot(doc))
-          .toList());
+      return postsCollection
+          .snapshots()
+          .map((snapshot) => snapshot.docs.map((doc) {
+                print(doc.data());
+                return PostModel.fromDocumentSnapshot(doc);
+              }).toList());
     } catch (e) {
       Exception("Erro ao pegar posts");
       return null;
