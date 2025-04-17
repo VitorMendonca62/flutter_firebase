@@ -11,12 +11,13 @@ PostModel _$PostModelFromJson(Map<String, dynamic> json) => PostModel(
       title: json['title'] as String,
       content: json['content'] as String,
       author: json['author'] as String,
+      authorPhoto: json['authorPhoto'] as String,
+      comments: (json['comments'] as num).toInt(),
+      likes: (json['likes'] as num).toInt(),
       createdAt: DateTime.parse(json['createdAt'] as String),
       updatedAt: DateTime.parse(json['updatedAt'] as String),
-      photos:
-          (json['photos'] as List<dynamic>).map((e) => e as String).toList(),
-      likes: (json['likes'] as num).toInt(),
-      comments: (json['comments'] as num).toInt(),
+      photos: json['photos'] as List<dynamic>,
+      liked: json['liked'] as bool,
     );
 
 Map<String, dynamic> _$PostModelToJson(PostModel instance) => <String, dynamic>{
@@ -24,9 +25,11 @@ Map<String, dynamic> _$PostModelToJson(PostModel instance) => <String, dynamic>{
       'title': instance.title,
       'content': instance.content,
       'author': instance.author,
+      'authorPhoto': instance.authorPhoto,
       'comments': instance.comments,
       'likes': instance.likes,
       'createdAt': instance.createdAt.toIso8601String(),
       'updatedAt': instance.updatedAt.toIso8601String(),
       'photos': instance.photos,
+      'liked': instance.liked,
     };

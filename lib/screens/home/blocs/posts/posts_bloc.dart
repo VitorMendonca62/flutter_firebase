@@ -24,19 +24,31 @@ class PostsBloc {
   }
 
   void _mapEventToState(PostsEvent event) async {
-  /*   try { */
+    /*   try { */
+    if (!(event is LikePost || event is UnLikePost)) {
       _postsControllerOutput.add(PostsLoadingState());
+    }
 
-      if (event is GetPosts) {
-        List<PostModel>? posts = await _postsRepository.getAll()?.first;
-        _postsControllerOutput.add(PostsLoadedState(posts: posts ?? []));
-      }
+    if (event is GetPosts) {
+      List<PostModel>? posts = await _postsRepository.getAll()?.first;
+      _postsControllerOutput.add(PostsLoadedState(posts: posts ?? []));
+    }
 
-      // if (event is PostPost) {
-      //   await _postsRepository.createPost();
-      //   _postsControllerOutput.add(PostCreateState());
-      // }
-   /*  } catch (e) {
+    if (event is LikePost) {
+      await _postsRepository.changeLikePost(event.postId, event.type);
+      _postsControllerOutput.add(PostsLoadedState(posts: event.posts));
+    }
+
+    if (event is UnLikePost) {
+      await _postsRepository.changeLikePost(event.postId, event.type);
+      _postsControllerOutput.add(PostsLoadedState(posts: event.posts));
+    }
+
+    // if (event is PostPost) {
+    //   await _postsRepository.createPost();
+    //   _postsControllerOutput.add(PostCreateState());
+    // }
+    /*  } catch (e) {
       _postsControllerOutput.add(PostsFailureState(
           exception: e.toString().replaceAll("Exception: ", '')));
     } */

@@ -1,14 +1,48 @@
+import 'dart:convert';
+import 'package:flutter_firebase/models/post/post_model.dart';
+import 'package:flutter_firebase/screens/home/blocs/posts/posts_bloc.dart';
+import 'package:timeago/timeago.dart' as timeago;
+
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase/colors.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Post extends StatelessWidget {
-  const Post({super.key});
+  final PostModel post;
+  final List<PostModel> posts;
+  final PostsBloc postBloc;
 
-  attachedImage(String source) {
-    return Image.network(
-      source,
-      width: 120,
-      height: 120,
+  const Post({
+    super.key,
+    required this.post,
+    required this.posts,
+    required this.postBloc,
+  });
+
+  String getRelativeTime(DateTime date) {
+    timeago.setLocaleMessages('pt_BR', timeago.PtBrMessages());
+    return timeago.format(date, locale: 'pt_BR');
+  }
+
+  attachedImage(String source, BuildContext context) {
+    final base64String = source.split(',').last;
+    final decodedBytes = base64Decode(base64String);
+
+    return Image.memory(
+      decodedBytes,
+      width: MediaQuery.of(context).size.width * 0.2,
+      height: 50,
+    );
+  }
+
+  profileImage(String source) {
+    final base64String = source.split(',').last;
+    final decodedBytes = base64Decode(base64String);
+
+    return Expanded(
+      child: Image.memory(
+        decodedBytes,
+      ),
     );
   }
 
@@ -41,96 +75,141 @@ class Post extends StatelessWidget {
                     height: 30,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30),
-                      color: Colors.red,
+                      image: DecorationImage(
+                        image: MemoryImage(
+                          base64Decode(post.authorPhoto.split(',').last),
+                        ),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                   const SizedBox(
                     width: 10,
                   ),
-                  const Column(
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("vitormendonca "),
-                      Text("23/23/24 12:45"),
+                      Text(
+                        post.author,
+                        style: TextStyle(
+                          color: CapybaColors.black,
+                        ),
+                      ),
+                      Text(
+                        getRelativeTime(post.createdAt),
+                        style: TextStyle(
+                          color: CapybaColors.black,
+                        ),
+                      ),
                     ],
                   ),
                 ],
               ),
             ),
-            const Text(
-              'Titulo',
-              style: TextStyle(
+            Text(
+              post.title,
+              style: const TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.bold,
                 fontSize: 24,
               ),
             ),
-            const SizedBox(height: 12),
-            const Text(
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vitae ipsum iaculis, rhoncus purus quis, ultrices mi. Donec ornare sodales convallis. Sed at auctor mauris, eget maximus mi. Nulla placerat finibus enim id volutpat. Mauris tellus ligula, blandit vitae finibus ac, accumsan at ex. Sed pretium porta lorem, et mollis quam fringilla vitae. Sed sed dolor diam. Nulla nunc justo, suscipit at velit a, gravida aliquam risus. Donec consectetur nulla quis velit dictum condimentum. Mauris laoreet id erat efficitur elementum. Maecenas quis finibus massa. Cras dui lacus, tincidunt ut quam vitae, semper maximus odio. Aenean consectetur accumsan dui, eget convallis magna dignissim vitae. Aenean tempor, ipsum et consectetur scelerisque, mi mi venenatis diam, in lacinia lacus urna nec lacus. Phasellus sit amet neque eu diam iaculis facilisis.',
+            Text(
+              post.content,
               maxLines: 5,
               textAlign: TextAlign.justify,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.black,
                 fontSize: 16,
                 overflow: TextOverflow.ellipsis,
               ),
             ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                attachedImage(
-                  "https://static.vecteezy.com/ti/vetor-gratis/p1/464019-conjunto-de-ui-ux-telas-de-gui-compras-app-design-plano-modelo-para-aplicativos-moveis-wireframes-site-responsivo-kit-de-interface-do-usuario-de-web-design-painel-de-compras-vetor.jpg",
-                ),
-                const SizedBox(
-                  width: 20,
-                ),
-                attachedImage(
-                  "https://static.vecteezy.com/ti/vetor-gratis/p1/464019-conjunto-de-ui-ux-telas-de-gui-compras-app-design-plano-modelo-para-aplicativos-moveis-wireframes-site-responsivo-kit-de-interface-do-usuario-de-web-design-painel-de-compras-vetor.jpg",
-                ),
-              ],
+            const SizedBox(
+              height: 20,
             ),
+            post.photos.isNotEmpty
+                ? Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      post.photos.length >= 2
+                          ? Row(
+                              children: post.photos.sublist(0, 2).map(
+                                (photo) {
+                                  return Row(
+                                    children: [
+                                      attachedImage(photo, context),
+                                      const SizedBox(
+                                        width: 12,
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ).toList(),
+                            )
+                          : Row(
+                              children: [
+                                attachedImage(post.photos.first, context),
+                                const SizedBox(
+                                  width: 12,
+                                ),
+                              ],
+                            ),
+                      post.photos.length > 2
+                          ? Text(
+                              "...",
+                              style: TextStyle(
+                                color: CapybaColors.black,
+                                fontSize: 48,
+                              ),
+                            )
+                          : const SizedBox()
+                    ],
+                  )
+                : const SizedBox(),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                const Row(
-                  children: [
-                    Icon(
-                      Icons.thumb_up_alt_outlined,
-                      size: 22,
-                      color: Colors.black,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 4.0),
-                      child: Text(
-                        ' 1 ',
-                        style: TextStyle(
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  width: 12,
-                ),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    if (!post.liked) {
+                      postBloc.postsInput.add(
+                        LikePost(
+                          postId: post.id!,
+                          posts: posts,
+                        ),
+                      );
+                      post.liked = true;
+                      post.likes += 1;
+                    } else {
+                      postBloc.postsInput.add(
+                        UnLikePost(
+                          postId: post.id!,
+                          posts: posts,
+                        ),
+                      );
+                      post.liked = false;
+                      post.likes -= 1;
+                    }
+                  },
                   child: Container(
-                    padding: EdgeInsets.all(8),
-                    child: const Row(
+                    padding: const EdgeInsets.all(8),
+                    child: Row(
                       children: [
-                        FaIcon(
-                          FontAwesomeIcons.message,
+                        Icon(
+                          post.liked
+                              ? Icons.thumb_up_alt
+                              : Icons.thumb_up_alt_outlined,
                           size: 22,
-                          color: Colors.black,
+                          color: post.liked
+                              ? CapybaColors.capybaGreen
+                              : Colors.black,
                         ),
                         Padding(
-                          padding: EdgeInsets.only(left: 4.0),
+                          padding: const EdgeInsets.only(left: 4.0),
                           child: Text(
-                            ' 0',
-                            style: TextStyle(
+                            post.likes.toString(),
+                            style: const TextStyle(
                               color: Colors.black,
                             ),
                           ),
@@ -138,6 +217,27 @@ class Post extends StatelessWidget {
                       ],
                     ),
                   ),
+                ),
+                const SizedBox(
+                  width: 12,
+                ),
+                Row(
+                  children: [
+                    const FaIcon(
+                      FontAwesomeIcons.message,
+                      size: 22,
+                      color: Colors.black,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 4.0),
+                      child: Text(
+                        post.comments.toString(),
+                        style: const TextStyle(
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),

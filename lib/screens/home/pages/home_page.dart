@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/screens/home/blocs/posts/posts_bloc.dart';
 import 'package:flutter_firebase/screens/home/widgets/post.dart';
+import 'package:flutter_firebase/screens/home/widgets/post_nothing_data.dart';
 import 'package:flutter_firebase/screens/widgets/snackbar.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shimmer/shimmer.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -41,10 +42,21 @@ class _HomePageState extends State<HomePage> {
           initialData: PostsInitialState(),
           builder: (context, state) {
             if (state.data is PostsLoadingState) {
-              return const Padding(
-                padding: EdgeInsets.all(16),
-                child: Center(
-                  child: CircularProgressIndicator(),
+              return Expanded(
+                child: ListView.separated(
+                  scrollDirection: Axis.vertical,
+                  itemCount: 4,
+                  separatorBuilder: (BuildContext context, int index) =>
+                      const SizedBox(
+                    height: 16,
+                  ),
+                  itemBuilder: (BuildContext context, int index) {
+                    return Shimmer.fromColors(
+                      baseColor: Colors.grey.shade300,
+                      highlightColor: Colors.grey.shade100,
+                      child: const PostNothingData(),
+                    );
+                  },
                 ),
               );
             }
@@ -63,18 +75,17 @@ class _HomePageState extends State<HomePage> {
               );
             }
 
-            print(state.data?.posts);
-
             return Expanded(
               child: ListView.separated(
                 scrollDirection: Axis.vertical,
-                itemCount: 5,
+                itemCount: state.data!.posts.length,
                 separatorBuilder: (BuildContext context, int index) =>
                     const SizedBox(
                   height: 16,
                 ),
                 itemBuilder: (BuildContext context, int index) {
-                  return const Post();
+                  final post = state.data!.posts[index];
+                  return Post(post: post, postBloc: _postsBloc, posts: state.data!.posts);
                 },
               ),
             );

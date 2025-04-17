@@ -12,6 +12,24 @@ class PostPost extends PostsEvent {
   });
 }
 
-class LikePost extends PostsEvent {}
+class LikePost extends PostsEvent {
+  final String postId;
+  final String type = 'like';
+  final List<PostModel> posts;
 
-class UnLikePost extends PostsEvent {}
+  LikePost({
+    required this.postId,
+    required this.posts,
+  });
+}
+
+class UnLikePost extends PostsEvent {
+  final String postId;
+  final String type = 'unlike';
+  final List<PostModel> posts;
+
+  UnLikePost({
+    required this.postId,
+    required this.posts,
+  });
+}
