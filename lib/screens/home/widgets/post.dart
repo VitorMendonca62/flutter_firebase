@@ -226,9 +226,11 @@ class Post extends StatelessWidget {
                       post.likes -= 1;
                     }
                   },
-                  child: Container(
-                    padding: const EdgeInsets.all(8),
+                  child: SizedBox(
+                    width: 50,
+                    height: 40,
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(
                           post.liked
