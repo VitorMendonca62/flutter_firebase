@@ -1,7 +1,5 @@
 import 'dart:async';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 import '../../repositories/posts_repository.dart';
 import 'package:flutter_firebase/models/post/post_model.dart';
 
