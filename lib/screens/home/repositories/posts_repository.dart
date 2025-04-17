@@ -4,7 +4,7 @@ import 'package:flutter_firebase/models/post/post_model.dart';
 
 class PostsRepository {
   Stream<List<PostModel>>? getAll() {
-    FirebaseFirestore.instance.clearPersistence();
+    // FirebaseFirestore.instance.clearPersistence();
     final postsCollection = FirebaseFirestore.instance.collection('home');
     try {
       return postsCollection

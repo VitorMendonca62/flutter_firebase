@@ -32,6 +32,7 @@ class Post extends StatelessWidget {
       decodedBytes,
       width: MediaQuery.of(context).size.width * 0.2,
       height: 50,
+      fit: BoxFit.fill,
     );
   }
 
@@ -71,8 +72,8 @@ class Post extends StatelessWidget {
               child: Row(
                 children: [
                   Container(
-                    width: 30,
-                    height: 30,
+                    width: 40,
+                    height: 40,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30),
                       image: DecorationImage(
@@ -98,7 +99,8 @@ class Post extends StatelessWidget {
                       Text(
                         getRelativeTime(post.createdAt),
                         style: TextStyle(
-                          color: CapybaColors.black,
+                          color: CapybaColors.gray2,
+                          fontSize: 12,
                         ),
                       ),
                     ],
@@ -108,11 +110,14 @@ class Post extends StatelessWidget {
             ),
             Text(
               post.title,
-              style: const TextStyle(
-                color: Colors.black,
+              style: TextStyle(
+                color: CapybaColors.capybaDarkGreen,
                 fontWeight: FontWeight.bold,
-                fontSize: 24,
+                fontSize: 18,
               ),
+            ),
+            const SizedBox(
+              height: 8,
             ),
             Text(
               post.content,
@@ -156,17 +161,46 @@ class Post extends StatelessWidget {
                               ],
                             ),
                       post.photos.length > 2
-                          ? Text(
-                              "...",
-                              style: TextStyle(
-                                color: CapybaColors.black,
-                                fontSize: 48,
-                              ),
+                          ? Stack(
+                              children: [
+                                attachedImage(post.photos[1], context),
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.2,
+                                  height: 50,
+                                  color: Colors.black.withOpacity(0.4),
+                                ),
+                                SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.2,
+                                  height: 50,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.photo_library,
+                                        color: CapybaColors.white,
+                                      ),
+                                      Text(
+                                        "+${post.photos.length - 2}",
+                                        style: TextStyle(
+                                          color: CapybaColors.white,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                )
+                              ],
                             )
                           : const SizedBox()
                     ],
                   )
                 : const SizedBox(),
+            const SizedBox(
+              height: 8,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
