@@ -132,7 +132,7 @@ class _PhotoRegisterPageState extends State<PhotoRegisterPage> {
                         state.data!.wasHandled = true;
                       }
 
-                      if (state.data is PhotoLoadedState &&
+                      if (state.data is PhotoSubmitedState &&
                           !state.data!.wasHandled) {
                         WidgetsBinding.instance.addPostFrameCallback((_) {
                           SnackBarNotification.success(

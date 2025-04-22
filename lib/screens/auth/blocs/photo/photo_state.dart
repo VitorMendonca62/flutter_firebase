@@ -20,6 +20,11 @@ class PhotoLoadedState extends PhotoState {
       : super(imageFile: imageFile, wasHandled: false);
 }
 
+class PhotoSubmitedState extends PhotoState {
+  PhotoSubmitedState({required File imageFile})
+      : super(imageFile: imageFile, wasHandled: false);
+}
+
 class PhotoFailureState extends PhotoState {
   final String exception;
 

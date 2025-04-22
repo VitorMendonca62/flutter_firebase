@@ -36,8 +36,8 @@ class CardComment extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(30),
               image: DecorationImage(
-                image: MemoryImage(
-                  base64Decode(authorPhoto.split(',').last),
+                image: NetworkImage(
+                  authorPhoto,
                 ),
                 fit: BoxFit.cover,
               ),

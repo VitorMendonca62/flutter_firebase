@@ -47,7 +47,7 @@ class PostRepository {
         (await postDocument.get()).reference.collection("comments");
 
     return commentCollection
-        .orderBy('createdAt', descending: false)
+        .orderBy('createdAt', descending: true)
         .snapshots(
           includeMetadataChanges: true,
         )
@@ -68,15 +68,23 @@ class PostRepository {
     final commentCollection =
         (await postDocument.get()).reference.collection("comments");
 
+    final createdAt = Timestamp.now();
     commentCollection.doc("$index-${currentUser!.uid}").set({
       "content": comment,
       "author": currentUser.displayName,
       "authorPhoto": currentUser.photoURL,
-      "createdAt": Timestamp.now(),
+      "createdAt": createdAt,
     });
 
     postDocument.update({
       'comments': FieldValue.increment(1),
     });
+
+    return CommentModel(
+      content: comment,
+      author: currentUser.displayName!,
+      authorPhoto: currentUser.photoURL!,
+      createdAt: createdAt.toDate(),
+    );
   }
 }

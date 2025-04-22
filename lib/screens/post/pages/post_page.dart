@@ -47,11 +47,8 @@ class _PostPageState extends State<PostPage> {
   }
 
   attachedImage(String source, BuildContext context) {
-    final base64String = source.split(',').last;
-    final decodedBytes = base64Decode(base64String);
-
-    return Image.memory(
-      decodedBytes,
+    return Image.network(
+      source,
       width: MediaQuery.of(context).size.width * 0.7,
       height: 50,
       fit: BoxFit.fill,
@@ -83,9 +80,8 @@ class _PostPageState extends State<PostPage> {
                     height: MediaQuery.of(context).size.height * 0.4,
                     child: GalleryPage(
                       initialIndex: initialValue,
-                      images: widget.post.photos.map((base64) {
-                        final bytes = base64Decode(base64.split(',').last);
-                        return MemoryImage(bytes);
+                      images: widget.post.photos.map((link) {
+                        return NetworkImage(link);
                       }).toList(),
                     )),
               ),
@@ -235,8 +231,7 @@ class _PostPageState extends State<PostPage> {
                                             : CapybaColors.black,
                                       ),
                                       Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 7),
+                                        padding: const EdgeInsets.only(left: 7),
                                         child: Text(
                                           widget.post.likes.toString(),
                                           style: TextStyle(
@@ -280,7 +275,7 @@ class _PostPageState extends State<PostPage> {
                                   "Comentários",
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 24, 
+                                    fontSize: 24,
                                   ),
                                 ),
                               ),
@@ -293,13 +288,9 @@ class _PostPageState extends State<PostPage> {
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(30),
                                       image: DecorationImage(
-                                        image: MemoryImage(
-                                          base64Decode(
-                                            // MUDAR AQUI PARA FOTO DO PERFIL DO USUARIO
-                                            widget.post.authorPhoto
-                                                .split(',')
-                                                .last,
-                                          ),
+                                        image: NetworkImage(
+                                          FirebaseAuth
+                                              .instance.currentUser!.photoURL!,
                                         ),
                                         fit: BoxFit.cover,
                                       ),

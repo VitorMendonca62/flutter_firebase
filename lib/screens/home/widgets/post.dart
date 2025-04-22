@@ -27,11 +27,8 @@ class Post extends StatelessWidget {
   }
 
   attachedImage(String source, BuildContext context) {
-    final base64String = source.split(',').last;
-    final decodedBytes = base64Decode(base64String);
-
-    return Image.memory(
-      decodedBytes,
+    return Image.network(
+      source,
       width: MediaQuery.of(context).size.width * 0.2,
       height: 50,
       fit: BoxFit.fill,
@@ -56,9 +53,8 @@ class Post extends StatelessWidget {
                     height: MediaQuery.of(context).size.height * 0.4,
                     child: GalleryPage(
                       initialIndex: initialValue,
-                      images: post.photos.map((base64) {
-                        final bytes = base64Decode(base64.split(',').last);
-                        return MemoryImage(bytes);
+                      images: post.photos.map((link) {
+                        return NetworkImage(link);
                       }).toList(),
                     )),
               ),
@@ -107,8 +103,8 @@ class Post extends StatelessWidget {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(30),
                         image: DecorationImage(
-                          image: MemoryImage(
-                            base64Decode(post.authorPhoto.split(',').last),
+                          image: NetworkImage(
+                            post.authorPhoto.split(',').last,
                           ),
                           fit: BoxFit.cover,
                         ),

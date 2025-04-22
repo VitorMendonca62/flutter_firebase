@@ -53,9 +53,16 @@ class PostBloc {
     }
 
     if (event is CommentPost) {
-      await _postRepository.addComment(event.postId, event.content, event.index);
-      _postControllerOutput
-          .add(PostLoadedState(post: event.post, comments: event.comments));
+      final model = await _postRepository.addComment(
+        event.postId,
+        event.content,
+        event.index,
+      );
+      event.comments?.add(model);
+      _postControllerOutput.add(PostLoadedState(
+        post: event.post,
+        comments: event.comments,
+      ));
     }
 
     if (event is GetComments) {

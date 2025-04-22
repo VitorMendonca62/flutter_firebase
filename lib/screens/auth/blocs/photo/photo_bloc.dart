@@ -27,16 +27,18 @@ class PhotoBloc {
     try {
       if (event is PhotoUpdate) {
         photo = event.photo;
+        _photoControllerOutput.add(PhotoLoadedState(
+          imageFile: photo,
+        ));
       }
 
       if (event is PhotoRequested) {
         photo = event.photo;
         await _photoRepository.updatePhoto(event.photo);
+        _photoControllerOutput.add(PhotoSubmitedState(
+          imageFile: photo,
+        ));
       }
-
-      _photoControllerOutput.add(PhotoLoadedState(
-        imageFile: photo!,
-      ));
     } catch (e) {
       photo = null;
       _photoControllerOutput.add(PhotoFailureState(

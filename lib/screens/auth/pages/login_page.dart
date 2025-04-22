@@ -43,7 +43,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     emailController.text = "vitor@gmail.com";
-    passwordController.text = "123456";
+    passwordController.text = "12345678";
     return SafeArea(
       child: Scaffold(
         backgroundColor: CapybaColors.white,

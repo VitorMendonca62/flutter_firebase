@@ -43,8 +43,10 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    emailController.text = 'teste@teste.com';
-    nameController.text = "awodmiawdmiaw damwi djmaw ";
+    emailController.text = 'vitor@gmail.com';
+    nameController.text = "awodmiawdmiaw";
+    passwordController.text = "12345678";
+    confirmPasswordController.text = "12345678";
     return SafeArea(
       child: Scaffold(
         backgroundColor: CapybaColors.white,
