@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:flutter_firebase/models/comment/comment_model.dart';
+
 import '../../repositories/post_repository.dart';
 import 'package:flutter_firebase/models/post/post_model.dart';
 
@@ -29,17 +31,42 @@ class PostBloc {
 
     if (event is GetPost) {
       PostModel? post = await _postRepository.getOne(event.postId);
-      _postControllerOutput.add(PostLoadedState(post: post));
+      _postControllerOutput.add(PostLoadedState(
+        post: post,
+        comments:
+            await (await _postRepository.getComments(event.postId))?.first,
+      ));
     }
 
     if (event is LikePost) {
       await _postRepository.changeLikePost(event.postId, event.type);
-      _postControllerOutput.add(PostLoadedState(post: event.post));
+      _postControllerOutput.add(PostLoadedState(
+        post: event.post,
+        comments: event.comments,
+      ));
     }
 
     if (event is UnLikePost) {
       await _postRepository.changeLikePost(event.postId, event.type);
-      _postControllerOutput.add(PostLoadedState(post: event.post));
+      _postControllerOutput
+          .add(PostLoadedState(post: event.post, comments: event.comments));
+    }
+
+    if (event is CommentPost) {
+      await _postRepository.addComment(event.postId, event.content, event.index);
+      _postControllerOutput
+          .add(PostLoadedState(post: event.post, comments: event.comments));
+    }
+
+    if (event is GetComments) {
+      Stream<List<CommentModel>?>? commentsStream =
+          await _postRepository.getComments(event.postId);
+      List<CommentModel>? comments = await commentsStream?.first;
+
+      _postControllerOutput.add(PostLoadedState(
+        post: event.post,
+        comments: comments,
+      ));
     }
 
     // if (event is PostPost) {

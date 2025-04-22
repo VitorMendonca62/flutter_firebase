@@ -38,27 +38,16 @@ class Post extends StatelessWidget {
     );
   }
 
-  profileImage(String source) {
-    final base64String = source.split(',').last;
-    final decodedBytes = base64Decode(base64String);
-
-    return Expanded(
-      child: Image.memory(
-        decodedBytes,
-      ),
-    );
-  }
-
   void showImageModal(BuildContext context, int initialValue) {
     showDialog(
       context: context,
       barrierDismissible: true,
-      barrierColor: Colors.black.withOpacity(0.1),
+      barrierColor: CapybaColors.black.withOpacity(0.1),
       builder: (context) {
         return GestureDetector(
           onTap: () => Navigator.of(context).pop(),
           child: Scaffold(
-            backgroundColor: Colors.black.withOpacity(0.8),
+            backgroundColor: CapybaColors.black.withOpacity(0.8),
             body: Center(
               child: GestureDetector(
                 onTap: () {},
@@ -101,7 +90,7 @@ class Post extends StatelessWidget {
             ),
           );
         },
-        splashColor: Colors.black.withOpacity(0.2),
+        splashColor: CapybaColors.black.withOpacity(0.2),
         borderRadius: BorderRadius.circular(20),
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
@@ -134,9 +123,9 @@ class Post extends StatelessWidget {
                         Text(
                           post.author,
                           style: TextStyle(
-                            color: CapybaColors.black,
-                            fontWeight: FontWeight.w500,
-                          ),
+                              color: CapybaColors.black,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16),
                         ),
                         Text(
                           getRelativeTime(post.createdAt),
@@ -165,8 +154,8 @@ class Post extends StatelessWidget {
                 post.content,
                 maxLines: 5,
                 textAlign: TextAlign.justify,
-                style: const TextStyle(
-                  color: Colors.black,
+                style: TextStyle(
+                  color: CapybaColors.black,
                   fontSize: 16,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -226,7 +215,8 @@ class Post extends StatelessWidget {
                                       width: MediaQuery.of(context).size.width *
                                           0.2,
                                       height: 50,
-                                      color: Colors.black.withOpacity(0.4),
+                                      color:
+                                          CapybaColors.black.withOpacity(0.4),
                                     ),
                                     SizedBox(
                                       width: MediaQuery.of(context).size.width *
@@ -302,14 +292,14 @@ class Post extends StatelessWidget {
                             size: 22,
                             color: post.liked
                                 ? CapybaColors.capybaGreen
-                                : Colors.black,
+                                : CapybaColors.black,
                           ),
                           Padding(
                             padding: const EdgeInsets.only(left: 4.0),
                             child: Text(
                               post.likes.toString(),
-                              style: const TextStyle(
-                                color: Colors.black,
+                              style: TextStyle(
+                                color: CapybaColors.black,
                               ),
                             ),
                           ),
@@ -322,17 +312,17 @@ class Post extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      const FaIcon(
+                      FaIcon(
                         FontAwesomeIcons.message,
                         size: 22,
-                        color: Colors.black,
+                        color: CapybaColors.black,
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 4.0),
                         child: Text(
                           post.comments.toString(),
-                          style: const TextStyle(
-                            color: Colors.black,
+                          style: TextStyle(
+                            color: CapybaColors.black,
                           ),
                         ),
                       ),

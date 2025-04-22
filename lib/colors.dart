@@ -7,6 +7,7 @@ class CapybaColors {
   static Color gray1 = const Color(0xFF141414);
   static Color gray2 = const Color(0xFF474747);
   static Color gray200 = const Color(0x60000000);
+  static Color gray300 = const Color.fromARGB(255, 225, 225, 225);
   static Color white = const Color(0xFFFFFFFF);
   static Color orange = const Color(0xFFED9948);
   static Color black = const Color(0xFF000000);

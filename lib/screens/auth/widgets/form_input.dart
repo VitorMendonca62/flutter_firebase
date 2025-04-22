@@ -37,7 +37,7 @@ class FormInput extends StatelessWidget {
         TextFormField(
           controller: controller,
           keyboardType: keyboardType,
-          cursorColor: Colors.black,
+          cursorColor: CapybaColors.black,
           style: const TextStyle(fontSize: 20),
           obscureText: obscureText,
           decoration: InputDecoration(

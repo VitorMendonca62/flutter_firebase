@@ -1,9 +1,12 @@
 import 'dart:convert';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_firebase/models/comment/comment_model.dart';
 import 'package:flutter_firebase/models/post/post_model.dart';
 import 'package:flutter_firebase/screens/galery_page.dart';
 import 'package:flutter_firebase/screens/post/bloc/post/post_bloc.dart';
+import 'package:flutter_firebase/screens/post/widgets/card_comment.dart';
+import 'package:flutter_firebase/screens/post/widgets/comments_input.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:photo_view/photo_view.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import 'package:flutter/material.dart';
@@ -23,10 +26,19 @@ class PostPage extends StatefulWidget {
 
 class _PostPageState extends State<PostPage> {
   late final PostBloc _postBloc;
+  final User user = FirebaseAuth.instance.currentUser!;
+
+  int ammountUserComments = 0;
+
+  final TextEditingController commentsInputController = TextEditingController();
 
   @override
   void initState() {
     _postBloc = PostBloc();
+    _postBloc.postInput.add(GetComments(
+      post: widget.post,
+      postId: widget.post.id!,
+    ));
     super.initState();
   }
 
@@ -47,17 +59,6 @@ class _PostPageState extends State<PostPage> {
     );
   }
 
-  profileImage(String source) {
-    final base64String = source.split(',').last;
-    final decodedBytes = base64Decode(base64String);
-
-    return Expanded(
-      child: Image.memory(
-        decodedBytes,
-      ),
-    );
-  }
-
   int calcTimeForRead() {
     const int wordsPerMinute = 200;
     final List<String> words = widget.post.content.split(' ');
@@ -69,12 +70,12 @@ class _PostPageState extends State<PostPage> {
     showDialog(
       context: context,
       barrierDismissible: true,
-      barrierColor: Colors.black.withOpacity(0.1),
+      barrierColor: CapybaColors.black.withOpacity(0.1),
       builder: (context) {
         return GestureDetector(
           onTap: () => Navigator.of(context).pop(),
           child: Scaffold(
-            backgroundColor: Colors.black.withOpacity(0.8),
+            backgroundColor: CapybaColors.black.withOpacity(0.8),
             body: Center(
               child: GestureDetector(
                 onTap: () {},
@@ -98,12 +99,13 @@ class _PostPageState extends State<PostPage> {
 
   @override
   Widget build(BuildContext context) {
+    commentsInputController.text = "idwaidwai";
     return SafeArea(
       child: Scaffold(
         backgroundColor: CapybaColors.white,
         body: SingleChildScrollView(
           child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -163,26 +165,24 @@ class _PostPageState extends State<PostPage> {
                 ),
                 SizedBox(
                   height: 200,
-                  child: Expanded(
-                    child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: 5,
-                      separatorBuilder: (BuildContext context, int index) =>
-                          const SizedBox(
-                        width: 16,
-                      ),
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () {
-                            showImageModal(context, index);
-                          },
-                          child: attachedImage(
-                            widget.post.photos[0],
-                            context,
-                          ),
-                        );
-                      },
+                  child: ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: widget.post.photos.length,
+                    separatorBuilder: (BuildContext context, int index) =>
+                        const SizedBox(
+                      width: 16,
                     ),
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onTap: () {
+                          showImageModal(context, index);
+                        },
+                        child: attachedImage(
+                          widget.post.photos[index],
+                          context,
+                        ),
+                      );
+                    },
                   ),
                 ),
                 const SizedBox(
@@ -207,18 +207,18 @@ class _PostPageState extends State<PostPage> {
                                     if (!widget.post.liked) {
                                       _postBloc.postInput.add(
                                         LikePost(
-                                          postId: widget.post.id!,
-                                          post: widget.post,
-                                        ),
+                                            postId: widget.post.id!,
+                                            post: widget.post,
+                                            comments: state.data!.comments),
                                       );
                                       widget.post.liked = true;
                                       widget.post.likes += 1;
                                     } else {
                                       _postBloc.postInput.add(
                                         UnLikePost(
-                                          postId: widget.post.id!,
-                                          post: widget.post,
-                                        ),
+                                            postId: widget.post.id!,
+                                            post: widget.post,
+                                            comments: state.data!.comments),
                                       );
                                       widget.post.liked = false;
                                       widget.post.likes -= 1;
@@ -234,15 +234,15 @@ class _PostPageState extends State<PostPage> {
                                         size: 22,
                                         color: widget.post.liked
                                             ? CapybaColors.capybaGreen
-                                            : Colors.black,
+                                            : CapybaColors.black,
                                       ),
                                       Padding(
                                         padding:
                                             const EdgeInsets.only(left: 4.0),
                                         child: Text(
                                           widget.post.likes.toString(),
-                                          style: const TextStyle(
-                                            color: Colors.black,
+                                          style: TextStyle(
+                                            color: CapybaColors.black,
                                           ),
                                         ),
                                       ),
@@ -255,17 +255,17 @@ class _PostPageState extends State<PostPage> {
                               ),
                               Row(
                                 children: [
-                                  const FaIcon(
+                                  FaIcon(
                                     FontAwesomeIcons.message,
                                     size: 22,
-                                    color: Colors.black,
+                                    color: CapybaColors.black,
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(left: 4.0),
                                     child: Text(
                                       widget.post.comments.toString(),
-                                      style: const TextStyle(
-                                        color: Colors.black,
+                                      style: TextStyle(
+                                        color: CapybaColors.black,
                                       ),
                                     ),
                                   ),
@@ -273,6 +273,98 @@ class _PostPageState extends State<PostPage> {
                               ),
                             ],
                           ),
+                          Column(
+                            children: [
+                              const Text("Comentários"),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    width: 40,
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(30),
+                                      image: DecorationImage(
+                                        image: MemoryImage(
+                                          base64Decode(
+                                            // MUDAR AQUI PARA FOTO DO PERFIL DO USUARIO
+                                            widget.post.authorPhoto
+                                                .split(',')
+                                                .last,
+                                          ),
+                                        ),
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 12,
+                                  ),
+                                  Expanded(
+                                    child: CommentsInput(
+                                      controller: commentsInputController,
+                                    ),
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      _postBloc.postInput.add(CommentPost(
+                                        postId: widget.post.id!,
+                                        content: commentsInputController.text,
+                                        post: widget.post,
+                                        comments: state.data!.comments,
+                                        index: ammountUserComments,
+                                      ));
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 19,
+                                      ),
+                                      backgroundColor: CapybaColors.capybaGreen,
+                                      shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.only(
+                                          bottomRight: Radius.circular(20),
+                                          topRight: Radius.circular(20),
+                                        ),
+                                        side: BorderSide(
+                                          width: 0.001,
+                                          color: Colors.transparent,
+                                        ),
+                                      ),
+                                    ),
+                                    child: Icon(
+                                      Icons.send_rounded,
+                                      color: CapybaColors.white,
+                                    ),
+                                  )
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              Column(
+                                children: state.data!.comments!.map((comment) {
+                                  if (comment.author ==
+                                      FirebaseAuth
+                                          .instance.currentUser!.displayName) {
+                                    ammountUserComments += 1;
+                                  }
+                                  return Column(
+                                    children: [
+                                      CardComment(
+                                        authorPhoto: comment.authorPhoto,
+                                        author: comment.author,
+                                        content: comment.content,
+                                        createdAt: comment.createdAt,
+                                      ),
+                                      const SizedBox(
+                                        height: 16,
+                                      ),
+                                    ],
+                                  );
+                                }).toList(),
+                              )
+                            ],
+                          )
                         ],
                       );
                     })

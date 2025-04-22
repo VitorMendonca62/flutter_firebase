@@ -8,8 +8,8 @@ class SnackBarNotification {
         SnackBar(
           content: Text(
             message,
-            style: const TextStyle(
-              color: Colors.white,
+            style: TextStyle(
+              color: CapybaColors.white,
               fontWeight: FontWeight.bold,
               fontSize: 16,
             ),
@@ -31,8 +31,8 @@ class SnackBarNotification {
         SnackBar(
           content: Text(
             message,
-            style: const TextStyle(
-              color: Colors.white,
+            style: TextStyle(
+              color: CapybaColors.white,
               fontWeight: FontWeight.bold,
               fontSize: 16,
             ),
@@ -54,8 +54,8 @@ class SnackBarNotification {
         SnackBar(
           content: Text(
             message,
-            style: const TextStyle(
-              color: Colors.white,
+            style: TextStyle(
+              color: CapybaColors.white,
               fontWeight: FontWeight.bold,
               fontSize: 16,
             ),

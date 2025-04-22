@@ -14,7 +14,7 @@ class PostNothingData extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.white,
         padding: const EdgeInsets.all(0),
-        overlayColor: Colors.black.withOpacity(0.2),
+        overlayColor: CapybaColors.black.withOpacity(0.2),
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
             side: const BorderSide(
@@ -59,20 +59,20 @@ class PostNothingData extends StatelessWidget {
                 ],
               ),
             ),
-            const Text(
+            Text(
               " dawdwa daw daw daw daw dawd aw",
               style: TextStyle(
-                color: Colors.black,
+                color: CapybaColors.black,
                 fontWeight: FontWeight.bold,
                 fontSize: 24,
               ),
             ),
-            const Text(
+            Text(
               "dadawd aw dwa aw daw daw daw D aw daw daw dwa awd dawwdawaddwaawdd awadw dw dawa da dwadw a wda wdwdadwadwadw dawd daw dawd awdwaa dwawd a wawd awd a wd dwa awawddawawdawd daw awdawa wa wdadwwadda wad adw a w dawd aw aw awd awa w awd",
               maxLines: 5,
               textAlign: TextAlign.justify,
               style: TextStyle(
-                color: Colors.black,
+                color: CapybaColors.black,
                 fontSize: 16,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -97,19 +97,19 @@ class PostNothingData extends StatelessWidget {
                   onTap: () {},
                   child: Container(
                     padding: const EdgeInsets.all(8),
-                    child: const Row(
+                    child: Row(
                       children: [
                         Icon(
                           Icons.thumb_up_alt_outlined,
                           size: 22,
-                          color: Colors.black,
+                          color: CapybaColors.black,
                         ),
                         Padding(
-                          padding: EdgeInsets.only(left: 4.0),
+                          padding: const EdgeInsets.only(left: 4.0),
                           child: Text(
                             "1",
                             style: TextStyle(
-                              color: Colors.black,
+                              color: CapybaColors.black,
                             ),
                           ),
                         ),
@@ -120,19 +120,19 @@ class PostNothingData extends StatelessWidget {
                 const SizedBox(
                   width: 12,
                 ),
-                const Row(
+                Row(
                   children: [
                     FaIcon(
                       FontAwesomeIcons.message,
                       size: 22,
-                      color: Colors.black,
+                      color: CapybaColors.black,
                     ),
                     Padding(
-                      padding: EdgeInsets.only(left: 4.0),
+                      padding: const EdgeInsets.only(left: 4.0),
                       child: Text(
                         "12",
                         style: TextStyle(
-                          color: Colors.black,
+                          color: CapybaColors.black,
                         ),
                       ),
                     ),
