@@ -66,7 +66,7 @@ class _PostPageState extends State<PostPage> {
     return (words.length / wordsPerMinute).ceil();
   }
 
-  void showImageModal(BuildContext context, int initialValue) {
+  showImageModal(BuildContext context, int initialValue) {
     showDialog(
       context: context,
       barrierDismissible: true,
@@ -99,7 +99,6 @@ class _PostPageState extends State<PostPage> {
 
   @override
   Widget build(BuildContext context) {
-    commentsInputController.text = "idwaidwai";
     return SafeArea(
       child: Scaffold(
         backgroundColor: CapybaColors.white,
@@ -231,14 +230,14 @@ class _PostPageState extends State<PostPage> {
                                         widget.post.liked
                                             ? Icons.thumb_up_alt
                                             : Icons.thumb_up_alt_outlined,
-                                        size: 22,
+                                        size: 32,
                                         color: widget.post.liked
                                             ? CapybaColors.capybaGreen
                                             : CapybaColors.black,
                                       ),
                                       Padding(
                                         padding:
-                                            const EdgeInsets.only(left: 4.0),
+                                            const EdgeInsets.only(left: 7),
                                         child: Text(
                                           widget.post.likes.toString(),
                                           style: TextStyle(
@@ -251,17 +250,17 @@ class _PostPageState extends State<PostPage> {
                                 ),
                               ),
                               const SizedBox(
-                                width: 12,
+                                width: 16,
                               ),
                               Row(
                                 children: [
                                   FaIcon(
                                     FontAwesomeIcons.message,
-                                    size: 22,
+                                    size: 28,
                                     color: CapybaColors.black,
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.only(left: 4.0),
+                                    padding: const EdgeInsets.only(left: 7),
                                     child: Text(
                                       widget.post.comments.toString(),
                                       style: TextStyle(
@@ -274,8 +273,18 @@ class _PostPageState extends State<PostPage> {
                             ],
                           ),
                           Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text("Comentários"),
+                              const Padding(
+                                padding: EdgeInsets.only(top: 12, bottom: 24),
+                                child: Text(
+                                  "Comentários",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 24, 
+                                  ),
+                                ),
+                              ),
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
