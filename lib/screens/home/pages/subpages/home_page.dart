@@ -74,7 +74,7 @@ class _HomePageState extends State<HomePage> {
                 return const Padding(
                   padding: EdgeInsets.all(16),
                   child: Center(
-                    child: Text("Erro ao carregarw postagens"),
+                    child: Text("Erro ao carregar postagens"),
                   ),
                 );
               }
