@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase/routes.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -8,8 +9,8 @@ class AuthGuard extends GetMiddleware {
     final user = FirebaseAuth.instance.currentUser;
 
     if (user == null) {
-      return const RouteSettings(name: '/login');
-    } 
+      return RouteSettings(name: Routes.login);
+    }
 
     return null;
   }
@@ -21,8 +22,8 @@ class NoAuthGuard extends GetMiddleware {
     final user = FirebaseAuth.instance.currentUser;
 
     if (user is User) {
-      return const RouteSettings(name: '/home');
-    } 
+      return RouteSettings(name: Routes.home);
+    }
 
     return null;
   }

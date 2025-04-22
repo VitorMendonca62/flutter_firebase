@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:path/path.dart';
 import 'package:dio/dio.dart';
@@ -19,8 +18,6 @@ class PhotoRepository {
       'title': 'User photo ${user!.uid}',
       'description': 'This is a simple image upload in Imgur',
     });
-    print('oi');
-    print(dotenv.env['CLIENT_ID']);
     final response = await dio.post(
       'image',
       data: formData,
@@ -41,7 +38,6 @@ class PhotoRepository {
   Future<void> updatePhoto(File image) async {
     try {
       String photoLink = await uploadPhotoInImgur(image);
-      print(photoLink);
       await user?.updatePhotoURL(photoLink);
     } on FirebaseAuthException catch (e) {
       throw Exception('Erro ao fazer enviar foto: ${e.message}');

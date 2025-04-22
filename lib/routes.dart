@@ -1,4 +1,5 @@
 import 'package:flutter_firebase/guards/auth_guard.dart';
+import 'package:flutter_firebase/guards/photo_guard.dart';
 import 'package:flutter_firebase/screens/auth/pages/login_page.dart';
 import 'package:flutter_firebase/screens/auth/pages/photo_register_page.dart';
 import 'package:flutter_firebase/screens/auth/pages/register_page.dart';
@@ -38,6 +39,7 @@ class Routes {
       page: () => const ContainerPage(),
       middlewares: [
         AuthGuard(),
+        PhotoGuard(),
       ],
     ),
   ];

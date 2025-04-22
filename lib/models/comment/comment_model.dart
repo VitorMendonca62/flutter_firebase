@@ -19,7 +19,6 @@ class CommentModel {
   });
 
   static Future<CommentModel> fromDocumentSnapshot(DocumentSnapshot doc) async {
-    print(doc.data() );
     return CommentModel(
       content: doc['content'],
       author: doc['author'],
