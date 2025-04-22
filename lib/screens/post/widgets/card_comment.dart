@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/colors.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -20,6 +19,14 @@ class CardComment extends StatelessWidget {
   String getRelativeTime(DateTime date) {
     timeago.setLocaleMessages('pt_BR', timeago.PtBrMessages());
     return timeago.format(date, locale: 'pt_BR');
+  }
+
+  String formatAuthorName(String author) {
+    List<String> authorSplited = author.split(" ");
+    String firstName = authorSplited.first;
+    String lastName = authorSplited.last;
+
+    return "$firstName $lastName";
   }
 
   @override
@@ -67,7 +74,7 @@ class CardComment extends StatelessWidget {
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.35,
                         child: Text(
-                          author,
+                          formatAuthorName(author),
                           maxLines: 2,
                           style: TextStyle(
                             color: CapybaColors.black,
