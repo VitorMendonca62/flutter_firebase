@@ -58,7 +58,7 @@ class PostBloc {
         event.content,
         event.index,
       );
-      event.comments?.add(model);
+      event.comments?.insert(0, model);
       _postControllerOutput.add(PostLoadedState(
         post: event.post,
         comments: event.comments,

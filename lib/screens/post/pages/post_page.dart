@@ -312,6 +312,7 @@ class _PostPageState extends State<PostPage> {
                                         comments: state.data!.comments,
                                         index: ammountUserComments,
                                       ));
+                                      commentsInputController.clear();
                                     },
                                     style: ElevatedButton.styleFrom(
                                       padding: const EdgeInsets.symmetric(
