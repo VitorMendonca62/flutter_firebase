@@ -202,6 +202,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                         minimumSize: const Size(180, 50),
                                       ),
                                       onPressed: () {
+                                        FocusScope.of(context).unfocus();
+
                                         if (!_formKey.currentState!
                                             .validate()) {
                                           return;

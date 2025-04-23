@@ -30,6 +30,8 @@ class _PostPageState extends State<PostPage> {
 
   final TextEditingController commentsInputController = TextEditingController();
 
+  final _commentsFormKey = GlobalKey<FormState>();
+
   @override
   void initState() {
     _postBloc = PostBloc();
@@ -188,7 +190,7 @@ class _PostPageState extends State<PostPage> {
                   ),
                 ),
                 const SizedBox(
-                  height: 24,
+                  height: 12,
                 ),
                 StreamBuilder<PostState>(
                     stream: _postBloc.postOutput,
@@ -233,7 +235,7 @@ class _PostPageState extends State<PostPage> {
                                         widget.post.liked
                                             ? Icons.thumb_up_alt
                                             : Icons.thumb_up_alt_outlined,
-                                        size: 32,
+                                        size: 22,
                                         color: widget.post.liked
                                             ? CapybaColors.capybaGreen
                                             : CapybaColors.black,
@@ -258,7 +260,7 @@ class _PostPageState extends State<PostPage> {
                                 children: [
                                   FaIcon(
                                     FontAwesomeIcons.message,
-                                    size: 28,
+                                    size: 22,
                                     color: CapybaColors.black,
                                   ),
                                   Padding(
@@ -287,64 +289,69 @@ class _PostPageState extends State<PostPage> {
                                   ),
                                 ),
                               ),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    width: 40,
-                                    height: 40,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(30),
-                                      image: DecorationImage(
-                                        image: NetworkImage(
-                                          FirebaseAuth
-                                              .instance.currentUser!.photoURL!,
-                                        ),
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 12,
-                                  ),
-                                  Expanded(
-                                    child: CommentsInput(
-                                      controller: commentsInputController,
-                                    ),
-                                  ),
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      _postBloc.postInput.add(CommentPost(
-                                        postId: widget.post.id!,
-                                        content: commentsInputController.text,
-                                        post: widget.post,
-                                        comments: state.data!.comments,
-                                        index: ammountUserComments,
-                                      ));
-                                      commentsInputController.clear();
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 19,
-                                      ),
-                                      backgroundColor: CapybaColors.capybaGreen,
-                                      shape: const RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.only(
-                                          bottomRight: Radius.circular(20),
-                                          topRight: Radius.circular(20),
-                                        ),
-                                        side: BorderSide(
-                                          width: 0.001,
-                                          color: Colors.transparent,
+                              Form(
+                                key: _commentsFormKey,
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      width: 40,
+                                      height: 40,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(30),
+                                        image: DecorationImage(
+                                          image: NetworkImage(
+                                            FirebaseAuth.instance.currentUser!
+                                                .photoURL!,
+                                          ),
+                                          fit: BoxFit.cover,
                                         ),
                                       ),
                                     ),
-                                    child: Icon(
-                                      Icons.send_rounded,
-                                      color: CapybaColors.white,
+                                    const SizedBox(
+                                      width: 12,
                                     ),
-                                  )
-                                ],
+                                    Expanded(
+                                      child: CommentsInput(
+                                        controller: commentsInputController,
+                                      ),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        FocusScope.of(context).unfocus();
+                                        _postBloc.postInput.add(CommentPost(
+                                          postId: widget.post.id!,
+                                          content: commentsInputController.text,
+                                          post: widget.post,
+                                          comments: state.data!.comments,
+                                          index: ammountUserComments,
+                                        ));
+                                        commentsInputController.clear();
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        padding: const EdgeInsets.symmetric(
+                                          vertical: 19,
+                                        ),
+                                        backgroundColor:
+                                            CapybaColors.capybaGreen,
+                                        shape: const RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.only(
+                                            bottomRight: Radius.circular(20),
+                                            topRight: Radius.circular(20),
+                                          ),
+                                          side: BorderSide(
+                                            width: 0.001,
+                                            color: Colors.transparent,
+                                          ),
+                                        ),
+                                      ),
+                                      child: Icon(
+                                        Icons.send_rounded,
+                                        color: CapybaColors.white,
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                               const SizedBox(
                                 height: 20,

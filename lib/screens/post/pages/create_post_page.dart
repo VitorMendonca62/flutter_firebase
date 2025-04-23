@@ -152,7 +152,6 @@ class _CreatePostPageState extends State<CreatePostPage> {
                         'Post criado com sucesso',
                         context,
                       );
-                      _formKey.currentState!.reset();
                       Navigator.of(context).pushNamed(Routes.home);
                       state.data!.wasHandled = true;
                     });
@@ -256,6 +255,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
                               minimumSize: const Size(180, 50),
                             ),
                             onPressed: () {
+                              FocusScope.of(context).unfocus();
                               if (!_formKey.currentState!.validate()) {
                                 return;
                               }
@@ -267,6 +267,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
                                   photos: state.data!.photos,
                                 ),
                               );
+                              _formKey.currentState!.reset();
                             },
                             child: Text(
                               "Criar",
