@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase/screens/home/pages/create_post_page.dart';
 import 'package:flutter_firebase/screens/home/pages/subpages/home_page.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -67,20 +68,12 @@ class _ContainerPageState extends State<ContainerPage> {
                   color: Colors.white,
                 ),
               ),
-              NavigationDestination(
-                label: 'Perfil',
-                icon: Icon(Icons.person_outline),
-                selectedIcon: Icon(
-                  Icons.person,
-                  color: Colors.white,
-                ),
-              ),
             ],
           ),
         ),
         body: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 12),
-            child: [const HomePage()][currentPageIndex]),
+            child: [const HomePage(), const CreatePostPage()][currentPageIndex]),
       ),
     );
   }

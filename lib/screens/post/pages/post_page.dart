@@ -23,7 +23,7 @@ class PostPage extends StatefulWidget {
 }
 
 class _PostPageState extends State<PostPage> {
-  late final PostBloc _postBloc;
+  late final PhotoBloc _postBloc;
   final User user = FirebaseAuth.instance.currentUser!;
 
   int ammountUserComments = 0;
@@ -32,7 +32,7 @@ class _PostPageState extends State<PostPage> {
 
   @override
   void initState() {
-    _postBloc = PostBloc();
+    _postBloc = PhotoBloc();
     _postBloc.postInput.add(GetComments(
       post: widget.post,
       postId: widget.post.id!,
