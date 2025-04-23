@@ -23,7 +23,7 @@ class PostPage extends StatefulWidget {
 }
 
 class _PostPageState extends State<PostPage> {
-  late final PhotoBloc _postBloc;
+  late final PostBloc _postBloc;
   final User user = FirebaseAuth.instance.currentUser!;
 
   int ammountUserComments = 0;
@@ -32,12 +32,18 @@ class _PostPageState extends State<PostPage> {
 
   @override
   void initState() {
-    _postBloc = PhotoBloc();
+    _postBloc = PostBloc();
     _postBloc.postInput.add(GetComments(
       post: widget.post,
       postId: widget.post.id!,
     ));
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _postBloc.postOutput.drain();
+    super.dispose();
   }
 
   String getRelativeTime(DateTime date) {
@@ -156,26 +162,29 @@ class _PostPageState extends State<PostPage> {
                 const SizedBox(
                   height: 24,
                 ),
-                SizedBox(
-                  height: 200,
-                  child: ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: widget.post.photos.length,
-                    separatorBuilder: (BuildContext context, int index) =>
-                        const SizedBox(
-                      width: 16,
+                Visibility(
+                  visible: widget.post.photos.isNotEmpty,
+                  child: SizedBox(
+                    height: 200,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: widget.post.photos.length,
+                      separatorBuilder: (BuildContext context, int index) =>
+                          const SizedBox(
+                        width: 16,
+                      ),
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            showImageModal(context, index);
+                          },
+                          child: attachedImage(
+                            widget.post.photos[index],
+                            context,
+                          ),
+                        );
+                      },
                     ),
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                        onTap: () {
-                          showImageModal(context, index);
-                        },
-                        child: attachedImage(
-                          widget.post.photos[index],
-                          context,
-                        ),
-                      );
-                    },
                   ),
                 ),
                 const SizedBox(

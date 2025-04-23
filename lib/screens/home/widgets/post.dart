@@ -205,7 +205,7 @@ class Post extends StatelessWidget {
                                 onTap: () => showImageModal(context, 2),
                                 child: Stack(
                                   children: [
-                                    attachedImage(post.photos[1], context),
+                                    attachedImage(post.photos[2], context),
                                     Container(
                                       width: MediaQuery.of(context).size.width *
                                           0.2,

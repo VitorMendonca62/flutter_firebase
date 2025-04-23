@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_firebase/models/comment/comment_model.dart';
@@ -86,5 +88,27 @@ class PostRepository {
       authorPhoto: currentUser.photoURL!,
       createdAt: createdAt.toDate(),
     );
+  }
+
+  createPost(
+    String title,
+    String content,
+    List<String> photos,
+    Timestamp timeNow,
+  ) async {
+    final postCollection = FirebaseFirestore.instance.collection('home');
+    final currentUser = FirebaseAuth.instance.currentUser;
+
+    await postCollection.add({
+      "title": title,
+      "content": content,
+      "author": currentUser!.displayName,
+      "authorPhoto": currentUser.photoURL,
+      "comments": 0,
+      "likes": 0,
+      "createdAt": timeNow,
+      "updatedAt": timeNow,
+      "photos": photos,
+    });
   }
 }

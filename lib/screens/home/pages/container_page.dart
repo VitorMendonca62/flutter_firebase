@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_firebase/screens/home/pages/create_post_page.dart';
+import 'package:flutter_firebase/screens/post/pages/create_post_page.dart';
 import 'package:flutter_firebase/screens/home/pages/subpages/home_page.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
