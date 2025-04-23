@@ -8,7 +8,7 @@ import 'package:flutter_firebase/models/post/post_model.dart';
 part 'post_event.dart';
 part 'post_state.dart';
 
-class PostBloc {
+class PhotoBloc {
   final _postRepository = PostRepository();
 
   final StreamController<PostEvent> _postControllerInput =
@@ -19,7 +19,7 @@ class PostBloc {
   Sink<PostEvent> get postInput => _postControllerInput.sink;
   Stream<PostState> get postOutput => _postControllerOutput.stream;
 
-  PostBloc() {
+  PhotoBloc() {
     _postControllerInput.stream.listen(_mapEventToState);
   }
 

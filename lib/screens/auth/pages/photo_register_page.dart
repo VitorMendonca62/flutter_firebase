@@ -36,8 +36,7 @@ class _PhotoRegisterPageState extends State<PhotoRegisterPage> {
     } catch (e) {}
   }
 
-  void _showImageSourceActionSheet(
-      BuildContext parentContext, File? imageFile) {
+  void _showImageSourceActionSheet(BuildContext parentContext) {
     showModalBottomSheet(
       context: parentContext,
       builder: (BuildContext context) {
@@ -45,6 +44,10 @@ class _PhotoRegisterPageState extends State<PhotoRegisterPage> {
           child: Wrap(
             children: [
               ListTile(
+                shape: const RoundedRectangleBorder(
+                  borderRadius:
+                      BorderRadius.vertical(top: Radius.circular(28.0)),
+                ),
                 leading: const Icon(Icons.photo_library),
                 title: const Text('Galeria'),
                 onTap: () {
@@ -147,8 +150,7 @@ class _PhotoRegisterPageState extends State<PhotoRegisterPage> {
                         children: [
                           const SizedBox(height: 40),
                           GestureDetector(
-                            onTap: () => _showImageSourceActionSheet(
-                                context, state.data?.imageFile),
+                            onTap: () => _showImageSourceActionSheet(context),
                             child: Container(
                               width: 200,
                               height: 200,

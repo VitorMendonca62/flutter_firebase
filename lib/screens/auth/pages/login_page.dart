@@ -5,7 +5,7 @@ import 'package:flutter_firebase/colors.dart';
 import 'package:flutter_firebase/constants.dart';
 import 'package:flutter_firebase/routes.dart';
 import 'package:flutter_firebase/screens/auth/blocs/auth/auth_bloc.dart';
-import 'package:flutter_firebase/screens/auth/widgets/form_input.dart';
+import 'package:flutter_firebase/screens/widgets/form_input.dart';
 import 'package:flutter_firebase/screens/widgets/snackbar.dart';
 
 class LoginPage extends StatefulWidget {
@@ -147,6 +147,8 @@ class _LoginPageState extends State<LoginPage> {
                                             validator: emailValidation,
                                             obscureText: false,
                                             labelText: 'Email',
+                                            minLines: 1,
+                                            maxLines: 1,
                                           ),
                                           const SizedBox(height: 12),
                                           FormInput(
@@ -156,6 +158,8 @@ class _LoginPageState extends State<LoginPage> {
                                             validator: passwordValidation,
                                             obscureText: true,
                                             labelText: 'Senha',
+                                            minLines: 1,
+                                            maxLines: 1,
                                           ),
                                           const SizedBox(
                                             height: 4,

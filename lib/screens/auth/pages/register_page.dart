@@ -3,7 +3,7 @@ import 'package:flutter_firebase/colors.dart';
 import 'package:flutter_firebase/constants.dart';
 import 'package:flutter_firebase/routes.dart';
 import 'package:flutter_firebase/screens/auth/blocs/auth/auth_bloc.dart';
-import 'package:flutter_firebase/screens/auth/widgets/form_input.dart';
+import 'package:flutter_firebase/screens/widgets/form_input.dart';
 import 'package:flutter_firebase/screens/widgets/snackbar.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -144,12 +144,14 @@ class _RegisterPageState extends State<RegisterPage> {
                                       keyboardType: TextInputType.name,
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
-                                          return 'Por favor, insira seu nome';
+                                          return 'Nome inválido';
                                         }
                                         return null;
                                       },
                                       obscureText: false,
                                       labelText: 'Nome',
+                                      minLines: 1,
+                                      maxLines: 1,
                                     ),
                                     const SizedBox(height: 16),
                                     FormInput(
@@ -159,6 +161,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                       validator: emailValidation,
                                       obscureText: false,
                                       labelText: 'Email',
+                                      minLines: 1,
+                                      maxLines: 1,
                                     ),
                                     const SizedBox(height: 16),
                                     FormInput(
@@ -168,6 +172,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                       validator: passwordValidation,
                                       obscureText: true,
                                       labelText: 'Senha',
+                                      minLines: 1,
+                                      maxLines: 1,
                                     ),
                                     const SizedBox(height: 16),
                                     FormInput(
@@ -181,6 +187,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                       ),
                                       obscureText: true,
                                       labelText: 'Confirmação de senha',
+                                      minLines: 1,
+                                      maxLines: 1,
                                     ),
                                     const SizedBox(height: 24),
                                     ElevatedButton(

@@ -4,6 +4,7 @@ import 'package:flutter_firebase/screens/auth/pages/login_page.dart';
 import 'package:flutter_firebase/screens/auth/pages/photo_register_page.dart';
 import 'package:flutter_firebase/screens/auth/pages/register_page.dart';
 import 'package:flutter_firebase/screens/home/pages/container_page.dart';
+import 'package:flutter_firebase/screens/home/pages/create_post_page.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 
 class Routes {
@@ -11,6 +12,7 @@ class Routes {
   static String signup = '/signup';
   static String photoRegister = '/photoRegister';
   static String home = '/home';
+  static String createPost = '/createPost';
 
   static final routes = [
     GetPage(
@@ -37,6 +39,14 @@ class Routes {
     GetPage(
       name: home,
       page: () => const ContainerPage(),
+      middlewares: [
+        AuthGuard(),
+        PhotoGuard(),
+      ],
+    ),
+    GetPage(
+      name: createPost,
+      page: () => const CreatePostPage(),
       middlewares: [
         AuthGuard(),
         PhotoGuard(),

@@ -8,6 +8,8 @@ class FormInput extends StatelessWidget {
   final TextInputType keyboardType;
   final String? Function(String?)? validator;
   final bool obscureText;
+  final int minLines;
+  final int maxLines;
 
   const FormInput({
     super.key,
@@ -17,6 +19,8 @@ class FormInput extends StatelessWidget {
     required this.keyboardType,
     required this.validator,
     required this.obscureText,
+    required this.minLines,
+    required this.maxLines,
   });
 
   @override
@@ -40,6 +44,8 @@ class FormInput extends StatelessWidget {
           cursorColor: CapybaColors.black,
           style: const TextStyle(fontSize: 20),
           obscureText: obscureText,
+          minLines: minLines,
+          maxLines: maxLines,
           decoration: InputDecoration(
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(13),
