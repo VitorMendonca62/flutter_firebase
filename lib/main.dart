@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
     }
 
     if (FirebaseAuth.instance.currentUser!.photoURL == null) {
-      return const PhotoRegisterPage();
+      return const PhotoRegisterPage(canBack: false,);
     }
 
     return const ContainerPage();

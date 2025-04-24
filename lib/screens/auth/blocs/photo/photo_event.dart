@@ -1,15 +1,15 @@
 part of 'photo_bloc.dart';
 
-abstract class PhotoEvent {}
-
-class PhotoUpdate extends PhotoEvent {
+abstract class PhotoEvent {
   final File photo;
 
-  PhotoUpdate(this.photo);
+  PhotoEvent(this.photo);
+}
+
+class PhotoUpdate extends PhotoEvent {
+  PhotoUpdate({required File photo}) : super(photo);
 }
 
 class PhotoRequested extends PhotoEvent {
-  final File photo;
-
-  PhotoRequested(this.photo);
+  PhotoRequested({required File photo}) : super(photo);
 }

@@ -12,7 +12,8 @@ class PhotoInitialState extends PhotoState {
 }
 
 class PhotoLoadingState extends PhotoState {
-  PhotoLoadingState() : super(imageFile: null, wasHandled: false);
+  PhotoLoadingState({required File imageFile})
+      : super(imageFile: imageFile, wasHandled: false);
 }
 
 class PhotoLoadedState extends PhotoState {

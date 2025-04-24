@@ -31,7 +31,7 @@ class Routes {
     ),
     GetPage(
       name: photoRegister,
-      page: () => const PhotoRegisterPage(),
+      page: () => const PhotoRegisterPage(canBack: true,),
       middlewares: [
         AuthGuard(),
       ],

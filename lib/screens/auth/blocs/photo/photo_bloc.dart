@@ -22,25 +22,21 @@ class PhotoBloc {
   }
 
   void _mapEventToState(PhotoEvent event) async {
-    late File? photo;
-    _photoControllerOutput.add(PhotoLoadingState());
+    _photoControllerOutput.add(PhotoLoadingState(imageFile: event.photo));
     try {
       if (event is PhotoUpdate) {
-        photo = event.photo;
         _photoControllerOutput.add(PhotoLoadedState(
-          imageFile: photo,
+          imageFile: event.photo,
         ));
       }
 
       if (event is PhotoRequested) {
-        photo = event.photo;
         await _photoRepository.updatePhoto(event.photo);
         _photoControllerOutput.add(PhotoSubmitedState(
-          imageFile: photo,
+          imageFile: event.photo,
         ));
       }
     } catch (e) {
-      photo = null;
       _photoControllerOutput.add(PhotoFailureState(
           exception: e.toString().replaceAll("Exception: ", '')));
     }
