@@ -70,7 +70,7 @@ class Post extends StatelessWidget {
       color: CapybaColors.white,
       shape: RoundedRectangleBorder(
         side: BorderSide(
-          color: CapybaColors.capybaDarkGreen,
+          color: CapybaColors.capybaGreen,
           width: 1,
         ),
         borderRadius: BorderRadius.circular(20),
