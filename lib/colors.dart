@@ -1,4 +1,4 @@
-import 'dart:ui';
+import 'package:flutter/material.dart';
 
 class CapybaColors {
   static Color red = const Color(0xFFE53935);
@@ -11,4 +11,14 @@ class CapybaColors {
   static Color white = const Color(0xFFFFFFFF);
   static Color orange = const Color(0xFFED9948);
   static Color black = const Color(0xFF000000);
+  static LinearGradient greenGradient = const LinearGradient(
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+    colors: [
+      Color(0xFF7DFA6F),
+      Color(0xFF00C85E),
+      Color(0xFF00E963),
+    ],
+    stops: [0.0, 0.5, 1.0],
+  );
 }

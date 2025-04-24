@@ -3,8 +3,8 @@ import 'package:flutter_firebase/colors.dart';
 import 'package:flutter_firebase/constants.dart';
 import 'package:flutter_firebase/routes.dart';
 import 'package:flutter_firebase/screens/auth/blocs/auth/auth_bloc.dart';
-import 'package:flutter_firebase/screens/widgets/form_input.dart';
-import 'package:flutter_firebase/screens/widgets/snackbar.dart';
+import 'package:flutter_firebase/widgets/form_input.dart';
+import 'package:flutter_firebase/widgets/snackbar.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});

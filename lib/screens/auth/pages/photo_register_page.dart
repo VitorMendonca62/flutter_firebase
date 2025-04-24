@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_firebase/colors.dart';
 import 'package:flutter_firebase/routes.dart';
 import 'package:flutter_firebase/screens/auth/blocs/photo/photo_bloc.dart';
-import 'package:flutter_firebase/screens/widgets/snackbar.dart';
+import 'package:flutter_firebase/widgets/snackbar.dart';
 import 'package:image_picker/image_picker.dart';
 
 class PhotoRegisterPage extends StatefulWidget {

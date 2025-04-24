@@ -5,9 +5,9 @@ import 'package:flutter_firebase/colors.dart';
 import 'package:flutter_firebase/routes.dart';
 import 'package:flutter_firebase/screens/galery_page.dart';
 import 'package:flutter_firebase/screens/post/bloc/create_post/create_post_bloc.dart';
-import 'package:flutter_firebase/screens/widgets/form_input.dart';
-import 'package:flutter_firebase/screens/widgets/image_input.dart';
-import 'package:flutter_firebase/screens/widgets/snackbar.dart';
+import 'package:flutter_firebase/widgets/form_input.dart';
+import 'package:flutter_firebase/widgets/image_input.dart';
+import 'package:flutter_firebase/widgets/snackbar.dart';
 import 'package:image_picker/image_picker.dart';
 
 class CreatePostPage extends StatefulWidget {
