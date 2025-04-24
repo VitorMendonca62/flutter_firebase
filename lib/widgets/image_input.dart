@@ -30,7 +30,7 @@ class _ImageInputState extends State<ImageInput> {
           ),
         ),
         const SizedBox(
-          height: 8,
+          height: 4,
         ),
         ElevatedButton(
           onPressed: widget.handleOnTap,

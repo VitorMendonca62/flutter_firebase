@@ -201,7 +201,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
                           minLines: 5,
                           maxLines: 5,
                         ),
-                        const SizedBox(height: 12),
+                        const SizedBox(height: 16),
                         ImageInput(
                           labelText: "Imagens anexadas",
                           handleOnTap: () => showImageSourceActionSheet(
