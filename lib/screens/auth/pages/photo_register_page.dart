@@ -158,6 +158,37 @@ class _PhotoRegisterPageState extends State<PhotoRegisterPage> {
                               formKey: _formKey,
                               label: "Enviar",
                             ),
+                            Visibility(
+                              visible: widget.canBack,
+                              child: Column(
+                                children: [
+                                  const SizedBox(height: 12),
+                                  ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: CapybaColors.white,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(12),
+                                          side: BorderSide(
+                                            color: CapybaColors.capybaGreen,
+                                            width: 0.5,
+                                          )),
+                                      minimumSize: const Size(180, 50),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text(
+                                      "Voltar",
+                                      style: TextStyle(
+                                        color: CapybaColors.black,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ],
                         ),
                       );
