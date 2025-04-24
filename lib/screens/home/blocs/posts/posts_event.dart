@@ -1,14 +1,25 @@
 part of 'posts_bloc.dart';
 
-abstract class PostsEvent {}
+abstract class PostsEvent {
+  final bool isRestrict;
 
-class GetPosts extends PostsEvent {}
+  const PostsEvent({
+    this.isRestrict = false,
+  });
+}
+
+class GetPosts extends PostsEvent {
+  const GetPosts({
+    super.isRestrict,
+  });
+}
 
 class PostPost extends PostsEvent {
   final PostModel post;
 
-  PostPost({
+  const PostPost({
     required this.post,
+    super.isRestrict,
   });
 }
 
@@ -17,9 +28,10 @@ class LikePost extends PostsEvent {
   final String type = 'like';
   final List<PostModel> posts;
 
-  LikePost({
+  const LikePost({
     required this.postId,
     required this.posts,
+    super.isRestrict,
   });
 }
 
@@ -28,8 +40,9 @@ class UnLikePost extends PostsEvent {
   final String type = 'unlike';
   final List<PostModel> posts;
 
-  UnLikePost({
+  const UnLikePost({
     required this.postId,
     required this.posts,
+    super.isRestrict,
   });
 }

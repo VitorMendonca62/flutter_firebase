@@ -28,17 +28,29 @@ class PostsBloc {
     }
 
     if (event is GetPosts) {
-      List<PostModel>? posts = await _postsRepository.getAll()?.first;
+      List<PostModel>? posts = await _postsRepository
+          .getAll(
+            event.isRestrict,
+          )
+          ?.first;
       _postsControllerOutput.add(PostsLoadedState(posts: posts ?? []));
     }
 
     if (event is LikePost) {
-      await _postsRepository.changeLikePost(event.postId, event.type);
+      await _postsRepository.changeLikePost(
+        event.postId,
+        event.type,
+        event.isRestrict,
+      );
       _postsControllerOutput.add(PostsLoadedState(posts: event.posts));
     }
 
     if (event is UnLikePost) {
-      await _postsRepository.changeLikePost(event.postId, event.type);
+      await _postsRepository.changeLikePost(
+        event.postId,
+        event.type,
+        event.isRestrict,
+      );
       _postsControllerOutput.add(PostsLoadedState(posts: event.posts));
     }
 

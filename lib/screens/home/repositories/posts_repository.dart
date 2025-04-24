@@ -3,9 +3,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_firebase/models/post/post_model.dart';
 
 class PostsRepository {
-  Stream<List<PostModel>>? getAll() {
-    // FirebaseFirestore.instance.clearPersistence();
-    final postsCollection = FirebaseFirestore.instance.collection('home');
+  Stream<List<PostModel>>? getAll(bool isRestrict) {
+    final postsCollection = FirebaseFirestore.instance.collection(
+      isRestrict ? "restrict" : 'home',
+    );
+
     try {
       return postsCollection
           .orderBy('createdAt', descending: true)
@@ -17,14 +19,16 @@ class PostsRepository {
                 return PostModel.fromDocumentSnapshot(doc);
               }).toList()));
     } catch (e) {
-      Exception("Erro ao pegar posts");
-      return null;
+      throw Exception("Erro ao pegar posts");
     }
   }
 
-  changeLikePost(String postId, String type) async {
-    final postDocument =
-        FirebaseFirestore.instance.collection('home').doc(postId);
+  changeLikePost(String postId, String type, bool isRestrict) async {
+    final collection = FirebaseFirestore.instance.collection(
+      isRestrict ? "restrict" : 'home',
+    );
+
+    final postDocument = collection.doc(postId);
     final currentUser = FirebaseAuth.instance.currentUser;
 
     try {
@@ -43,8 +47,9 @@ class PostsRepository {
         });
       }
     } catch (e) {
-      Exception("Erro ao pegar posts");
-      return null;
+      throw Exception(
+        "Erro ao ${type == "like" ? "favoritar" : "desfavoritar"} o video",
+      );
     }
   }
 }
