@@ -14,12 +14,14 @@ class Post extends StatelessWidget {
   final PostModel post;
   final List<PostModel> posts;
   final PostsBloc postBloc;
+  final bool isRestrict;
 
   const Post({
     super.key,
     required this.post,
     required this.posts,
     required this.postBloc,
+    required this.isRestrict,
   });
 
   @override
@@ -39,6 +41,7 @@ class Post extends StatelessWidget {
             MaterialPageRoute(
               builder: (context) => PostPage(
                 post: post,
+                isRestrict: isRestrict ,
               ),
             ),
           );

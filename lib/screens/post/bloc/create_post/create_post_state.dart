@@ -3,10 +3,12 @@ part of 'create_post_bloc.dart';
 abstract class CreatePostState {
   final File? photo;
   bool wasHandled;
+  bool isRestrict;
   List<File> photos;
 
   CreatePostState({
     required this.photo,
+    required this.isRestrict,
     required this.photos,
     required this.wasHandled,
   });
@@ -18,23 +20,26 @@ class CreatePostInitialState extends CreatePostState {
           photo: null,
           wasHandled: false,
           photos: [],
+          isRestrict: false,
         );
 }
 
 class CreatePostLoadingState extends CreatePostState {
-  CreatePostLoadingState()
-      : super(
+  CreatePostLoadingState({
+    required super.photos,
+    required super.isRestrict,
+  }) : super(
           photo: null,
           wasHandled: false,
-          photos: [],
         );
 }
 
 class CreatePostLoadedState extends CreatePostState {
   CreatePostLoadedState({
-    required File super.photo,
     required super.photos,
+    required super.isRestrict,
   }) : super(
+          photo: null,
           wasHandled: false,
         );
 }
@@ -42,6 +47,7 @@ class CreatePostLoadedState extends CreatePostState {
 class CreatePostSubmitedState extends CreatePostState {
   CreatePostSubmitedState({
     required super.photos,
+    required super.isRestrict,
   }) : super(
           wasHandled: false,
           photo: null,
@@ -51,10 +57,12 @@ class CreatePostSubmitedState extends CreatePostState {
 class CreatePostFailureState extends CreatePostState {
   final String exception;
 
-  CreatePostFailureState({required this.exception})
-      : super(
+  CreatePostFailureState({
+    required this.exception,
+    required super.photos,
+    required super.isRestrict,
+  }) : super(
           photo: null,
           wasHandled: false,
-          photos: [],
         );
 }

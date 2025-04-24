@@ -91,9 +91,11 @@ class _HomePageState extends State<HomePage> {
                   itemBuilder: (BuildContext context, int index) {
                     final post = state.data!.posts[index];
                     return Post(
-                        post: post,
-                        postBloc: _postsBloc,
-                        posts: state.data!.posts);
+                      post: post,
+                      postBloc: _postsBloc,
+                      posts: state.data!.posts,
+                      isRestrict: false,
+                    );
                   },
                 ),
               );

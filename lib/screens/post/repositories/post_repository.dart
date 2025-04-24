@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_firebase/models/comment/comment_model.dart';
@@ -39,54 +38,108 @@ class PostRepository {
 
   Future<Stream<List<CommentModel>?>?> getComments(
     String postId,
+    bool isRestrict,
   ) async {
     // FirebaseFirestore.instance.clearPersistence();
 
-    final postDocument =
-        FirebaseFirestore.instance.collection('home').doc(postId);
-    final commentCollection =
-        (await postDocument.get()).reference.collection("comments");
+    try {
+      final collection = FirebaseFirestore.instance.collection(
+        isRestrict ? "restrict" : 'home',
+      );
+      final postDocument = collection.doc(postId);
+      final commentCollection =
+          (await postDocument.get()).reference.collection("comments");
 
-    return commentCollection
-        .orderBy('createdAt', descending: true)
-        .snapshots(
-          includeMetadataChanges: true,
-        )
-        .asyncMap(
-          (snapshot) async => await Future.wait(
-            snapshot.docs.map((doc) async {
-              return CommentModel.fromDocumentSnapshot(doc);
-            }).toList(),
-          ),
-        );
+      return commentCollection
+          .orderBy('createdAt', descending: true)
+          .snapshots(
+            includeMetadataChanges: true,
+          )
+          .asyncMap(
+            (snapshot) async => await Future.wait(
+              snapshot.docs.map((doc) async {
+                return CommentModel.fromDocumentSnapshot(doc);
+              }).toList(),
+            ),
+          );
+    } on FirebaseException catch (e) {
+      String message;
+      if (isRestrict) {
+        switch (e.code) {
+          case 'permission-denied':
+            message = 'Você precisa validar seu email para ter permissão';
+            break;
+          default:
+            message = 'Erro ao criar post: ${e.message}';
+        }
+      } else {
+        switch (e.code) {
+          case 'permission-denied':
+            message = 'Você precisa estar logado';
+            break;
+          default:
+            message = 'Erro ao criar post: ${e.message}';
+        }
+      }
+      throw Exception(message);
+    }
   }
 
-  addComment(String postId, String comment, int index) async {
-    final postDocument =
-        FirebaseFirestore.instance.collection('home').doc(postId);
-    final currentUser = FirebaseAuth.instance.currentUser;
+  addComment(
+    String postId,
+    String comment,
+    int index,
+    bool isRestrict,
+  ) async {
+    try {
+      final collection = FirebaseFirestore.instance.collection(
+        isRestrict ? "restrict" : 'home',
+      );
+      final postDocument = collection.doc(postId);
+      final currentUser = FirebaseAuth.instance.currentUser;
 
-    final commentCollection =
-        (await postDocument.get()).reference.collection("comments");
+      final commentCollection =
+          (await postDocument.get()).reference.collection("comments");
 
-    final createdAt = Timestamp.now();
-    commentCollection.doc("$index-${currentUser!.uid}").set({
-      "content": comment,
-      "author": currentUser.displayName,
-      "authorPhoto": currentUser.photoURL,
-      "createdAt": createdAt,
-    });
+      final createdAt = Timestamp.now();
+      commentCollection.doc("$index-${currentUser!.uid}").set({
+        "content": comment,
+        "author": currentUser.displayName,
+        "authorPhoto": currentUser.photoURL,
+        "createdAt": createdAt,
+      });
 
-    postDocument.update({
-      'comments': FieldValue.increment(1),
-    });
+      postDocument.update({
+        'comments': FieldValue.increment(1),
+      });
 
-    return CommentModel(
-      content: comment,
-      author: currentUser.displayName!,
-      authorPhoto: currentUser.photoURL!,
-      createdAt: createdAt.toDate(),
-    );
+      return CommentModel(
+        content: comment,
+        author: currentUser.displayName!,
+        authorPhoto: currentUser.photoURL!,
+        createdAt: createdAt.toDate(),
+      );
+    } on FirebaseException catch (e) {
+      String message;
+      if (isRestrict) {
+        switch (e.code) {
+          case 'permission-denied':
+            message = 'Você precisa validar seu email para ter permissão';
+            break;
+          default:
+            message = 'Erro ao criar post: ${e.message}';
+        }
+      } else {
+        switch (e.code) {
+          case 'permission-denied':
+            message = 'Você precisa estar logado';
+            break;
+          default:
+            message = 'Erro ao criar post: ${e.message}';
+        }
+      }
+      throw Exception(message);
+    }
   }
 
   createPost(
@@ -94,20 +147,45 @@ class PostRepository {
     String content,
     List<String> photos,
     Timestamp timeNow,
+    bool isRestrict,
   ) async {
-    final postCollection = FirebaseFirestore.instance.collection('home');
-    final currentUser = FirebaseAuth.instance.currentUser;
+    try {
+      final collection = FirebaseFirestore.instance.collection(
+        isRestrict ? "restrict" : 'home',
+      );
+      final currentUser = FirebaseAuth.instance.currentUser;
 
-    await postCollection.add({
-      "title": title,
-      "content": content,
-      "author": currentUser!.displayName,
-      "authorPhoto": currentUser.photoURL,
-      "comments": 0,
-      "likes": 0,
-      "createdAt": timeNow,
-      "updatedAt": timeNow,
-      "photos": photos,
-    });
+      await collection.add({
+        "title": title,
+        "content": content,
+        "author": currentUser!.displayName,
+        "authorPhoto": currentUser.photoURL,
+        "comments": 0,
+        "likes": 0,
+        "createdAt": timeNow,
+        "updatedAt": timeNow,
+        "photos": photos,
+      });
+    } on FirebaseException catch (e) {
+      String message;
+      if (isRestrict) {
+        switch (e.code) {
+          case 'permission-denied':
+            message = 'Você precisa validar seu email para ter permissão';
+            break;
+          default:
+            message = 'Erro ao criar post: ${e.message}';
+        }
+      } else {
+        switch (e.code) {
+          case 'permission-denied':
+            message = 'Você precisa estar logado';
+            break;
+          default:
+            message = 'Erro ao criar post: ${e.message}';
+        }
+      }
+      throw Exception(message);
+    }
   }
 }

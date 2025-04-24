@@ -12,10 +12,12 @@ import 'package:flutter_firebase/colors.dart';
 
 class PostPage extends StatefulWidget {
   final PostModel post;
+  final bool isRestrict;
 
   const PostPage({
     super.key,
     required this.post,
+    required this.isRestrict,
   });
 
   @override
@@ -38,6 +40,7 @@ class _PostPageState extends State<PostPage> {
     _postBloc.postInput.add(GetComments(
       post: widget.post,
       postId: widget.post.id!,
+      isRestrict: widget.isRestrict,
     ));
     super.initState();
   }
@@ -211,18 +214,22 @@ class _PostPageState extends State<PostPage> {
                                     if (!widget.post.liked) {
                                       _postBloc.postInput.add(
                                         LikePost(
-                                            postId: widget.post.id!,
-                                            post: widget.post,
-                                            comments: state.data!.comments),
+                                          postId: widget.post.id!,
+                                          post: widget.post,
+                                          comments: state.data!.comments,
+                                          isRestrict: widget.isRestrict,
+                                        ),
                                       );
                                       widget.post.liked = true;
                                       widget.post.likes += 1;
                                     } else {
                                       _postBloc.postInput.add(
                                         UnLikePost(
-                                            postId: widget.post.id!,
-                                            post: widget.post,
-                                            comments: state.data!.comments),
+                                          postId: widget.post.id!,
+                                          post: widget.post,
+                                          comments: state.data!.comments,
+                                          isRestrict: widget.isRestrict,
+                                        ),
                                       );
                                       widget.post.liked = false;
                                       widget.post.likes -= 1;
@@ -325,6 +332,7 @@ class _PostPageState extends State<PostPage> {
                                           post: widget.post,
                                           comments: state.data!.comments,
                                           index: ammountUserComments,
+                                          isRestrict: widget.isRestrict,
                                         ));
                                         commentsInputController.clear();
                                       },

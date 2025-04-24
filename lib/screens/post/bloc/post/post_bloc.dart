@@ -33,8 +33,11 @@ class PostBloc {
       PostModel? post = await _postRepository.getOne(event.postId);
       _postControllerOutput.add(PostLoadedState(
         post: post,
-        comments:
-            await (await _postRepository.getComments(event.postId))?.first,
+        comments: await (await _postRepository.getComments(
+          event.postId,
+          event.isRestrict,
+        ))
+            ?.first,
       ));
     }
 
@@ -57,6 +60,7 @@ class PostBloc {
         event.postId,
         event.content,
         event.index,
+        event.isRestrict,
       );
       event.comments?.insert(0, model);
       _postControllerOutput.add(PostLoadedState(
@@ -67,7 +71,7 @@ class PostBloc {
 
     if (event is GetComments) {
       Stream<List<CommentModel>?>? commentsStream =
-          await _postRepository.getComments(event.postId);
+          await _postRepository.getComments(event.postId, event.isRestrict);
       List<CommentModel>? comments = await commentsStream?.first;
 
       _postControllerOutput.add(PostLoadedState(

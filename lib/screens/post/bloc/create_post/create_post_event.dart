@@ -1,29 +1,50 @@
 part of 'create_post_bloc.dart';
 
-abstract class CreatePostEvent {}
+abstract class CreatePostEvent {
+  final List<File> photos;
+  final bool isRestrict;
+
+  const CreatePostEvent({
+    required this.isRestrict,
+    required this.photos,
+  });
+}
 
 class AddPhoto extends CreatePostEvent {
   final File photo;
-  final List<File> photos;
 
-  AddPhoto(this.photo, this.photos);
+  AddPhoto({
+    required this.photo,
+    required super.photos,
+    required super.isRestrict,
+  });
+}
+class ChangeSwitch extends CreatePostEvent {
+
+  ChangeSwitch({
+    required super.photos,
+    required super.isRestrict,
+  });
 }
 
 class RemovePhoto extends CreatePostEvent {
   final File photo;
-  final List<File> photos;
 
-  RemovePhoto(this.photo, this.photos);
+  RemovePhoto({
+    required this.photo,
+    required super.photos,
+    required super.isRestrict,
+  });
 }
 
 class CreatePostRequested extends CreatePostEvent {
   final String title;
   final String content;
-  final List<File> photos;
 
   CreatePostRequested({
     required this.title,
     required this.content,
-    required this.photos,
+    required super.photos,
+    required super.isRestrict,
   });
 }

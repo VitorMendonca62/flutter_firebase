@@ -26,23 +26,32 @@ class CreatePostBloc {
   }
 
   void _mapEventToState(CreatePostEvent event) async {
-    late File? photo;
-    _createPostControllerOutput.add(CreatePostLoadingState());
+    _createPostControllerOutput.add(CreatePostLoadingState(
+      photos: event.photos,
+      isRestrict: event.isRestrict,
+    ));
     try {
+      if (event is ChangeSwitch) {
+        _createPostControllerOutput.add(CreatePostLoadedState(
+          isRestrict: event.isRestrict,
+          photos: event.photos,
+        ));
+      }
+
       if (event is AddPhoto) {
-        photo = event.photo;
+        File photo = event.photo;
         event.photos.add(photo);
         _createPostControllerOutput.add(CreatePostLoadedState(
-          photo: photo,
+          isRestrict: event.isRestrict,
           photos: event.photos,
         ));
       }
 
       if (event is RemovePhoto) {
-        photo = event.photo;
+        File photo = event.photo;
         event.photos.remove(photo);
         _createPostControllerOutput.add(CreatePostLoadedState(
-          photo: photo,
+          isRestrict: event.isRestrict,
           photos: event.photos,
         ));
       }
@@ -64,17 +73,21 @@ class CreatePostBloc {
           event.content,
           photosLinks,
           timeNow,
+          event.isRestrict,
         );
         _createPostControllerOutput.add(
           CreatePostSubmitedState(
+            isRestrict: event.isRestrict,
             photos: event.photos,
           ),
         );
       }
     } catch (e) {
-      photo = null;
       _createPostControllerOutput.add(CreatePostFailureState(
-          exception: e.toString().replaceAll("Exception: ", '')));
+        exception: e.toString().replaceAll("Exception: ", ''),
+        isRestrict: event.isRestrict,
+        photos: event.photos,
+      ));
     }
   }
 }

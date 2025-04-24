@@ -1,63 +1,70 @@
 part of 'post_bloc.dart';
 
-abstract class PostEvent {}
+abstract class PostEvent {
+  final String postId;
+  final bool isRestrict;
+
+  const PostEvent({
+    required this.postId,
+    required this.isRestrict,
+  });
+}
 
 class GetPost extends PostEvent {
-  final String postId;
-
-  GetPost({
-    required this.postId,
+  const GetPost({
+    required super.postId,
+    required super.isRestrict,
   });
 }
 
 class LikePost extends PostEvent {
-  final String postId;
   final String type = 'like';
   final PostModel? post;
   final List<CommentModel>? comments;
 
-  LikePost({
-    required this.postId,
-    required this.post,
-    required this.comments,
+  const LikePost({
+    required super.postId,
+    this.post,
+    this.comments,
+    required super.isRestrict,
   });
 }
 
 class UnLikePost extends PostEvent {
-  final String postId;
   final String type = 'unlike';
   final PostModel? post;
   final List<CommentModel>? comments;
 
-  UnLikePost({
-    required this.postId,
-    required this.post,
-    required this.comments,
+  const UnLikePost({
+    required super.postId,
+    this.post,
+    this.comments,
+    required super.isRestrict,
   });
 }
 
 class CommentPost extends PostEvent {
-  final String postId;
   final String content;
   final PostModel? post;
   final List<CommentModel>? comments;
   final int index;
 
-  CommentPost({
-    required this.postId,
+  const CommentPost({
+    required super.postId,
     required this.content,
-    required this.post,
-    required this.comments,
+    this.post,
+    this.comments,
     required this.index,
+    required super.isRestrict,
   });
 }
 
 class GetComments extends PostEvent {
-  final String postId;
   final PostModel? post;
 
-  GetComments({
-    required this.postId,
-    required this.post,
+  const GetComments({
+    required super.postId,
+    this.post,
+    required super.isRestrict,
   });
 }

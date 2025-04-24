@@ -34,7 +34,10 @@ class _CreatePostPageState extends State<CreatePostPage> {
   }
 
   Future<void> pickImage(
-      ImageSource source, List<File> photos, BuildContext context) async {
+    ImageSource source,
+    List<File> photos,
+    bool isRestrict,
+  ) async {
     try {
       final XFile? pickedFile = await picker.pickImage(
         source: source,
@@ -45,10 +48,11 @@ class _CreatePostPageState extends State<CreatePostPage> {
       if (pickedFile != null) {
         createPostBloc.createPostInput.add(
           AddPhoto(
-            File(
+            photo: File(
               pickedFile.path,
             ),
-            photos,
+            photos: photos,
+            isRestrict: isRestrict,
           ),
         );
       }
@@ -59,6 +63,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
   void showImageSourceActionSheet(
     List<File> photos,
     BuildContext parentContext,
+    bool isRestrict,
   ) {
     showModalBottomSheet(
       context: parentContext,
@@ -75,7 +80,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
                 title: const Text('Galeria'),
                 onTap: () {
                   Navigator.pop(context);
-                  pickImage(ImageSource.gallery, photos, parentContext);
+                  pickImage(ImageSource.gallery, photos, isRestrict);
                 },
               ),
               ListTile(
@@ -83,7 +88,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
                 title: const Text('Câmera'),
                 onTap: () {
                   Navigator.pop(context);
-                  pickImage(ImageSource.camera, photos, parentContext);
+                  pickImage(ImageSource.camera, photos, isRestrict);
                 },
               ),
             ],
@@ -201,12 +206,57 @@ class _CreatePostPageState extends State<CreatePostPage> {
                           minLines: 5,
                           maxLines: 5,
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: 12),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            const Text(
+                              "É restrito?",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            Switch(
+                              value: state.data!.isRestrict,
+                              trackColor:
+                                  WidgetStateProperty.resolveWith<Color?>(
+                                (Set<WidgetState> states) {
+                                  if (states.contains(WidgetState.selected)) {
+                                    return CapybaColors.capybaGreen;
+                                  }
+                                  return CapybaColors.white;
+                                },
+                              ),
+                              overlayColor:
+                                  WidgetStateProperty.resolveWith<Color?>(
+                                (Set<WidgetState> states) {
+                                  if (states.contains(WidgetState.disabled)) {
+                                    return CapybaColors.white;
+                                  }
+                                  return null;
+                                },
+                              ),
+                              onChanged: (bool value) {
+                                createPostBloc.createPostInput.add(
+                                  ChangeSwitch(
+                                    photos: state.data!.photos,
+                                    isRestrict: value,
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 12),
                         ImageInput(
                           labelText: "Imagens anexadas",
                           handleOnTap: () => showImageSourceActionSheet(
                             state.data!.photos,
                             context,
+                            state.data!.isRestrict,
                           ),
                         ),
                         const SizedBox(height: 8),
@@ -265,6 +315,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
                                   content: contentInputController.text,
                                   title: titleInputController.text,
                                   photos: state.data!.photos,
+                                  isRestrict: state.data!.isRestrict,
                                 ),
                               );
                               _formKey.currentState!.reset();
