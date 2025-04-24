@@ -77,150 +77,155 @@ class _LoginPageState extends State<LoginPage> {
 
                 return Padding(
                   padding: const EdgeInsets.all(16),
-                  child: Form(
-                    child: Column(
-                      children: [
-                        Form(
-                          key: _formKey,
-                          child: Column(
-                            children: [
-                              FormInput(
-                                controller: emailController,
-                                hintText: 'vitorqueiroz325@gmail.com',
-                                keyboardType: TextInputType.emailAddress,
-                                validator: emailValidation,
-                                obscureText: false,
-                                labelText: 'Email',
-                                minLines: 1,
-                                maxLines: 1,
-                              ),
-                              const SizedBox(height: 12),
-                              FormInput(
-                                controller: passwordController,
-                                hintText: '******',
-                                keyboardType: TextInputType.text,
-                                validator: passwordValidation,
-                                obscureText: true,
-                                labelText: 'Senha',
-                                minLines: 1,
-                                maxLines: 1,
-                              ),
-                              const SizedBox(
-                                height: 4,
-                              ),
-                              const Align(
-                                alignment: Alignment.centerRight,
-                                child: Text(
-                                  "Esqueceu sua senha?",
-                                  style: TextStyle(fontSize: 14),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-                        FormButton(
-                          label: "Entrar",
-                          handleSubmit: () => _authBloc.authInput.add(
-                            LoginRequested(
-                              email: emailController.text,
-                              password: passwordController.text,
+                  child: Column(
+                    children: [
+                      Form(
+                        key: _formKey,
+                        child: Column(
+                          children: [
+                            FormInput(
+                              controller: emailController,
+                              hintText: 'vitorqueiroz325@gmail.com',
+                              keyboardType: TextInputType.emailAddress,
+                              validator: emailValidation,
+                              obscureText: false,
+                              labelText: 'Email',
+                              minLines: 1,
+                              maxLines: 1,
                             ),
-                          ),
-                          formKey: _formKey,
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).pushNamed(
-                              Routes.signup,
-                            );
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text("Não possui uma conta? "),
-                              Text(
-                                "Cadastre-se",
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: CapybaColors.capybaDarkGreen,
+                            const SizedBox(height: 12),
+                            FormInput(
+                              controller: passwordController,
+                              hintText: '******',
+                              keyboardType: TextInputType.text,
+                              validator: passwordValidation,
+                              obscureText: true,
+                              labelText: 'Senha',
+                              minLines: 1,
+                              maxLines: 1,
+                            ),
+                            // const SizedBox(
+                            //   height: 4,
+                            // ),
+                            // const Align(
+                            //   alignment: Alignment.centerRight,
+                            //   child: Text(
+                            //     "Esqueceu sua senha?",
+                            //     style: TextStyle(fontSize: 14),
+                            //   ),
+                            // ),
+                            const SizedBox(height: 20),
+                            FormButton(
+                              label: "Entrar",
+                              handleSubmit: () => _authBloc.authInput.add(
+                                LoginRequested(
+                                  email: emailController.text,
+                                  password: passwordController.text,
                                 ),
                               ),
-                            ],
-                          ),
+                              formKey: _formKey,
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                          ],
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Divider(
-                                  thickness: 1,
-                                  color: Colors.grey[300],
-                                ),
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 8.0),
-                                child: Text(
-                                  'Ou entre com',
-                                  style: TextStyle(color: Colors.grey),
-                                ),
-                              ),
-                              Expanded(
-                                child: Divider(
-                                  thickness: 1,
-                                  color: Colors.grey[300],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: CapybaColors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              side: BorderSide(
-                                color: CapybaColors.gray2,
-                                width: 0.5,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pushNamed(
+                            Routes.signup,
+                          );
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text("Não possui uma conta? "),
+                            Text(
+                              "Cadastre-se",
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: CapybaColors.capybaDarkGreen,
                               ),
                             ),
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 12),
-                            elevation: 0, // Remove box shadow
-                          ),
-                          onPressed: () {
-                            _authBloc.authInput.add(
-                              LoginWithGoogleRequested(),
-                            );
-                          },
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              ShaderMask(
-                                shaderCallback: (Rect bounds) {
-                                  return CapybaColors.greenGradient.createShader(bounds);
-                                },
-                                child: const FaIcon(
-                                  FontAwesomeIcons.google,
-                                  color: Colors.white,
-                                  size: 18,
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Divider(
+                                thickness: 1,
+                                color: Colors.grey[300],
+                              ),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 8.0),
+                              child: Text(
+                                'Ou entre com',
+                                style: TextStyle(
+                                  color: Colors.grey,
                                 ),
                               ),
-                              const SizedBox(width: 8),
-                              Text(
-                                "Google",
-                                style: TextStyle(
-                                    color: CapybaColors.gray1, fontSize: 16),
+                            ),
+                            Expanded(
+                              child: Divider(
+                                thickness: 1,
+                                color: Colors.grey[300],
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: CapybaColors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            side: BorderSide(
+                              color: CapybaColors.gray2,
+                              width: 0.5,
+                            ),
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 12,
+                          ),
+                          elevation: 0,
+                        ),
+                        onPressed: () {
+                          _authBloc.authInput.add(
+                            LoginWithGoogleRequested(),
+                          );
+                        },
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            ShaderMask(
+                              shaderCallback: (Rect bounds) {
+                                return CapybaColors.greenGradient
+                                    .createShader(bounds);
+                              },
+                              child: const FaIcon(
+                                FontAwesomeIcons.google,
+                                color: Colors.white,
+                                size: 18,
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            Text(
+                              "Google",
+                              style: TextStyle(
+                                color: CapybaColors.gray1,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 );
               },
