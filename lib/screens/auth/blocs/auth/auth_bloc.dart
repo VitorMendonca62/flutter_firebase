@@ -22,7 +22,9 @@ class AuthBloc {
 
   void _mapEventToState(AuthEvent event) async {
     try {
-      _authControllerOutput.add(AuthLoadingState());
+      if (event is! LoginWithGoogleRequested) {
+        _authControllerOutput.add(AuthLoadingState());
+      }
 
       if (event is LoginRequested) {
         await _authRepository.login(event.email, event.password);
@@ -40,7 +42,7 @@ class AuthBloc {
         );
       }
 
-      _authControllerOutput.add(AuthLoadedState());
+      _authControllerOutput.add(AuthSubmitedState());
     } catch (e) {
       _authControllerOutput.add(AuthFailureState(
           exception: e.toString().replaceAll("Exception: ", '')));

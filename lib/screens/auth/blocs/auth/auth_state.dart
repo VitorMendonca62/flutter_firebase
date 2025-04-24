@@ -14,8 +14,8 @@ class AuthLoadingState extends AuthState {
   AuthLoadingState() : super(wasHandled: false);
 }
 
-class AuthLoadedState extends AuthState {
-  AuthLoadedState() : super(wasHandled: false);
+class AuthSubmitedState extends AuthState {
+  AuthSubmitedState() : super(wasHandled: false);
 }
 
 class AuthFailureState extends AuthState {

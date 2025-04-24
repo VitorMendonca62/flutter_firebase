@@ -65,7 +65,8 @@ class _RegisterPageState extends State<RegisterPage> {
                   state.data!.wasHandled = true;
                 }
 
-                if (state.data is AuthLoadedState && !state.data!.wasHandled) {
+                if (state.data is AuthSubmitedState &&
+                    !state.data!.wasHandled) {
                   WidgetsBinding.instance.addPostFrameCallback((_) {
                     SnackBarNotification.success(
                       'Registro realizado com sucesso',

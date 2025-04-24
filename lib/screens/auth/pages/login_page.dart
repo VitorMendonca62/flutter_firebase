@@ -64,7 +64,8 @@ class _LoginPageState extends State<LoginPage> {
                   state.data!.wasHandled = true;
                 }
 
-                if (state.data is AuthLoadedState && !state.data!.wasHandled) {
+                if (state.data is AuthSubmitedState &&
+                    !state.data!.wasHandled) {
                   WidgetsBinding.instance.addPostFrameCallback((_) {
                     SnackBarNotification.success(
                       'Login realizado com sucesso',
