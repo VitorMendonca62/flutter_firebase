@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase/colors.dart';
 import 'package:flutter_firebase/screens/post/pages/create_post_page.dart';
 import 'package:flutter_firebase/screens/home/pages/subpages/home_page.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -19,12 +20,19 @@ class _ContainerPageState extends State<ContainerPage> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          title: const Text("LOGO AQUI"),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
           centerTitle: true,
-          backgroundColor: Colors.white,
+          title: SizedBox(
+            width: 150,
+            child: Image.asset(
+              "assets/images/logo_capyba.png",
+            ),
+          ),
           flexibleSpace: Container(
-            decoration: const BoxDecoration(
-              border: Border(
+            decoration: BoxDecoration(
+              gradient: CapybaColors.greenGradient,
+              border: const Border(
                 bottom: BorderSide(
                   color: Colors.green,
                   width: 1.0,
@@ -73,7 +81,10 @@ class _ContainerPageState extends State<ContainerPage> {
         ),
         body: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 12),
-            child: [const HomePage(), const CreatePostPage()][currentPageIndex]),
+            child: [
+              const HomePage(),
+              const CreatePostPage()
+            ][currentPageIndex]),
       ),
     );
   }
