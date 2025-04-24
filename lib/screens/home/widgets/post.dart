@@ -1,11 +1,13 @@
 import 'package:flutter_firebase/models/post/post_model.dart';
+// ignore: unused_import
 import 'package:flutter_firebase/screens/galery_page.dart';
 import 'package:flutter_firebase/screens/home/blocs/posts/posts_bloc.dart';
 import 'package:flutter_firebase/screens/post/pages/post_page.dart';
-import 'package:timeago/timeago.dart' as timeago;
+import 'package:flutter_firebase/utils/photo.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/colors.dart';
+import 'package:flutter_firebase/utils/post.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Post extends StatelessWidget {
@@ -19,50 +21,6 @@ class Post extends StatelessWidget {
     required this.posts,
     required this.postBloc,
   });
-
-  String getRelativeTime(DateTime date) {
-    timeago.setLocaleMessages('pt_BR', timeago.PtBrMessages());
-    return timeago.format(date, locale: 'pt_BR');
-  }
-
-  attachedImage(String source, BuildContext context) {
-    return Image.network(
-      source,
-      width: MediaQuery.of(context).size.width * 0.2,
-      height: 50,
-      fit: BoxFit.fill,
-    );
-  }
-
-  void showImageModal(BuildContext context, int initialValue) {
-    showDialog(
-      context: context,
-      barrierDismissible: true,
-      barrierColor: CapybaColors.black.withOpacity(0.1),
-      builder: (context) {
-        return GestureDetector(
-          onTap: () => Navigator.of(context).pop(),
-          child: Scaffold(
-            backgroundColor: CapybaColors.black.withOpacity(0.8),
-            body: Center(
-              child: GestureDetector(
-                onTap: () {},
-                child: SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    height: MediaQuery.of(context).size.height * 0.4,
-                    child: GalleryPage(
-                      initialIndex: initialValue,
-                      images: post.photos.map((link) {
-                        return NetworkImage(link);
-                      }).toList(),
-                    )),
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -176,8 +134,11 @@ class Post extends StatelessWidget {
                                     return Row(
                                       children: [
                                         GestureDetector(
-                                          onTap: () =>
-                                              showImageModal(context, index),
+                                          onTap: () => showImageModal(
+                                            context,
+                                            index,
+                                            post.photos,
+                                          ),
                                           child: attachedImage(photo, context),
                                         ),
                                         const SizedBox(
@@ -191,7 +152,11 @@ class Post extends StatelessWidget {
                             : Row(
                                 children: [
                                   GestureDetector(
-                                    onTap: () => showImageModal(context, 0),
+                                    onTap: () => showImageModal(
+                                      context,
+                                      0,
+                                      post.photos,
+                                    ),
                                     child: attachedImage(
                                         post.photos.first, context),
                                   ),
@@ -202,7 +167,11 @@ class Post extends StatelessWidget {
                               ),
                         post.photos.length > 2
                             ? GestureDetector(
-                                onTap: () => showImageModal(context, 2),
+                                onTap: () => showImageModal(
+                                  context,
+                                  2,
+                                  post.photos,
+                                ),
                                 child: Stack(
                                   children: [
                                     attachedImage(post.photos[2], context),
