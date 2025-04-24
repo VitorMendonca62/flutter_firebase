@@ -93,7 +93,7 @@ class _LoginPageState extends State<LoginPage> {
                               minLines: 1,
                               maxLines: 1,
                             ),
-                            const SizedBox(height: 12),
+                            const SizedBox(height: 16),
                             FormInput(
                               controller: passwordController,
                               hintText: '******',
@@ -126,7 +126,7 @@ class _LoginPageState extends State<LoginPage> {
                               formKey: _formKey,
                             ),
                             const SizedBox(
-                              height: 20,
+                              height: 16,
                             ),
                           ],
                         ),
