@@ -4,6 +4,7 @@ import 'package:flutter_firebase/screens/galery_page.dart';
 import 'package:flutter_firebase/screens/post/bloc/post/post_bloc.dart';
 import 'package:flutter_firebase/screens/post/widgets/card_comment.dart';
 import 'package:flutter_firebase/screens/post/widgets/comments_input.dart';
+import 'package:flutter_firebase/utils/photo.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -54,15 +55,6 @@ class _PostPageState extends State<PostPage> {
   String getRelativeTime(DateTime date) {
     timeago.setLocaleMessages('pt_BR', timeago.PtBrMessages());
     return timeago.format(date, locale: 'pt_BR');
-  }
-
-  attachedImage(String source, BuildContext context) {
-    return Image.network(
-      source,
-      width: MediaQuery.of(context).size.width * 0.7,
-      height: 50,
-      fit: BoxFit.fill,
-    );
   }
 
   int calcTimeForRead() {
@@ -186,6 +178,7 @@ class _PostPageState extends State<PostPage> {
                           child: attachedImage(
                             widget.post.photos[index],
                             context,
+                            MediaQuery.of(context).size.width * 0.7,
                           ),
                         );
                       },

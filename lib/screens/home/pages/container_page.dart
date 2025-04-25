@@ -100,7 +100,7 @@ class _ContainerPageState extends State<ContainerPage> {
                   onPressed: () {
                     Navigator.of(context).pushNamed(Routes.createPost);
                   },
-                  backgroundColor: CapybaColors.capybaDarkGreen,
+                  backgroundColor: CapybaColors.capybaGreen,
                   child: Icon(
                     Icons.add,
                     color: CapybaColors.white,

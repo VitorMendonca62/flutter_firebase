@@ -41,7 +41,7 @@ class Post extends StatelessWidget {
             MaterialPageRoute(
               builder: (context) => PostPage(
                 post: post,
-                isRestrict: isRestrict ,
+                isRestrict: isRestrict,
               ),
             ),
           );
@@ -142,7 +142,12 @@ class Post extends StatelessWidget {
                                             index,
                                             post.photos,
                                           ),
-                                          child: attachedImage(photo, context),
+                                          child: attachedImage(
+                                            photo,
+                                            context,
+                                            MediaQuery.of(context).size.width *
+                                                0.2,
+                                          ),
                                         ),
                                         const SizedBox(
                                           width: 12,
@@ -161,7 +166,10 @@ class Post extends StatelessWidget {
                                       post.photos,
                                     ),
                                     child: attachedImage(
-                                        post.photos.first, context),
+                                      post.photos.first,
+                                      context,
+                                      MediaQuery.of(context).size.width * 0.2,
+                                    ),
                                   ),
                                   const SizedBox(
                                     width: 12,
@@ -177,7 +185,11 @@ class Post extends StatelessWidget {
                                 ),
                                 child: Stack(
                                   children: [
-                                    attachedImage(post.photos[2], context),
+                                    attachedImage(
+                                      post.photos[2],
+                                      context,
+                                      MediaQuery.of(context).size.width * 0.2,
+                                    ),
                                     Container(
                                       width: MediaQuery.of(context).size.width *
                                           0.2,

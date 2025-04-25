@@ -99,11 +99,11 @@ void showImageModal(
   );
 }
 
-attachedImage(String source, BuildContext context) {
+attachedImage(String source, BuildContext context, double width,) {
   return Image.network(
     source,
-    width: MediaQuery.of(context).size.width * 0.2,
+    width: width,
     height: 50,
-    fit: BoxFit.fill,
+    fit: BoxFit.cover,
   );
 }
