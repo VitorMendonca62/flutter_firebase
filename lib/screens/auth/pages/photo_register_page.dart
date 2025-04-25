@@ -156,7 +156,11 @@ class _PhotoRegisterPageState extends State<PhotoRegisterPage> {
                                     : null;
                               },
                               formKey: _formKey,
-                              label: "Enviar",
+                              labelIsWidget: state.data is PhotoLoadingState,
+                              labelWidget: CircularProgressIndicator(
+                                color: CapybaColors.white,
+                              ),
+                              labelString: "Enviar",
                             ),
                             Visibility(
                               visible: widget.canBack,
@@ -167,7 +171,8 @@ class _PhotoRegisterPageState extends State<PhotoRegisterPage> {
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: CapybaColors.white,
                                       shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(12),
+                                          borderRadius:
+                                              BorderRadius.circular(12),
                                           side: BorderSide(
                                             color: CapybaColors.capybaGreen,
                                             width: 0.5,

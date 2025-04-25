@@ -47,15 +47,6 @@ class _LoginPageState extends State<LoginPage> {
               stream: _authBloc.authOutput,
               initialData: AuthInitialState(),
               builder: (context, state) {
-                if (state.data is AuthLoadingState) {
-                  return const Padding(
-                    padding: EdgeInsets.all(16),
-                    child: Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  );
-                }
-
                 if (state.data is AuthFailureState && !state.data!.wasHandled) {
                   SnackBarNotification.error(
                     (state.data as AuthFailureState).exception,
@@ -67,11 +58,11 @@ class _LoginPageState extends State<LoginPage> {
                 if (state.data is AuthSubmitedState &&
                     !state.data!.wasHandled) {
                   WidgetsBinding.instance.addPostFrameCallback((_) {
-                    SnackBarNotification.success(
-                      'Login realizado com sucesso',
-                      context,
-                    );
-                    Navigator.of(context).pushNamed(Routes.home);
+                    // SnackBarNotification.success(
+                    //   'Login realizado com sucesso',
+                    //   context,
+                    // );
+                    // Navigator.of(context).pushNamed(Routes.home);
                     state.data!.wasHandled = true;
                   });
                 }
@@ -117,7 +108,11 @@ class _LoginPageState extends State<LoginPage> {
                             // ),
                             const SizedBox(height: 20),
                             FormButton(
-                              label: "Entrar",
+                              labelIsWidget: state.data is AuthLoadingState,
+                              labelString: "Entrar",
+                              labelWidget: CircularProgressIndicator(
+                                color: CapybaColors.white,
+                              ),
                               handleSubmit: () => _authBloc.authInput.add(
                                 LoginRequested(
                                   email: emailController.text,

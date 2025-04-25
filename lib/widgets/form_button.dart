@@ -4,13 +4,17 @@ import 'package:flutter_firebase/colors.dart';
 class FormButton extends StatelessWidget {
   final void Function() handleSubmit;
   final GlobalKey<FormState> formKey;
-  final String label;
+  final bool labelIsWidget;
+  final String? labelString;
+  final Widget? labelWidget;
 
   const FormButton({
     super.key,
     required this.handleSubmit,
     required this.formKey,
-    required this.label,
+    required this.labelIsWidget,
+    this.labelString,
+    this.labelWidget,
   });
 
   @override
@@ -25,21 +29,23 @@ class FormButton extends StatelessWidget {
       ),
       onPressed: () {
         FocusScope.of(context).unfocus();
-    
+
         if (!formKey.currentState!.validate()) {
           return;
         }
-    
+
         handleSubmit();
       },
-      child: Text(
-        label,
-        style: TextStyle(
-          color: CapybaColors.white,
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
+      child: labelIsWidget
+          ? labelWidget
+          : Text(
+              labelString!,
+              style: TextStyle(
+                color: CapybaColors.white,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
     );
   }
 }

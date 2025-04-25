@@ -49,14 +49,6 @@ class _RegisterPageState extends State<RegisterPage> {
               stream: _authBloc.authOutput,
               initialData: AuthInitialState(),
               builder: (context, state) {
-                if (state is AuthLoadingState) {
-                  return const Padding(
-                    padding: EdgeInsets.all(16),
-                    child: Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  );
-                }
                 if (state.data is AuthFailureState && !state.data!.wasHandled) {
                   SnackBarNotification.error(
                     (state.data as AuthFailureState).exception,
@@ -139,7 +131,11 @@ class _RegisterPageState extends State<RegisterPage> {
                             ),
                             const SizedBox(height: 24),
                             FormButton(
-                              label: "Registrar",
+                              labelIsWidget: state.data is AuthLoadingState,
+                              labelWidget: CircularProgressIndicator(
+                                color: CapybaColors.white,
+                              ),
+                              labelString: "Registrar",
                               handleSubmit: () => _authBloc.authInput.add(
                                 RegisterRequested(
                                   email: emailController.text,

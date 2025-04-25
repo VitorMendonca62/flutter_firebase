@@ -98,15 +98,6 @@ class _CreatePostPageState extends State<CreatePostPage> {
     );
   }
 
-  attachedImage(File source, BuildContext context) {
-    return Image.file(
-      source,
-      width: MediaQuery.of(context).size.width * 0.3,
-      height: 50,
-      fit: BoxFit.fill,
-    );
-  }
-
   showImageModal(BuildContext context, int initialValue, List<File> photos) {
     showDialog(
       context: context,
