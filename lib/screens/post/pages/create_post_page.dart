@@ -5,6 +5,7 @@ import 'package:flutter_firebase/colors.dart';
 import 'package:flutter_firebase/routes.dart';
 import 'package:flutter_firebase/screens/galery_page.dart';
 import 'package:flutter_firebase/screens/post/bloc/create_post/create_post_bloc.dart';
+import 'package:flutter_firebase/utils/photo.dart';
 import 'package:flutter_firebase/widgets/form_input.dart';
 import 'package:flutter_firebase/widgets/image_input.dart';
 import 'package:flutter_firebase/widgets/snackbar.dart';
@@ -31,102 +32,6 @@ class _CreatePostPageState extends State<CreatePostPage> {
   void initState() {
     createPostBloc = CreatePostBloc();
     super.initState();
-  }
-
-  Future<void> pickImage(
-    ImageSource source,
-    List<File> photos,
-    bool isRestrict,
-  ) async {
-    try {
-      final XFile? pickedFile = await picker.pickImage(
-        source: source,
-        maxWidth: 1800,
-        maxHeight: 1800,
-      );
-
-      if (pickedFile != null) {
-        createPostBloc.createPostInput.add(
-          AddPhoto(
-            photo: File(
-              pickedFile.path,
-            ),
-            photos: photos,
-            isRestrict: isRestrict,
-          ),
-        );
-      }
-      // ignore: empty_catches
-    } catch (e) {}
-  }
-
-  void showImageSourceActionSheet(
-    List<File> photos,
-    BuildContext parentContext,
-    bool isRestrict,
-  ) {
-    showModalBottomSheet(
-      context: parentContext,
-      builder: (BuildContext context) {
-        return SafeArea(
-          child: Wrap(
-            children: [
-              ListTile(
-                shape: const RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.vertical(top: Radius.circular(28.0)),
-                ),
-                leading: const Icon(Icons.photo_library),
-                title: const Text('Galeria'),
-                onTap: () {
-                  Navigator.pop(context);
-                  pickImage(ImageSource.gallery, photos, isRestrict);
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.photo_camera),
-                title: const Text('Câmera'),
-                onTap: () {
-                  Navigator.pop(context);
-                  pickImage(ImageSource.camera, photos, isRestrict);
-                },
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  showImageModal(BuildContext context, int initialValue, List<File> photos) {
-    showDialog(
-      context: context,
-      barrierDismissible: true,
-      barrierColor: CapybaColors.black.withOpacity(0.1),
-      builder: (context) {
-        return GestureDetector(
-          onTap: () => Navigator.of(context).pop(),
-          child: Scaffold(
-            backgroundColor: CapybaColors.black.withOpacity(0.8),
-            body: Center(
-              child: GestureDetector(
-                onTap: () {},
-                child: SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    height: MediaQuery.of(context).size.height * 0.4,
-                    child: GalleryPage(
-                      initialIndex: initialValue,
-                      images: photos.map((file) {
-                        final bytes = file.readAsBytesSync();
-                        return MemoryImage(bytes);
-                      }).toList(),
-                    )),
-              ),
-            ),
-          ),
-        );
-      },
-    );
   }
 
   @override
@@ -245,9 +150,16 @@ class _CreatePostPageState extends State<CreatePostPage> {
                         ImageInput(
                           labelText: "Imagens anexadas",
                           handleOnTap: () => showImageSourceActionSheet(
-                            state.data!.photos,
                             context,
-                            state.data!.isRestrict,
+                            (path) => createPostBloc.createPostInput.add(
+                              AddPhoto(
+                                photo: File(
+                                  path,
+                                ),
+                                photos: state.data!.photos,
+                                isRestrict: state.data!.isRestrict,
+                              ),
+                            ),
                           ),
                         ),
                         const SizedBox(height: 8),
@@ -270,11 +182,14 @@ class _CreatePostPageState extends State<CreatePostPage> {
                                       context,
                                       index,
                                       state.data!.photos,
+                                      "file"
                                     );
                                   },
                                   child: attachedImage(
                                     state.data!.photos[index],
+                                    "file",
                                     context,
+                                    MediaQuery.of(context).size.width * 0.3,
                                   ),
                                 );
                               },

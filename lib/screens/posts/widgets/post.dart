@@ -141,9 +141,11 @@ class Post extends StatelessWidget {
                                             context,
                                             index,
                                             post.photos,
+                                            "network",
                                           ),
                                           child: attachedImage(
                                             photo,
+                                            "network",
                                             context,
                                             MediaQuery.of(context).size.width *
                                                 0.2,
@@ -164,9 +166,11 @@ class Post extends StatelessWidget {
                                       context,
                                       0,
                                       post.photos,
+                                      "network",
                                     ),
                                     child: attachedImage(
                                       post.photos.first,
+                                      "network",
                                       context,
                                       MediaQuery.of(context).size.width * 0.2,
                                     ),
@@ -182,11 +186,13 @@ class Post extends StatelessWidget {
                                   context,
                                   2,
                                   post.photos,
+                                  "network",
                                 ),
                                 child: Stack(
                                   children: [
                                     attachedImage(
                                       post.photos[2],
+                                      "network",
                                       context,
                                       MediaQuery.of(context).size.width * 0.2,
                                     ),

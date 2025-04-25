@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/colors.dart';
 import 'package:flutter_firebase/screens/galery_page.dart';
@@ -68,7 +70,11 @@ void showImageSourceActionSheet(
 }
 
 void showImageModal(
-    BuildContext context, int initialValue, List<dynamic> photos) {
+  BuildContext context,
+  int initialValue,
+  List<dynamic> photos,
+  String type,
+) {
   showDialog(
     context: context,
     barrierDismissible: true,
@@ -86,7 +92,12 @@ void showImageModal(
                 height: MediaQuery.of(context).size.height * 0.4,
                 child: GalleryPage(
                   initialIndex: initialValue,
-                  images: photos.map((source) {
+                  images: photos.map<ImageProvider<Object>>((source) {
+                    if (type == "file" && source is File) {
+                      final bytes = source.readAsBytesSync();
+                      return MemoryImage(bytes);
+                    }
+                  
                     return NetworkImage(source);
                   }).toList(),
                 ),
@@ -99,11 +110,27 @@ void showImageModal(
   );
 }
 
-attachedImage(String source, BuildContext context, double width,) {
-  return Image.network(
-    source,
-    width: width,
-    height: 50,
-    fit: BoxFit.cover,
-  );
+attachedImage(
+  dynamic source,
+  String type,
+  BuildContext context,
+  double width,
+) {
+  if (type == "network") {
+    return Image.network(
+      source,
+      width: width,
+      height: 50,
+      fit: BoxFit.cover,
+    );
+  }
+
+  if (type == "file") {
+    return Image.file(
+      source,
+      width: width,
+      height: 50,
+      fit: BoxFit.cover,
+    );
+  }
 }

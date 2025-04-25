@@ -177,6 +177,7 @@ class _PostPageState extends State<PostPage> {
                           },
                           child: attachedImage(
                             widget.post.photos[index],
+                            "network",
                             context,
                             MediaQuery.of(context).size.width * 0.7,
                           ),
