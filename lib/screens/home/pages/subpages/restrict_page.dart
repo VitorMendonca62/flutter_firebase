@@ -1,27 +1,29 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter_firebase/routes.dart';
 import 'package:flutter_firebase/screens/home/blocs/posts/posts_bloc.dart';
 import 'package:flutter_firebase/screens/home/widgets/post.dart';
 import 'package:flutter_firebase/screens/home/widgets/post_nothing_data.dart';
 import 'package:flutter_firebase/widgets/snackbar.dart';
 import 'package:shimmer/shimmer.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({
+class RestrictPage extends StatefulWidget {
+  const RestrictPage({
     super.key,
   });
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<RestrictPage> createState() => _RestrictPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _RestrictPageState extends State<RestrictPage> {
   late final PostsBloc _postsBloc;
 
   @override
   void initState() {
     _postsBloc = PostsBloc();
-    _postsBloc.postsInput.add(const GetPosts());
+    _postsBloc.postsInput.add(const GetPosts(isRestrict: true));
     super.initState();
   }
 
@@ -34,13 +36,13 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return RefreshIndicator(
       onRefresh: () async {
-        _postsBloc.postsInput.add(const GetPosts());
+        _postsBloc.postsInput.add(const GetPosts(isRestrict: true));
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            "Postagens",
+            "Restritos",
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 24,
@@ -74,10 +76,16 @@ class _HomePageState extends State<HomePage> {
               }
 
               if (state.data is PostsFailureState && !state.data!.wasHandled) {
-                SnackBarNotification.error(
-                  (state.data as PostsFailureState).exception,
-                  context,
-                );
+                SchedulerBinding.instance.addPostFrameCallback((_) {
+                  SnackBarNotification.error(
+                    (state.data as PostsFailureState).exception,
+                    context,
+                  );
+                  if ((state.data as PostsFailureState).exception ==
+                      "Você precisa validar seu email para ter permissão") {
+                    Navigator.of(context).pushReplacementNamed(Routes.home);
+                  }
+                });
                 state.data!.wasHandled = true;
                 return const Padding(
                   padding: EdgeInsets.all(16),
@@ -101,7 +109,7 @@ class _HomePageState extends State<HomePage> {
                       post: post,
                       postBloc: _postsBloc,
                       posts: state.data!.posts,
-                      isRestrict: false,
+                      isRestrict: true,
                     );
                   },
                 ),

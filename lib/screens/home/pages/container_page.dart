@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/colors.dart';
+import 'package:flutter_firebase/routes.dart';
+import 'package:flutter_firebase/screens/home/pages/subpages/restrict_page.dart';
 import 'package:flutter_firebase/screens/post/pages/create_post_page.dart';
 import 'package:flutter_firebase/screens/home/pages/subpages/home_page.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -81,11 +83,30 @@ class _ContainerPageState extends State<ContainerPage> {
           ),
         ),
         body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 12),
-            child: [
-              const HomePage(),
-              const CreatePostPage()
-            ][currentPageIndex]),
+          padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 12),
+          child: Stack(
+            children: [
+              [
+                const HomePage(),
+                const RestrictPage(),
+              ][currentPageIndex],
+              Positioned(
+                right: 0,
+                bottom: 0,
+                child: FloatingActionButton(
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(Routes.createPost);
+                  },
+                  backgroundColor: CapybaColors.capybaDarkGreen,
+                  child: Icon(
+                    Icons.add,
+                    color: CapybaColors.white,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

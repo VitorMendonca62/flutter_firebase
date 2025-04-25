@@ -15,24 +15,48 @@ class PostRepository {
         : null;
   }
 
-  changeLikePost(String postId, String type) async {
-    final postDocument =
-        FirebaseFirestore.instance.collection('home').doc(postId);
-    final currentUser = FirebaseAuth.instance.currentUser;
+  changeLikePost(String postId, String type, bool isRestrict) async {
+    try {
+      final collection = FirebaseFirestore.instance.collection(
+        isRestrict ? "restrict" : 'home',
+      );
+      final postDocument = collection.doc(postId);
+      final currentUser = FirebaseAuth.instance.currentUser;
 
-    final likeCollection =
-        (await postDocument.get()).reference.collection("likes");
+      final likeCollection =
+          (await postDocument.get()).reference.collection("likes");
 
-    if (type == "like") {
-      likeCollection.doc(currentUser!.uid).set({});
-      postDocument.update({
-        'likes': FieldValue.increment(1),
-      });
-    } else {
-      likeCollection.doc(currentUser!.uid).delete();
-      postDocument.update({
-        'likes': FieldValue.increment(-1),
-      });
+      if (type == "like") {
+        likeCollection.doc(currentUser!.uid).set({});
+        postDocument.update({
+          'likes': FieldValue.increment(1),
+        });
+      } else {
+        likeCollection.doc(currentUser!.uid).delete();
+        postDocument.update({
+          'likes': FieldValue.increment(-1),
+        });
+      }
+    } on FirebaseException catch (e) {
+      String message;
+      if (isRestrict) {
+        switch (e.code) {
+          case 'permission-denied':
+            message = 'Você precisa validar seu email para ter permissão';
+            break;
+          default:
+            message = 'Erro ao criar post: ${e.message}';
+        }
+      } else {
+        switch (e.code) {
+          case 'permission-denied':
+            message = 'Você precisa estar logado';
+            break;
+          default:
+            message = 'Erro ao criar post: ${e.message}';
+        }
+      }
+      throw Exception(message);
     }
   }
 

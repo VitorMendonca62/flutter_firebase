@@ -10,13 +10,6 @@ abstract class PostEvent {
   });
 }
 
-class GetPost extends PostEvent {
-  const GetPost({
-    required super.postId,
-    required super.isRestrict,
-  });
-}
-
 class LikePost extends PostEvent {
   final String type = 'like';
   final PostModel? post;
