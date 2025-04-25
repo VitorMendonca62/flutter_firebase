@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/colors.dart';
 import 'package:flutter_firebase/routes.dart';
-import 'package:flutter_firebase/utils/post.dart';
 
 class DrawerWidget extends StatelessWidget {
   const DrawerWidget({super.key});
@@ -47,7 +46,7 @@ class DrawerWidget extends StatelessWidget {
                         style: TextStyle(
                           color: CapybaColors.white,
                           fontSize: 24,
-                          fontWeight: FontWeight.w700,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
@@ -63,19 +62,63 @@ class DrawerWidget extends StatelessWidget {
                 ],
               ),
             ),
+            const SizedBox(height: 20),
             Column(
               children: [
-                Row(
-                  children: [
-                    Icon(Icons.mail, color: CapybaColors.white, size: 36,),
-                    Text("Validar e-mail"),
-                  ],
+                InkWell(
+                  splashColor: CapybaColors.capybaDarkGreen,
+                  borderRadius: BorderRadius.circular(12),
+                  onTap: () {},
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.mail,
+                          color: CapybaColors.white,
+                          size: 36,
+                        ),
+                        const SizedBox(width: 12),
+                        Text(
+                          "Validar e-mail",
+                          style: TextStyle(
+                            color: CapybaColors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 24,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-                Row(
-                  children: [
-                    Icon(Icons.logout),
-                    Text("Sair"),
-                  ],
+                InkWell(
+                  splashColor: CapybaColors.capybaDarkGreen,
+                  borderRadius: BorderRadius.circular(12),
+                  onTap: () {
+                    Navigator.of(context).pushNamed(Routes.login);
+                    FirebaseAuth.instance.signOut();
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.logout,
+                          color: CapybaColors.white,
+                          size: 36,
+                        ),
+                        const SizedBox(width: 12),
+                        Text(
+                          "Sair",
+                          style: TextStyle(
+                            color: CapybaColors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 24,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 )
               ],
             )

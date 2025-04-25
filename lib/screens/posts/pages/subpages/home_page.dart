@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/screens/posts/blocs/posts/posts_bloc.dart';
 import 'package:flutter_firebase/screens/posts/widgets/post.dart';
@@ -108,13 +107,6 @@ class _HomePageState extends State<HomePage> {
               );
             },
           ),
-          GestureDetector(
-            onTap: () {
-              FirebaseAuth.instance.signOut();
-              Navigator.of(context).pushReplacementNamed('/login');
-            },
-            child: Text('Siar'),
-          )
         ],
       ),
     );

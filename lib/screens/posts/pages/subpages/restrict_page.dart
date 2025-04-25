@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_firebase/routes.dart';
@@ -111,13 +110,6 @@ class _RestrictPageState extends State<RestrictPage> {
               );
             },
           ),
-          GestureDetector(
-            onTap: () {
-              FirebaseAuth.instance.signOut();
-              Navigator.of(context).pushReplacementNamed('/login');
-            },
-            child: Text('Siar'),
-          )
         ],
       ),
     );

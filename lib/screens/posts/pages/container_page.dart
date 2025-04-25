@@ -86,7 +86,7 @@ class _ContainerPageState extends State<ContainerPage> {
             ],
           ),
         ),
-        drawer: DrawerWidget() ,
+        drawer: const DrawerWidget() ,
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 12),
           child: Stack(
