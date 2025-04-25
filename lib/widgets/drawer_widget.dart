@@ -68,7 +68,9 @@ class DrawerWidget extends StatelessWidget {
                 InkWell(
                   splashColor: CapybaColors.capybaDarkGreen,
                   borderRadius: BorderRadius.circular(12),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.of(context).pushNamed(Routes.validateEmail);
+                  },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
