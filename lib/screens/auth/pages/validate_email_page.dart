@@ -28,7 +28,10 @@ class _ValidateEmailPageState extends State<ValidateEmailPage> {
   Widget build(BuildContext context) {
     if (FirebaseAuth.instance.currentUser!.emailVerified) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        SnackBarNotification.warning("Seu e-mail já foi confirmado anteriormente. Você já pode usar todos os recursos do aplicativo normalmente.", context);
+        SnackBarNotification.warning(
+          "Seu e-mail já foi confirmado anteriormente. Você já pode usar todos os recursos do aplicativo normalmente.",
+          context,
+        );
         Navigator.of(context).pushNamed(Routes.home);
       });
     }

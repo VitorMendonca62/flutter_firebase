@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/colors.dart';
 import 'package:flutter_firebase/routes.dart';
@@ -102,48 +103,51 @@ class _CreatePostPageState extends State<CreatePostPage> {
                           maxLines: 5,
                         ),
                         const SizedBox(height: 12),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            const Text(
-                              "É restrito?",
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
+                        Visibility(
+                          visible: FirebaseAuth.instance.currentUser!.emailVerified,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              const Text(
+                                "É restrito?",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
-                            ),
-                            const SizedBox(width: 12),
-                            Switch(
-                              value: state.data!.isRestrict,
-                              trackColor:
-                                  WidgetStateProperty.resolveWith<Color?>(
-                                (Set<WidgetState> states) {
-                                  if (states.contains(WidgetState.selected)) {
-                                    return CapybaColors.capybaGreen;
-                                  }
-                                  return CapybaColors.white;
-                                },
-                              ),
-                              overlayColor:
-                                  WidgetStateProperty.resolveWith<Color?>(
-                                (Set<WidgetState> states) {
-                                  if (states.contains(WidgetState.disabled)) {
+                              const SizedBox(width: 12),
+                              Switch(
+                                value: state.data!.isRestrict,
+                                trackColor:
+                                    WidgetStateProperty.resolveWith<Color?>(
+                                  (Set<WidgetState> states) {
+                                    if (states.contains(WidgetState.selected)) {
+                                      return CapybaColors.capybaGreen;
+                                    }
                                     return CapybaColors.white;
-                                  }
-                                  return null;
+                                  },
+                                ),
+                                overlayColor:
+                                    WidgetStateProperty.resolveWith<Color?>(
+                                  (Set<WidgetState> states) {
+                                    if (states.contains(WidgetState.disabled)) {
+                                      return CapybaColors.white;
+                                    }
+                                    return null;
+                                  },
+                                ),
+                                onChanged: (bool value) {
+                                  createPostBloc.createPostInput.add(
+                                    ChangeSwitch(
+                                      photos: state.data!.photos,
+                                      isRestrict: value,
+                                    ),
+                                  );
                                 },
                               ),
-                              onChanged: (bool value) {
-                                createPostBloc.createPostInput.add(
-                                  ChangeSwitch(
-                                    photos: state.data!.photos,
-                                    isRestrict: value,
-                                  ),
-                                );
-                              },
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                         const SizedBox(height: 12),
                         ImageInput(
