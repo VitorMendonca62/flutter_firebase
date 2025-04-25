@@ -21,4 +21,14 @@ class CapybaColors {
     ],
     stops: [0.0, 0.5, 1.0],
   );
+  static LinearGradient greenInvertGradient = const LinearGradient(
+    end: Alignment.centerLeft,
+    begin: Alignment.centerRight,
+    colors: [
+      Color(0xFF7DFA6F),
+      Color(0xFF00C85E),
+      Color(0xFF00E963),
+    ],
+    stops: [0.0, 0.5, 1.0],
+  );
 }

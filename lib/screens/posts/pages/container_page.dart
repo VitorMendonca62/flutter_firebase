@@ -24,6 +24,10 @@ class _ContainerPageState extends State<ContainerPage> {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
+          iconTheme: IconThemeData(
+            size: 28,
+            color: CapybaColors.white,
+          ),
           centerTitle: true,
           title: SizedBox(
             width: 150,
@@ -34,7 +38,7 @@ class _ContainerPageState extends State<ContainerPage> {
           ),
           flexibleSpace: Container(
             decoration: BoxDecoration(
-              gradient: CapybaColors.greenGradient,
+              gradient: CapybaColors.greenInvertGradient,
               border: const Border(
                 bottom: BorderSide(
                   color: Colors.green,
@@ -86,7 +90,7 @@ class _ContainerPageState extends State<ContainerPage> {
             ],
           ),
         ),
-        drawer: const DrawerWidget() ,
+        drawer: const DrawerWidget(),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 12),
           child: Stack(
