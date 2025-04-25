@@ -8,7 +8,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_firebase/routes.dart';
 import 'package:flutter_firebase/screens/auth/pages/login_page.dart';
 import 'package:flutter_firebase/screens/auth/pages/photo_register_page.dart';
-import 'package:flutter_firebase/screens/home/pages/container_page.dart';
+import 'package:flutter_firebase/screens/posts/pages/container_page.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'firebase_options.dart';

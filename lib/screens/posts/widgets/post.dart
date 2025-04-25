@@ -1,7 +1,7 @@
 import 'package:flutter_firebase/models/post/post_model.dart';
 // ignore: unused_import
 import 'package:flutter_firebase/screens/galery_page.dart';
-import 'package:flutter_firebase/screens/home/blocs/posts/posts_bloc.dart';
+import 'package:flutter_firebase/screens/posts/blocs/posts/posts_bloc.dart';
 import 'package:flutter_firebase/screens/post/pages/post_page.dart';
 import 'package:flutter_firebase/utils/photo.dart';
 
@@ -64,7 +64,7 @@ class Post extends StatelessWidget {
                         borderRadius: BorderRadius.circular(30),
                         image: DecorationImage(
                           image: NetworkImage(
-                            post.authorPhoto.split(',').last,
+                            post.authorPhoto,
                           ),
                           fit: BoxFit.cover,
                         ),

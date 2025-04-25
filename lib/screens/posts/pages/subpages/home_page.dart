@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_firebase/screens/home/blocs/posts/posts_bloc.dart';
-import 'package:flutter_firebase/screens/home/widgets/post.dart';
-import 'package:flutter_firebase/screens/home/widgets/post_nothing_data.dart';
+import 'package:flutter_firebase/screens/posts/blocs/posts/posts_bloc.dart';
+import 'package:flutter_firebase/screens/posts/widgets/post.dart';
+import 'package:flutter_firebase/screens/posts/widgets/post_nothing_data.dart';
 import 'package:flutter_firebase/widgets/snackbar.dart';
 import 'package:shimmer/shimmer.dart';
 

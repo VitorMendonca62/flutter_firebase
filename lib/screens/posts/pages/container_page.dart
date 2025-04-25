@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/colors.dart';
 import 'package:flutter_firebase/routes.dart';
-import 'package:flutter_firebase/screens/home/pages/subpages/restrict_page.dart';
-import 'package:flutter_firebase/screens/home/pages/subpages/home_page.dart';
+import 'package:flutter_firebase/screens/posts/pages/subpages/restrict_page.dart';
+import 'package:flutter_firebase/screens/posts/pages/subpages/home_page.dart';
+import 'package:flutter_firebase/widgets/drawer_widget.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ContainerPage extends StatefulWidget {
@@ -85,6 +86,7 @@ class _ContainerPageState extends State<ContainerPage> {
             ],
           ),
         ),
+        drawer: DrawerWidget() ,
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 12),
           child: Stack(

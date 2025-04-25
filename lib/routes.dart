@@ -3,7 +3,7 @@ import 'package:flutter_firebase/guards/photo_guard.dart';
 import 'package:flutter_firebase/screens/auth/pages/login_page.dart';
 import 'package:flutter_firebase/screens/auth/pages/photo_register_page.dart';
 import 'package:flutter_firebase/screens/auth/pages/register_page.dart';
-import 'package:flutter_firebase/screens/home/pages/container_page.dart';
+import 'package:flutter_firebase/screens/posts/pages/container_page.dart';
 import 'package:flutter_firebase/screens/post/pages/create_post_page.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 
@@ -13,6 +13,7 @@ class Routes {
   static String photoRegister = '/photoRegister';
   static String home = '/home';
   static String createPost = '/createPost';
+  static String profile = '/profile';
 
   static final routes = [
     GetPage(
