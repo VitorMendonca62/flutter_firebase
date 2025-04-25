@@ -71,11 +71,15 @@ class _ContainerPageState extends State<ContainerPage> {
                 ),
               ),
               NavigationDestination(
-                label: "Criar",
-                icon: FaIcon(FontAwesomeIcons.plus),
+                label: "Restrito",
+                icon: FaIcon(
+                  FontAwesomeIcons.lock,
+                  size: 20,
+                ),
                 selectedIcon: FaIcon(
-                  FontAwesomeIcons.plus,
+                  FontAwesomeIcons.lock,
                   color: Colors.white,
+                  size: 20,
                 ),
               ),
             ],
