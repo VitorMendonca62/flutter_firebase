@@ -58,11 +58,11 @@ class _LoginPageState extends State<LoginPage> {
                 if (state.data is AuthSubmitedState &&
                     !state.data!.wasHandled) {
                   WidgetsBinding.instance.addPostFrameCallback((_) {
-                    // SnackBarNotification.success(
-                    //   'Login realizado com sucesso',
-                    //   context,
-                    // );
-                    // Navigator.of(context).pushNamed(Routes.home);
+                    SnackBarNotification.success(
+                      'Login realizado com sucesso',
+                      context,
+                    );
+                    Navigator.of(context).pushNamed(Routes.home);
                     state.data!.wasHandled = true;
                   });
                 }

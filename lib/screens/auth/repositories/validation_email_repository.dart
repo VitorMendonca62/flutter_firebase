@@ -8,7 +8,6 @@ class ValidationEmailRepository {
       final User user = _auth.currentUser!;
 
       if (!user.emailVerified) {
-        print("FOI"); 
         await user.sendEmailVerification();
         return;
       }

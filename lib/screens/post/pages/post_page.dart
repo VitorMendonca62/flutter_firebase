@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_firebase/models/post/post_model.dart';
-import 'package:flutter_firebase/screens/galery_page.dart';
 import 'package:flutter_firebase/screens/post/bloc/post/post_bloc.dart';
 import 'package:flutter_firebase/screens/post/widgets/card_comment.dart';
 import 'package:flutter_firebase/screens/post/widgets/comments_input.dart';
@@ -137,8 +136,12 @@ class _PostPageState extends State<PostPage> {
                       itemBuilder: (context, index) {
                         return GestureDetector(
                           onTap: () {
-                            showImageModal(context, index,
-                                widget.post.photos[index], "network,");
+                            showImageModal(
+                              context,
+                              index,
+                              widget.post.photos[index],
+                              "network,",
+                            );
                           },
                           child: attachedImage(
                             widget.post.photos[index],

@@ -1,9 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/colors.dart';
-import 'package:flutter_firebase/constants.dart';
 import 'package:flutter_firebase/routes.dart';
 import 'package:flutter_firebase/screens/auth/blocs/validation_email/validation_email_bloc.dart';
-import 'package:flutter_firebase/widgets/form_input.dart';
 import 'package:flutter_firebase/widgets/snackbar.dart';
 
 class ValidateEmailPage extends StatefulWidget {
@@ -27,6 +26,13 @@ class _ValidateEmailPageState extends State<ValidateEmailPage> {
 
   @override
   Widget build(BuildContext context) {
+    if (FirebaseAuth.instance.currentUser!.emailVerified) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        SnackBarNotification.warning("Seu e-mail já foi confirmado anteriormente. Você já pode usar todos os recursos do aplicativo normalmente.", context);
+        Navigator.of(context).pushNamed(Routes.home);
+      });
+    }
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: CapybaColors.white,
@@ -46,23 +52,12 @@ class _ValidateEmailPageState extends State<ValidateEmailPage> {
                     ),
                   ),
                   Text(
-                    "Por favor, insira seu email para receber o link de validação",
-                    textAlign: TextAlign.center,
+                    "Enviaremos um e-mail com um link de verificação para você. Para continuar, abra sua caixa de entrada, clique no link de confirmação e volte ao app. Assim que confirmar, seu acesso será liberado automaticamente.Caso não encontre, verifique também a pasta de spam ou lixo eletrônico.",
+                    textAlign: TextAlign.left,
                     style: TextStyle(
                       fontSize: 16,
                       color: CapybaColors.gray2,
                     ),
-                  ),
-                  const SizedBox(height: 16),
-                  FormInput(
-                    controller: emailInputController,
-                    hintText: "exemplo@exemplo.com",
-                    labelText: "Email",
-                    keyboardType: TextInputType.emailAddress,
-                    validator: emailValidation,
-                    obscureText: false,
-                    minLines: 1,
-                    maxLines: 1,
                   ),
                   const SizedBox(height: 12),
                   Padding(
