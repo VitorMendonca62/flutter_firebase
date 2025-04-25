@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/colors.dart';
 import 'package:flutter_firebase/routes.dart';
-import 'package:flutter_firebase/screens/galery_page.dart';
 import 'package:flutter_firebase/screens/post/bloc/create_post/create_post_bloc.dart';
 import 'package:flutter_firebase/utils/photo.dart';
 import 'package:flutter_firebase/widgets/form_input.dart';

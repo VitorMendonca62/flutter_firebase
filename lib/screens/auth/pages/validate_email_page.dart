@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_firebase/colors.dart';
 import 'package:flutter_firebase/constants.dart';
 import 'package:flutter_firebase/routes.dart';
+import 'package:flutter_firebase/screens/auth/blocs/validation_email/validation_email_bloc.dart';
 import 'package:flutter_firebase/widgets/form_input.dart';
 import 'package:flutter_firebase/widgets/snackbar.dart';
 
@@ -15,6 +16,14 @@ class ValidateEmailPage extends StatefulWidget {
 class _ValidateEmailPageState extends State<ValidateEmailPage> {
   final TextEditingController emailInputController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+
+  late final ValidationEmailBloc validationEmailBloc;
+
+  @override
+  void initState() {
+    validationEmailBloc = ValidationEmailBloc();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +84,9 @@ class _ValidateEmailPageState extends State<ValidateEmailPage> {
                           return;
                         }
 
-                        // Show success message and navigate
+                        validationEmailBloc.validationEmailInput.add(
+                          ValidationEmailRequestedEvent(),
+                        );
                         SnackBarNotification.success(
                           'Email enviado!',
                           context,

@@ -46,12 +46,6 @@ class _PostPageState extends State<PostPage> {
     super.initState();
   }
 
-  @override
-  void dispose() {
-    _postBloc.postOutput.drain();
-    super.dispose();
-  }
-
   String getRelativeTime(DateTime date) {
     timeago.setLocaleMessages('pt_BR', timeago.PtBrMessages());
     return timeago.format(date, locale: 'pt_BR');
@@ -62,36 +56,6 @@ class _PostPageState extends State<PostPage> {
     final List<String> words = widget.post.content.split(' ');
 
     return (words.length / wordsPerMinute).ceil();
-  }
-
-  showImageModal(BuildContext context, int initialValue) {
-    showDialog(
-      context: context,
-      barrierDismissible: true,
-      barrierColor: CapybaColors.black.withOpacity(0.1),
-      builder: (context) {
-        return GestureDetector(
-          onTap: () => Navigator.of(context).pop(),
-          child: Scaffold(
-            backgroundColor: CapybaColors.black.withOpacity(0.8),
-            body: Center(
-              child: GestureDetector(
-                onTap: () {},
-                child: SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    height: MediaQuery.of(context).size.height * 0.4,
-                    child: GalleryPage(
-                      initialIndex: initialValue,
-                      images: widget.post.photos.map((link) {
-                        return NetworkImage(link);
-                      }).toList(),
-                    )),
-              ),
-            ),
-          ),
-        );
-      },
-    );
   }
 
   @override
@@ -173,7 +137,8 @@ class _PostPageState extends State<PostPage> {
                       itemBuilder: (context, index) {
                         return GestureDetector(
                           onTap: () {
-                            showImageModal(context, index);
+                            showImageModal(context, index,
+                                widget.post.photos[index], "network,");
                           },
                           child: attachedImage(
                             widget.post.photos[index],
