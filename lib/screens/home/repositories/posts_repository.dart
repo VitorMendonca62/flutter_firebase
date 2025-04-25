@@ -4,15 +4,10 @@ import 'package:flutter_firebase/models/post/post_model.dart';
 
 class PostsRepository {
   Stream<List<PostModel>>? getAll(bool isRestrict) {
-    print('kkkkk');
-    print(isRestrict);
     try {
-      print("kkkk1");
       final postsCollection = FirebaseFirestore.instance.collection(
         isRestrict ? "restrict" : 'home',
       );
-
-      print("kkkk2");
 
       return postsCollection
           .orderBy('createdAt', descending: true)

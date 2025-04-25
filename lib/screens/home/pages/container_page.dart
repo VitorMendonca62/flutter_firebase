@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_firebase/colors.dart';
 import 'package:flutter_firebase/routes.dart';
 import 'package:flutter_firebase/screens/home/pages/subpages/restrict_page.dart';
-import 'package:flutter_firebase/screens/post/pages/create_post_page.dart';
 import 'package:flutter_firebase/screens/home/pages/subpages/home_page.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -45,17 +44,17 @@ class _ContainerPageState extends State<ContainerPage> {
           ),
         ),
         bottomNavigationBar: Container(
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             border: Border(
               top: BorderSide(
-                color: Colors.green,
+                color: CapybaColors.capybaDarkGreen,
                 width: 1.0,
               ),
             ),
           ),
           child: NavigationBar(
             backgroundColor: Colors.white,
-            indicatorColor: Colors.green.shade500,
+            indicatorColor: CapybaColors.capybaGreen,
             onDestinationSelected: (int index) {
               setState(() {
                 currentPageIndex = index;

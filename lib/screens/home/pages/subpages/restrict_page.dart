@@ -87,12 +87,7 @@ class _RestrictPageState extends State<RestrictPage> {
                   }
                 });
                 state.data!.wasHandled = true;
-                return const Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Center(
-                    child: Text("Erro ao carregar postagens"),
-                  ),
-                );
+                return const SizedBox();
               }
 
               return Expanded(
