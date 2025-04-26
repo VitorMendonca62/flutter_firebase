@@ -31,10 +31,9 @@ class _ContainerPageState extends State<ContainerPage> {
           centerTitle: true,
           title: SizedBox(
             width: 150,
-            child: Text(
-                "LOGO AQUI"), /* Image.asset(
+            child: Image.asset(
               "assets/images/logo_capyba.png",
-            ), */
+            ),
           ),
           flexibleSpace: Container(
             decoration: BoxDecoration(

@@ -69,8 +69,8 @@ class Routes {
       name: profile,
       page: () => const ProfilePage(),
       middlewares: [
-        // AuthGuard(),
-        // PhotoGuard(),
+        AuthGuard(),
+        PhotoGuard(),
       ],
     ),
   ];

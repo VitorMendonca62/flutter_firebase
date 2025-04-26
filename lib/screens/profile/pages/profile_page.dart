@@ -9,7 +9,6 @@ import 'package:flutter_firebase/screens/profile/bloc/update_user/update_user_bl
 import 'package:flutter_firebase/utils/photo.dart';
 import 'package:flutter_firebase/widgets/form_button.dart';
 import 'package:flutter_firebase/widgets/form_input.dart';
-import 'package:flutter_firebase/widgets/image_input.dart';
 import 'package:flutter_firebase/widgets/snackbar.dart';
 import 'package:image_picker/image_picker.dart';
 
