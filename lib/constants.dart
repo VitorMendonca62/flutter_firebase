@@ -24,6 +24,19 @@ String? passwordValidation(String? value) {
   return null;
 }
 
+String? nameValidation(String? value) {
+  if (value == null || value.isEmpty) {
+    return 'Digite um nome';
+  }
+
+  final nameRegex = RegExp(r'^[a-zA-Z\s]+$');
+  if (!nameRegex.hasMatch(value)) {
+    return 'O nome deve conter apenas letras';
+  }
+
+  return null;
+}
+
 String? confirmPasswordValidation(String? password, String? confirmPassword) {
   final String? passwordValidationValue = passwordValidation(confirmPassword);
   if (passwordValidationValue != null) {
@@ -38,7 +51,9 @@ String? confirmPasswordValidation(String? password, String? confirmPassword) {
 }
 
 const String validEmail = "vitorqueiroz325@gmail.com";
+const String validName = "Vitor Mendonca";
 const String validPassword = "123456";
 
 const String invalidEmail = "invalid.email.com";
 const String invalidPassword = "12345";
+const String invalidName = "Vitor@Mendonca";

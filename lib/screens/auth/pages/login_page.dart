@@ -201,6 +201,7 @@ class _LoginPageState extends State<LoginPage> {
                                   color: CapybaColors.gray2,
                                 ),
                               ),
+                              const SizedBox(height: 16),
                               Wrap(
                                 spacing: 12.0,
                                 runSpacing: 4.0,
