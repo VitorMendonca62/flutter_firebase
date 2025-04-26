@@ -9,17 +9,31 @@ Future<void> pickImage(
   ImageSource source,
   BuildContext context,
   void Function(String path) handlePicked,
+  bool multiImages,
 ) async {
   final ImagePicker picker = ImagePicker();
 
   try {
-    final XFile? pickedFile = await picker.pickImage(
-      source: source,
-      maxWidth: 1800,
-      maxHeight: 1800,
-    );
-    if (pickedFile != null) {
-      handlePicked(pickedFile.path);
+    late final dynamic pickedFile;
+    if (multiImages) {
+      pickedFile = await picker.pickMultiImage(
+        maxWidth: 1800,
+        maxHeight: 1800,
+      );
+      for (var image in pickedFile) {
+        if (image != null) {
+          handlePicked(image.path);
+        }
+      }
+    } else {
+      pickedFile = await picker.pickImage(
+        source: source,
+        maxWidth: 1800,
+        maxHeight: 1800,
+      );
+      if (pickedFile != null) {
+        handlePicked(pickedFile.path);
+      }
     }
     // ignore: empty_catches
   } catch (e) {}
@@ -29,6 +43,7 @@ void showImageSourceActionSheet(
   BuildContext parentContext,
   bool canDelete,
   void Function(String path) handlePicked,
+  bool multiImages,
 ) {
   showModalBottomSheet(
     context: parentContext,
@@ -48,6 +63,7 @@ void showImageSourceActionSheet(
                   ImageSource.gallery,
                   context,
                   handlePicked,
+                  multiImages,
                 );
               },
             ),
@@ -60,6 +76,7 @@ void showImageSourceActionSheet(
                   ImageSource.gallery,
                   context,
                   handlePicked,
+                  multiImages,
                 );
               },
             ),

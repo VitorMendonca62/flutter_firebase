@@ -207,6 +207,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
                                 isRestrict: data.isRestrict,
                               ),
                             ),
+                            true,
                           ),
                         ),
                         Visibility(

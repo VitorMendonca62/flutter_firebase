@@ -104,12 +104,12 @@ class _ProfilePageState extends State<ProfilePage> {
                             const SizedBox(height: 16),
                             GestureDetector(
                               onTap: () => showImageSourceActionSheet(
-                                context,
-                                state.data?.imageFile != null,
-                                state.data?.imageFile != null
-                                    ? deletePhoto
-                                    : updatePhoto,
-                              ),
+                                  context,
+                                  state.data?.imageFile != null,
+                                  state.data?.imageFile != null
+                                      ? deletePhoto
+                                      : updatePhoto,
+                                  false),
                               child: Container(
                                 width: 200,
                                 height: 200,

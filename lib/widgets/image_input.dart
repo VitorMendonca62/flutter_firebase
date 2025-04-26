@@ -54,7 +54,7 @@ class _ImageInputState extends State<ImageInput> {
               ),
               const SizedBox(width: 8),
               Text(
-                "Escolha uma imagem para anexar",
+                "Escolha imagens para anexar",
                 style: TextStyle(
                   color: CapybaColors.black,
                 ),

@@ -128,12 +128,12 @@ class _PhotoRegisterPageState extends State<PhotoRegisterPage> {
                             const SizedBox(height: 40),
                             GestureDetector(
                               onTap: () => showImageSourceActionSheet(
-                                context,
-                                data.imageFile != null,
-                                data.imageFile != null
-                                    ? deletePhoto
-                                    : updatePhoto,
-                              ),
+                                  context,
+                                  data.imageFile != null,
+                                  data.imageFile != null
+                                      ? deletePhoto
+                                      : updatePhoto,
+                                  false),
                               child: Container(
                                   width: 200,
                                   height: 200,
