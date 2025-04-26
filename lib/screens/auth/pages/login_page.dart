@@ -84,6 +84,7 @@ class _LoginPageState extends State<LoginPage> {
                               labelText: 'Email',
                               minLines: 1,
                               maxLines: 1,
+                              isDisabled: false,
                             ),
                             const SizedBox(height: 16),
                             FormInput(
@@ -95,6 +96,7 @@ class _LoginPageState extends State<LoginPage> {
                               labelText: 'Senha',
                               minLines: 1,
                               maxLines: 1,
+                              isDisabled: false,
                             ),
                             // const SizedBox(
                             //   height: 4,

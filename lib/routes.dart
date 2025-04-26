@@ -6,6 +6,7 @@ import 'package:flutter_firebase/screens/auth/pages/register_page.dart';
 import 'package:flutter_firebase/screens/auth/pages/validate_email_page.dart';
 import 'package:flutter_firebase/screens/posts/pages/container_page.dart';
 import 'package:flutter_firebase/screens/post/pages/create_post_page.dart';
+import 'package:flutter_firebase/screens/profile/pages/profile_page.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 
 class Routes {
@@ -62,6 +63,14 @@ class Routes {
       middlewares: [
         AuthGuard(),
         PhotoGuard(),
+      ],
+    ),
+    GetPage(
+      name: profile,
+      page: () => const ProfilePage(),
+      middlewares: [
+        // AuthGuard(),
+        // PhotoGuard(),
       ],
     ),
   ];

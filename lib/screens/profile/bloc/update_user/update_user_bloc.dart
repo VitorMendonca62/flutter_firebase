@@ -25,16 +25,28 @@ class UpdateUserBloc {
   }
 
   void _mapEventToState(UpdateUserEvent event) async {
-    _updateUserControllerOutput.add(UpdateUserLoadingState());
+    _updateUserControllerOutput.add(UpdateUserLoadingState(
+      imageFile: event.photo,
+    ));
     try {
+      if (event is PhotoUpdate) {
+        _updateUserControllerOutput.add(UpdateUserLoadedState(
+          imageFile: event.photo,
+        ));
+      }
+
       if (event is UpdateUseRequestedEvent) {
-        final String photoUrl =
-            await _photoRepository.uploadPhotoInImgur(event.photo);
+        String? photoUrl;
+        if (event.photo != null) {
+          photoUrl = await _photoRepository.uploadPhotoInImgur(event.photo!);
+        }
         _userRepository.updateUser(
           event.displayName,
           photoUrl,
         );
-        _updateUserControllerOutput.add(UpdateUserSubmitedState());
+        _updateUserControllerOutput.add(UpdateUserSubmittedState(
+          imageFile: event.photo,
+        ));
       }
     } catch (e) {
       _updateUserControllerOutput.add(UpdateUserFailureState(

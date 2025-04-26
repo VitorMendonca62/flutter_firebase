@@ -25,7 +25,9 @@ class DrawerWidget extends StatelessWidget {
           children: [
             GestureDetector(
               onTap: () async {
-                Navigator.of(context).pushNamed(Routes.profile);
+                Navigator.of(context).pushNamed(
+                  Routes.profile,
+                );
               },
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,

@@ -10,6 +10,7 @@ class FormInput extends StatelessWidget {
   final bool obscureText;
   final int minLines;
   final int maxLines;
+  final bool isDisabled;
 
   const FormInput({
     super.key,
@@ -21,6 +22,7 @@ class FormInput extends StatelessWidget {
     required this.obscureText,
     required this.minLines,
     required this.maxLines,
+    required this.isDisabled,
   });
 
   @override
@@ -44,10 +46,18 @@ class FormInput extends StatelessWidget {
           cursorColor: CapybaColors.black,
           style: const TextStyle(fontSize: 20),
           obscureText: obscureText,
+          enabled: !isDisabled,
           minLines: minLines,
           maxLines: maxLines,
           decoration: InputDecoration(
             border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(13),
+              borderSide: BorderSide(
+                color: CapybaColors.capybaGreen,
+                width: 2.0,
+              ),
+            ),
+            disabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(13),
               borderSide: BorderSide(
                 color: CapybaColors.capybaGreen,
@@ -83,7 +93,7 @@ class FormInput extends StatelessWidget {
               fontWeight: FontWeight.normal,
             ),
             filled: true,
-            fillColor: CapybaColors.white,
+            fillColor: isDisabled ? CapybaColors.gray300 : CapybaColors.white,
           ),
           validator: validator,
         ),

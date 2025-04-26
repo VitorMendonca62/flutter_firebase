@@ -1,18 +1,22 @@
 part of 'update_user_bloc.dart';
 
 abstract class UpdateUserEvent {
-  final String displayName;
-  final File photo;
+  final File? photo;
 
   const UpdateUserEvent(
-    this.displayName,
     this.photo,
   );
 }
 
 class UpdateUseRequestedEvent extends UpdateUserEvent {
-  const UpdateUseRequestedEvent(
-    super.displayName,
-    super.photo,
-  );
+  final String displayName;
+
+  const UpdateUseRequestedEvent({
+    required this.displayName,
+    required File? photo,
+  }) : super(photo);
+}
+
+class PhotoUpdate extends UpdateUserEvent {
+  PhotoUpdate({required File? photo}) : super(photo);
 }

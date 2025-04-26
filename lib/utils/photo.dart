@@ -27,6 +27,7 @@ Future<void> pickImage(
 
 void showImageSourceActionSheet(
   BuildContext parentContext,
+  bool canDelete,
   void Function(String path) handlePicked,
 ) {
   showModalBottomSheet(
@@ -61,6 +62,17 @@ void showImageSourceActionSheet(
                   handlePicked,
                 );
               },
+            ),
+            Visibility(
+              visible: canDelete,
+              child: ListTile(
+                leading: const Icon(Icons.delete),
+                title: const Text('Deletar'),
+                onTap: () {
+                  Navigator.pop(context);
+                  handlePicked("");
+                },
+              ),
             ),
           ],
         ),
@@ -97,7 +109,7 @@ void showImageModal(
                       final bytes = source.readAsBytesSync();
                       return MemoryImage(bytes);
                     }
-                  
+
                     return NetworkImage(source);
                   }).toList(),
                 ),

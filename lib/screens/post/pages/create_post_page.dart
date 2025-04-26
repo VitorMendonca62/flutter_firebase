@@ -85,6 +85,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
                           obscureText: false,
                           minLines: 1,
                           maxLines: 1,
+                          isDisabled: false,
                         ),
                         const SizedBox(height: 12),
                         FormInput(
@@ -101,10 +102,12 @@ class _CreatePostPageState extends State<CreatePostPage> {
                           obscureText: false,
                           minLines: 5,
                           maxLines: 5,
+                          isDisabled: false,
                         ),
                         const SizedBox(height: 12),
                         Visibility(
-                          visible: FirebaseAuth.instance.currentUser!.emailVerified,
+                          visible:
+                              FirebaseAuth.instance.currentUser!.emailVerified,
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -154,6 +157,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
                           labelText: "Imagens anexadas",
                           handleOnTap: () => showImageSourceActionSheet(
                             context,
+                            false,
                             (path) => createPostBloc.createPostInput.add(
                               AddPhoto(
                                 photo: File(
@@ -181,12 +185,8 @@ class _CreatePostPageState extends State<CreatePostPage> {
                               itemBuilder: (context, index) {
                                 return GestureDetector(
                                   onTap: () {
-                                    showImageModal(
-                                      context,
-                                      index,
-                                      state.data!.photos,
-                                      "file"
-                                    );
+                                    showImageModal(context, index,
+                                        state.data!.photos, "file");
                                   },
                                   child: attachedImage(
                                     state.data!.photos[index],

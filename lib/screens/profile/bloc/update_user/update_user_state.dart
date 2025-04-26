@@ -1,23 +1,39 @@
 part of 'update_user_bloc.dart';
 
 abstract class UpdateUserState {
-  UpdateUserState();
+  bool wasHandled;
+  File? imageFile;
+
+  UpdateUserState({required this.wasHandled, required this.imageFile});
 }
 
 class UpdateUserInitialState extends UpdateUserState {
-  UpdateUserInitialState();
+  UpdateUserInitialState({
+    super.wasHandled = false,
+    super.imageFile,
+  });
 }
 
 class UpdateUserLoadingState extends UpdateUserState {
-  UpdateUserLoadingState();
+  UpdateUserLoadingState({required super.imageFile})
+      : super(
+          wasHandled: false,
+        );
 }
 
 class UpdateUserLoadedState extends UpdateUserState {
-  UpdateUserLoadedState();
+  UpdateUserLoadedState({required super.imageFile})
+      : super(
+          wasHandled: false,
+        );
 }
 
-class UpdateUserSubmitedState extends UpdateUserState {
-  UpdateUserSubmitedState();
+class UpdateUserSubmittedState extends UpdateUserState {
+  UpdateUserSubmittedState({
+    required super.imageFile,
+  }) : super(
+          wasHandled: false,
+        );
 }
 
 class UpdateUserFailureState extends UpdateUserState {
@@ -25,5 +41,7 @@ class UpdateUserFailureState extends UpdateUserState {
 
   UpdateUserFailureState({
     required this.exception,
+    super.wasHandled = false,
+    super.imageFile,
   });
 }

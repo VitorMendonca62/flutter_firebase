@@ -100,6 +100,7 @@ class _PhotoRegisterPageState extends State<PhotoRegisterPage> {
                             GestureDetector(
                               onTap: () => showImageSourceActionSheet(
                                 context,
+                                true,
                                 updatePhoto,
                               ),
                               child: Container(

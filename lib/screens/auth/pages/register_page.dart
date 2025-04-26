@@ -90,6 +90,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               obscureText: false,
                               labelText: 'Nome',
                               minLines: 1,
+                              isDisabled: false,
                               maxLines: 1,
                             ),
                             const SizedBox(height: 16),
@@ -101,6 +102,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               obscureText: false,
                               labelText: 'Email',
                               minLines: 1,
+                              isDisabled: false,
                               maxLines: 1,
                             ),
                             const SizedBox(height: 16),
@@ -113,6 +115,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               labelText: 'Senha',
                               minLines: 1,
                               maxLines: 1,
+                              isDisabled: false,
                             ),
                             const SizedBox(height: 16),
                             FormInput(
@@ -128,6 +131,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               labelText: 'Confirmação de senha',
                               minLines: 1,
                               maxLines: 1,
+                              isDisabled: false,
                             ),
                             const SizedBox(height: 24),
                             FormButton(

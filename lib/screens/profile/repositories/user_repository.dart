@@ -9,7 +9,7 @@ class UserRepository {
       final user = FirebaseAuth.instance.currentUser!;
       if (displayName != null) user.updateDisplayName(displayName);
       if (photoURL != null) user.updatePhotoURL(photoURL);
-      user.reload();
+      await user.reload();
     } on FirebaseAuthException catch (e) {
       String message;
       switch (e.code) {
