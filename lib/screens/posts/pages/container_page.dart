@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/colors.dart';
 import 'package:flutter_firebase/routes.dart';
-import 'package:flutter_firebase/screens/posts/pages/subpages/restrict_page.dart';
-import 'package:flutter_firebase/screens/posts/pages/subpages/home_page.dart';
+import 'package:flutter_firebase/utils/orthers.dart';
+import 'package:flutter_firebase/widgets/app_bar.dart';
 import 'package:flutter_firebase/widgets/drawer_widget.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_firebase/widgets/navigation_bar.dart';
 
 class ContainerPage extends StatefulWidget {
-  const ContainerPage({super.key});
+  final Widget child;
+  const ContainerPage({
+    super.key,
+    required this.child,
+  });
 
   @override
   State<ContainerPage> createState() => _ContainerPageState();
@@ -21,32 +25,7 @@ class _ContainerPageState extends State<ContainerPage> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          iconTheme: IconThemeData(
-            size: 28,
-            color: CapybaColors.white,
-          ),
-          centerTitle: true,
-          title: SizedBox(
-            width: 150,
-            child: Image.asset(
-              "assets/images/logo_capyba.png",
-            ),
-          ),
-          flexibleSpace: Container(
-            decoration: BoxDecoration(
-              gradient: CapybaColors.greenInvertGradient,
-              border: const Border(
-                bottom: BorderSide(
-                  color: Colors.green,
-                  width: 1.0,
-                ),
-              ),
-            ),
-          ),
-        ),
+        appBar: const CustomAppBar(),
         bottomNavigationBar: Container(
           decoration: BoxDecoration(
             border: Border(
@@ -56,54 +35,20 @@ class _ContainerPageState extends State<ContainerPage> {
               ),
             ),
           ),
-          child: NavigationBar(
-            backgroundColor: Colors.white,
-            indicatorColor: CapybaColors.capybaGreen,
-            onDestinationSelected: (int index) {
-              setState(() {
-                currentPageIndex = index;
-              });
-            },
-            selectedIndex: currentPageIndex,
-            destinations: const [
-              NavigationDestination(
-                label: 'Home',
-                icon: Icon(Icons.home_outlined),
-                selectedIcon: Icon(
-                  Icons.home,
-                  color: Colors.white,
-                ),
-              ),
-              NavigationDestination(
-                label: "Restrito",
-                icon: FaIcon(
-                  FontAwesomeIcons.lock,
-                  size: 20,
-                ),
-                selectedIcon: FaIcon(
-                  FontAwesomeIcons.lock,
-                  color: Colors.white,
-                  size: 20,
-                ),
-              ),
-            ],
-          ),
+          child: const CapybaBottomNavigationBar(),
         ),
         drawer: const DrawerWidget(),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 12),
           child: Stack(
             children: [
-              [
-                const HomePage(),
-                const RestrictPage(),
-              ][currentPageIndex],
+              widget.child,
               Positioned(
                 right: 0,
                 bottom: 0,
                 child: FloatingActionButton(
                   onPressed: () {
-                    Navigator.of(context).pushNamed(Routes.createPost);
+                    goTo(Routes.createPost, context);
                   },
                   backgroundColor: CapybaColors.capybaGreen,
                   child: Icon(

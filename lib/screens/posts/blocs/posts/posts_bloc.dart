@@ -28,11 +28,8 @@ class PostsBloc {
       }
 
       if (event is GetPosts) {
-        List<PostModel>? posts = await _postsRepository
-            .getAll(
-              event.isRestrict,
-            )
-            ?.first;
+        List<PostModel>? posts =
+            await _postsRepository.getAll(event.isRestrict)?.first;
         _postsControllerOutput.add(PostsLoadedState(posts: posts ?? []));
       }
 
@@ -53,11 +50,6 @@ class PostsBloc {
         );
         _postsControllerOutput.add(PostsLoadedState(posts: event.posts));
       }
-
-      // if (event is PostPost) {
-      //   await _postsRepository.createPost();
-      //   _postsControllerOutput.add(PostCreateState());
-      // }
     } catch (e) {
       _postsControllerOutput.add(PostsFailureState(
           exception: e.toString().replaceAll("Exception: ", '')));
