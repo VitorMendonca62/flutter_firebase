@@ -103,9 +103,7 @@ class Post extends StatelessWidget {
                   fontSize: 18,
                 ),
               ),
-              const SizedBox(
-                height: 8,
-              ),
+              const SizedBox(height: 8),
               Text(
                 post.content,
                 maxLines: 5,
@@ -116,12 +114,9 @@ class Post extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              const SizedBox(
-                height: 20,
-              ),
-              Visibility(
-                visible: post.photos.isNotEmpty,
-                child: Row(
+              const SizedBox(height: 20),
+              if (post.photos.isNotEmpty)
+                Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -194,15 +189,18 @@ class Post extends StatelessWidget {
                                   MediaQuery.of(context).size.width * 0.2,
                                 ),
                                 Container(
-                                  width: MediaQuery.of(context).size.width * 0.2,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.2,
                                   height: 50,
                                   color: CapybaColors.black.withOpacity(0.4),
                                 ),
                                 SizedBox(
-                                  width: MediaQuery.of(context).size.width * 0.2,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.2,
                                   height: 50,
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Icon(
@@ -224,7 +222,6 @@ class Post extends StatelessWidget {
                         : const SizedBox()
                   ],
                 ),
-              ),
               const SizedBox(
                 height: 8,
               ),
