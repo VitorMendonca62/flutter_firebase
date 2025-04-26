@@ -114,7 +114,7 @@ class Post extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              const SizedBox(height: 20),
+              if (post.photos.isNotEmpty) const SizedBox(height: 20),
               if (post.photos.isNotEmpty)
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,

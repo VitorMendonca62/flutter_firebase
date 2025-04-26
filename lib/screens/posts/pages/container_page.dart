@@ -33,7 +33,11 @@ class _ContainerPageState extends State<ContainerPage> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: const CustomAppBar(),
+        appBar: const CustomAppBar(
+          canBack: false,
+          constainsTitleLikeString: false,
+          titleLikeString: "",
+        ),
         bottomNavigationBar: Container(
           decoration: BoxDecoration(
             border: Border(

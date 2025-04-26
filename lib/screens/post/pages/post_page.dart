@@ -1,11 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_firebase/models/post/post_model.dart';
+import 'package:flutter_firebase/routes.dart';
 import 'package:flutter_firebase/screens/post/bloc/post/post_bloc.dart';
 import 'package:flutter_firebase/screens/post/widgets/card_comment.dart';
 import 'package:flutter_firebase/screens/post/widgets/comments_input.dart';
+import 'package:flutter_firebase/utils/orthers.dart';
 import 'package:flutter_firebase/utils/photo.dart';
+import 'package:flutter_firebase/utils/post.dart';
+import 'package:flutter_firebase/widgets/app_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:timeago/timeago.dart' as timeago;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/colors.dart';
@@ -45,11 +48,6 @@ class _PostPageState extends State<PostPage> {
     super.initState();
   }
 
-  String getRelativeTime(DateTime date) {
-    timeago.setLocaleMessages('pt_BR', timeago.PtBrMessages());
-    return timeago.format(date, locale: 'pt_BR');
-  }
-
   int calcTimeForRead() {
     const int wordsPerMinute = 200;
     final List<String> words = widget.post.content.split(' ');
@@ -61,6 +59,14 @@ class _PostPageState extends State<PostPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: CustomAppBar(
+          canBack: true,
+          onBack: () {
+            goTo(widget.isRestrict ? Routes.restrict : Routes.home, context);
+          },
+          constainsTitleLikeString: true,
+          titleLikeString: "POSTAGEM",
+        ),
         backgroundColor: CapybaColors.white,
         body: SingleChildScrollView(
           child: Container(
@@ -79,7 +85,7 @@ class _PostPageState extends State<PostPage> {
                 Row(
                   children: [
                     Text(
-                      widget.post.author,
+                      formatAuthorName(widget.post.author),
                       style: TextStyle(
                         color: CapybaColors.gray2,
                         fontSize: 12,
@@ -109,9 +115,7 @@ class _PostPageState extends State<PostPage> {
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 14,
-                ),
+                const SizedBox(height: 12),
                 Text(
                   widget.post.content,
                   style: TextStyle(
@@ -119,44 +123,42 @@ class _PostPageState extends State<PostPage> {
                     fontSize: 18,
                   ),
                 ),
-                const SizedBox(
-                  height: 24,
-                ),
-                Visibility(
-                  visible: widget.post.photos.isNotEmpty,
-                  child: SizedBox(
-                    height: 200,
-                    child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: widget.post.photos.length,
-                      separatorBuilder: (BuildContext context, int index) =>
-                          const SizedBox(
-                        width: 16,
-                      ),
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () {
-                            showImageModal(
-                              context,
-                              index,
-                              widget.post.photos[index],
-                              "network,",
+                if (widget.post.photos.isNotEmpty)
+                  Column(
+                    children: [
+                      const SizedBox(height: 24),
+                      SizedBox(
+                        height: 200,
+                        child: ListView.separated(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: widget.post.photos.length,
+                          separatorBuilder: (BuildContext context, int index) =>
+                              const SizedBox(
+                            width: 16,
+                          ),
+                          itemBuilder: (context, index) {
+                            return GestureDetector(
+                              onTap: () {
+                                showImageModal(
+                                  context,
+                                  index,
+                                  widget.post.photos,
+                                  "network,",
+                                );
+                              },
+                              child: attachedImage(
+                                widget.post.photos[index],
+                                "network",
+                                context,
+                                MediaQuery.of(context).size.width * 0.7,
+                              ),
                             );
                           },
-                          child: attachedImage(
-                            widget.post.photos[index],
-                            "network",
-                            context,
-                            MediaQuery.of(context).size.width * 0.7,
-                          ),
-                        );
-                      },
-                    ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                const SizedBox(
-                  height: 12,
-                ),
+                const SizedBox(height: 12),
                 StreamBuilder<PostState>(
                     stream: _postBloc.postOutput,
                     initialData: PostInitialState(post: widget.post),

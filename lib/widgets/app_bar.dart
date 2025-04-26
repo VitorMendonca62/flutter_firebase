@@ -2,8 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_firebase/colors.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+  final bool constainsTitleLikeString;
+  final String titleLikeString;
+  final bool canBack;
+  final void Function()? onBack;
+
   @override
-  const CustomAppBar({super.key});
+  const CustomAppBar({
+    super.key,
+    required this.constainsTitleLikeString,
+    required this.titleLikeString,
+    this.onBack,
+    required this.canBack,
+  });
 
   @override
   Size get preferredSize => const Size.fromHeight(55);
@@ -22,13 +33,30 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         size: 28,
         color: CapybaColors.white,
       ),
+      leading: canBack
+          ? IconButton(
+              icon: Icon(
+                Icons.arrow_back_outlined,
+                color: CapybaColors.white,
+              ),
+              onPressed: onBack,
+            )
+          : null,
       centerTitle: true,
-      title: SizedBox(
-        width: 150,
-        child: Image.asset(
-          "assets/images/logo_capyba.png",
-        ),
-      ),
+      title: constainsTitleLikeString
+          ? Text(
+              titleLikeString,
+              style: TextStyle(
+                color: CapybaColors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            )
+          : SizedBox(
+              width: 150,
+              child: Image.asset(
+                "assets/images/logo_capyba.png",
+              ),
+            ),
     );
   }
 }
