@@ -81,7 +81,7 @@ class PostBloc {
       //   _postsControllerOutput.add(PostCreateState());
       // }
     } catch (e) {
-      _postControllerOutput.add(PostFailureState(
+      _postControllerOutput.add(PostsFailureState(
           exception: e.toString().replaceAll("Exception: ", '')));
     }
   }

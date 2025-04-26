@@ -25,14 +25,45 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
+  handleLoading(PostsState data, BuildContext context) {
+    return Expanded(
+      child: ListView.separated(
+        scrollDirection: Axis.vertical,
+        itemCount: 4,
+        separatorBuilder: (BuildContext context, int index) => const SizedBox(
+          height: 16,
+        ),
+        itemBuilder: (BuildContext context, int index) {
+          return Shimmer.fromColors(
+            baseColor: Colors.grey.shade300,
+            highlightColor: Colors.grey.shade100,
+            child: const PostNothingData(),
+          );
+        },
+      ),
+    );
+  }
+
+  handleError(PostsState data, BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      SnackBarNotification.error(
+        (data as PostsFailureState).exception,
+        context,
+      );
+    });
+    data.wasHandled = true;
+    return const Padding(
+      padding: EdgeInsets.all(16),
+      child: Center(
+        child: Text("Erro ao carregar postagens"),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return ContainerPage(
+      currentPageIndex: 0,
       child: RefreshIndicator(
         onRefresh: () async {
           _postsBloc.postsInput.add(const GetPosts());
@@ -54,55 +85,28 @@ class _HomePageState extends State<HomePage> {
               stream: _postsBloc.postsOutput,
               initialData: PostsInitialState(),
               builder: (context, state) {
-                if (state.data is PostsLoadingState) {
-                  return Expanded(
-                    child: ListView.separated(
-                      scrollDirection: Axis.vertical,
-                      itemCount: 4,
-                      separatorBuilder: (BuildContext context, int index) =>
-                          const SizedBox(
-                        height: 16,
-                      ),
-                      itemBuilder: (BuildContext context, int index) {
-                        return Shimmer.fromColors(
-                          baseColor: Colors.grey.shade300,
-                          highlightColor: Colors.grey.shade100,
-                          child: const PostNothingData(),
-                        );
-                      },
-                    ),
-                  );
+                final PostsState data = state.data!;
+
+                if (data is PostsLoadingState) {
+                  return handleLoading(data, context);
                 }
 
-                if (state.data is PostsFailureState &&
-                    !state.data!.wasHandled) {
-                  SnackBarNotification.error(
-                    (state.data as PostsFailureState).exception,
-                    context,
-                  );
-                  state.data!.wasHandled = true;
-                  return const Padding(
-                    padding: EdgeInsets.all(16),
-                    child: Center(
-                      child: Text("Erro ao carregar postagens"),
-                    ),
-                  );
+                if (data is PostsFailureState && !data.wasHandled) {
+                  return handleError(data, context);
                 }
 
                 return Expanded(
                   child: ListView.separated(
                     scrollDirection: Axis.vertical,
-                    itemCount: state.data!.posts.length,
+                    itemCount: data.posts.length,
                     separatorBuilder: (BuildContext context, int index) =>
-                        const SizedBox(
-                      height: 16,
-                    ),
+                        const SizedBox(height: 16),
                     itemBuilder: (BuildContext context, int index) {
-                      final post = state.data!.posts[index];
+                      final post = data.posts[index];
                       return Post(
                         post: post,
                         postBloc: _postsBloc,
-                        posts: state.data!.posts,
+                        posts: data.posts,
                         isRestrict: false,
                       );
                     },

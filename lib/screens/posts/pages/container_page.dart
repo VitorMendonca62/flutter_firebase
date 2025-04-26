@@ -8,9 +8,11 @@ import 'package:flutter_firebase/widgets/navigation_bar.dart';
 
 class ContainerPage extends StatefulWidget {
   final Widget child;
+  final int currentPageIndex;
   const ContainerPage({
     super.key,
     required this.child,
+    required this.currentPageIndex,
   });
 
   @override
@@ -18,7 +20,13 @@ class ContainerPage extends StatefulWidget {
 }
 
 class _ContainerPageState extends State<ContainerPage> {
-  int currentPageIndex = 0;
+  late int currentPageIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    currentPageIndex = widget.currentPageIndex;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +43,9 @@ class _ContainerPageState extends State<ContainerPage> {
               ),
             ),
           ),
-          child: const CapybaBottomNavigationBar(),
+          child: CapybaBottomNavigationBar(
+            currentPageIndex: currentPageIndex,
+          ),
         ),
         drawer: const DrawerWidget(),
         body: Padding(

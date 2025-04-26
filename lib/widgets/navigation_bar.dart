@@ -7,7 +7,8 @@ import 'package:flutter_firebase/widgets/snackbar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CapybaBottomNavigationBar extends StatefulWidget {
-  const CapybaBottomNavigationBar({super.key});
+  final int currentPageIndex;
+  const CapybaBottomNavigationBar({super.key, required this.currentPageIndex});
 
   @override
   State<CapybaBottomNavigationBar> createState() =>
@@ -15,7 +16,13 @@ class CapybaBottomNavigationBar extends StatefulWidget {
 }
 
 class _CapybaBottomNavigationBarState extends State<CapybaBottomNavigationBar> {
-  int currentPageIndex = 0;
+  late int currentPageIndex;
+
+  @override
+  void initState() {
+    currentPageIndex = widget.currentPageIndex;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -23,10 +23,10 @@ class PostLoadedState extends PostState {
       : super(wasHandled: false);
 }
 
-class PostFailureState extends PostState {
+class PostsFailureState extends PostState {
   final String exception;
 
-  PostFailureState({required this.exception})
+  PostsFailureState({required this.exception})
       : super(
           post: null,
           wasHandled: false,
