@@ -93,28 +93,25 @@ class PostNothingData extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                GestureDetector(
-                  onTap: () {},
-                  child: Container(
-                    padding: const EdgeInsets.all(8),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.thumb_up_alt_outlined,
-                          size: 22,
-                          color: CapybaColors.black,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 4.0),
-                          child: Text(
-                            "1",
-                            style: TextStyle(
-                              color: CapybaColors.black,
-                            ),
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.thumb_up_alt_outlined,
+                        size: 22,
+                        color: CapybaColors.black,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 4.0),
+                        child: Text(
+                          "1",
+                          style: TextStyle(
+                            color: CapybaColors.black,
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
                 const SizedBox(

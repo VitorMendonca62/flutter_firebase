@@ -119,120 +119,112 @@ class Post extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              post.photos.isNotEmpty
-                  ? Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        post.photos.length >= 2
-                            ? Row(
-                                children: post.photos
-                                    .sublist(0, 2)
-                                    .asMap()
-                                    .entries
-                                    .map(
-                                  (entry) {
-                                    final index = entry.key;
-                                    final photo = entry.value;
-                                    return Row(
-                                      children: [
-                                        GestureDetector(
-                                          onTap: () => showImageModal(
-                                            context,
-                                            index,
-                                            post.photos,
-                                            "network",
-                                          ),
-                                          child: attachedImage(
-                                            photo,
-                                            "network",
-                                            context,
-                                            MediaQuery.of(context).size.width *
-                                                0.2,
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          width: 12,
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                ).toList(),
-                              )
-                            : Row(
-                                children: [
-                                  GestureDetector(
-                                    onTap: () => showImageModal(
-                                      context,
-                                      0,
-                                      post.photos,
-                                      "network",
+              Visibility(
+                visible: post.photos.isNotEmpty,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    post.photos.length >= 2
+                        ? Row(
+                            children:
+                                post.photos.sublist(0, 2).asMap().entries.map(
+                              (entry) {
+                                final index = entry.key;
+                                final photo = entry.value;
+                                return Row(
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () => showImageModal(
+                                        context,
+                                        index,
+                                        post.photos,
+                                        "network",
+                                      ),
+                                      child: attachedImage(
+                                        photo,
+                                        "network",
+                                        context,
+                                        MediaQuery.of(context).size.width * 0.2,
+                                      ),
                                     ),
-                                    child: attachedImage(
-                                      post.photos.first,
-                                      "network",
-                                      context,
-                                      MediaQuery.of(context).size.width * 0.2,
+                                    const SizedBox(
+                                      width: 12,
                                     ),
-                                  ),
-                                  const SizedBox(
-                                    width: 12,
-                                  ),
-                                ],
-                              ),
-                        post.photos.length > 2
-                            ? GestureDetector(
+                                  ],
+                                );
+                              },
+                            ).toList(),
+                          )
+                        : Row(
+                            children: [
+                              GestureDetector(
                                 onTap: () => showImageModal(
                                   context,
-                                  2,
+                                  0,
                                   post.photos,
                                   "network",
                                 ),
-                                child: Stack(
-                                  children: [
-                                    attachedImage(
-                                      post.photos[2],
-                                      "network",
-                                      context,
-                                      MediaQuery.of(context).size.width * 0.2,
-                                    ),
-                                    Container(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.2,
-                                      height: 50,
-                                      color:
-                                          CapybaColors.black.withOpacity(0.4),
-                                    ),
-                                    SizedBox(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.2,
-                                      height: 50,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Icon(
-                                            Icons.photo_library,
-                                            color: CapybaColors.white,
-                                          ),
-                                          Text(
-                                            "+${post.photos.length - 2}",
-                                            style: TextStyle(
-                                              color: CapybaColors.white,
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    )
-                                  ],
+                                child: attachedImage(
+                                  post.photos.first,
+                                  "network",
+                                  context,
+                                  MediaQuery.of(context).size.width * 0.2,
                                 ),
-                              )
-                            : const SizedBox()
-                      ],
-                    )
-                  : const SizedBox(),
+                              ),
+                              const SizedBox(
+                                width: 12,
+                              ),
+                            ],
+                          ),
+                    post.photos.length > 2
+                        ? GestureDetector(
+                            onTap: () => showImageModal(
+                              context,
+                              2,
+                              post.photos,
+                              "network",
+                            ),
+                            child: Stack(
+                              children: [
+                                attachedImage(
+                                  post.photos[2],
+                                  "network",
+                                  context,
+                                  MediaQuery.of(context).size.width * 0.2,
+                                ),
+                                Container(
+                                  width: MediaQuery.of(context).size.width * 0.2,
+                                  height: 50,
+                                  color: CapybaColors.black.withOpacity(0.4),
+                                ),
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width * 0.2,
+                                  height: 50,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.photo_library,
+                                        color: CapybaColors.white,
+                                      ),
+                                      Text(
+                                        "+${post.photos.length - 2}",
+                                        style: TextStyle(
+                                          color: CapybaColors.white,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          )
+                        : const SizedBox()
+                  ],
+                ),
+              ),
               const SizedBox(
                 height: 8,
               ),
