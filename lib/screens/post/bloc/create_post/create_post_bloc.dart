@@ -78,7 +78,7 @@ class CreatePostBloc {
         _createPostControllerOutput.add(
           CreatePostSubmitedState(
             isRestrict: event.isRestrict,
-            photos: event.photos,
+            photos: [],
           ),
         );
       }

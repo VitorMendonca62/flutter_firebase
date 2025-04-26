@@ -5,7 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_firebase/colors.dart';
 import 'package:flutter_firebase/routes.dart';
 import 'package:flutter_firebase/screens/post/bloc/create_post/create_post_bloc.dart';
+import 'package:flutter_firebase/utils/orthers.dart';
 import 'package:flutter_firebase/utils/photo.dart';
+import 'package:flutter_firebase/widgets/app_bar.dart';
+import 'package:flutter_firebase/widgets/form_button.dart';
 import 'package:flutter_firebase/widgets/form_input.dart';
 import 'package:flutter_firebase/widgets/image_input.dart';
 import 'package:flutter_firebase/widgets/snackbar.dart';
@@ -34,10 +37,52 @@ class _CreatePostPageState extends State<CreatePostPage> {
     super.initState();
   }
 
+  handleSubmit(CreatePostState data) {
+    createPostBloc.createPostInput.add(
+      CreatePostRequested(
+        content: contentInputController.text,
+        title: titleInputController.text,
+        photos: data.photos,
+        isRestrict: data.isRestrict,
+      ),
+    );
+  }
+
+  handleSubmited(CreatePostSubmitedState data, BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      SnackBarNotification.success(
+        'Post criado com sucesso',
+        context,
+      );
+      titleInputController.clear();
+      contentInputController.clear();
+    });
+    data.wasHandled = true;
+  }
+
+  handleError(CreatePostFailureState data, context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      SnackBarNotification.error(
+        data.exception,
+        context,
+      );
+      data.wasHandled = true;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: CustomAppBar(
+          constainsTitleLikeString: true,
+          titleLikeString: "Criar novo post",
+          canBack: true,
+          onBack: () => goTo(
+            Routes.home,
+            context,
+          ),
+        ),
         backgroundColor: CapybaColors.white,
         body: SingleChildScrollView(
           child: Container(
@@ -46,31 +91,20 @@ class _CreatePostPageState extends State<CreatePostPage> {
                 stream: createPostBloc.createPostOutput,
                 initialData: CreatePostInitialState(),
                 builder: (context, state) {
-                  if (state.data is CreatePostSubmitedState &&
-                      !state.data!.wasHandled) {
-                    WidgetsBinding.instance.addPostFrameCallback((_) {
-                      SnackBarNotification.success(
-                        'Post criado com sucesso',
-                        context,
-                      );
-                      Navigator.of(context).pushNamed(Routes.home);
-                      state.data!.wasHandled = true;
-                    });
+                  final CreatePostState data = state.data!;
+
+                  if (data is CreatePostSubmitedState && !data.wasHandled) {
+                    handleSubmited(data, context);
+                  }
+
+                  if (data is CreatePostFailureState && !data.wasHandled) {
+                    handleError(data, context);
                   }
 
                   return Form(
                     key: _formKey,
                     child: Column(
                       children: [
-                        Text(
-                          "Criar novo post",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 32,
-                            color: CapybaColors.gray1,
-                          ),
-                        ),
-                        const SizedBox(height: 16),
                         FormInput(
                           controller: titleInputController,
                           hintText: "Título do posts",
@@ -87,7 +121,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
                           maxLines: 1,
                           isDisabled: false,
                         ),
-                        const SizedBox(height: 12),
+                        const SizedBox(height: 16),
                         FormInput(
                           controller: contentInputController,
                           hintText: "O que você está pensando?",
@@ -104,55 +138,61 @@ class _CreatePostPageState extends State<CreatePostPage> {
                           maxLines: 5,
                           isDisabled: false,
                         ),
-                        const SizedBox(height: 12),
                         Visibility(
+                          maintainState: false,
                           visible:
                               FirebaseAuth.instance.currentUser!.emailVerified,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.start,
+                          child: Column(
                             children: [
-                              const Text(
-                                "É restrito?",
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              const SizedBox(width: 12),
-                              Switch(
-                                value: state.data!.isRestrict,
-                                trackColor:
-                                    WidgetStateProperty.resolveWith<Color?>(
-                                  (Set<WidgetState> states) {
-                                    if (states.contains(WidgetState.selected)) {
-                                      return CapybaColors.capybaGreen;
-                                    }
-                                    return CapybaColors.white;
-                                  },
-                                ),
-                                overlayColor:
-                                    WidgetStateProperty.resolveWith<Color?>(
-                                  (Set<WidgetState> states) {
-                                    if (states.contains(WidgetState.disabled)) {
-                                      return CapybaColors.white;
-                                    }
-                                    return null;
-                                  },
-                                ),
-                                onChanged: (bool value) {
-                                  createPostBloc.createPostInput.add(
-                                    ChangeSwitch(
-                                      photos: state.data!.photos,
-                                      isRestrict: value,
+                              const SizedBox(height: 16),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  const Text(
+                                    "É restrito?",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w500,
                                     ),
-                                  );
-                                },
+                                  ),
+                                  const SizedBox(width: 12),
+                                  Switch(
+                                    value: data.isRestrict,
+                                    trackColor: WidgetStateProperty.resolveWith(
+                                      (states) {
+                                        if (states
+                                            .contains(WidgetState.selected)) {
+                                          return CapybaColors.capybaGreen;
+                                        }
+                                        return CapybaColors.white;
+                                      },
+                                    ),
+                                    overlayColor:
+                                        WidgetStateProperty.resolveWith(
+                                      (states) {
+                                        if (states
+                                            .contains(WidgetState.disabled)) {
+                                          return CapybaColors.white;
+                                        }
+                                        return null;
+                                      },
+                                    ),
+                                    onChanged: (bool value) {
+                                      createPostBloc.createPostInput.add(
+                                        ChangeSwitch(
+                                          photos: data.photos,
+                                          isRestrict: value,
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ],
                               ),
                             ],
                           ),
                         ),
-                        const SizedBox(height: 12),
+                        const SizedBox(height: 16),
                         ImageInput(
                           labelText: "Imagens anexadas",
                           handleOnTap: () => showImageSourceActionSheet(
@@ -163,82 +203,62 @@ class _CreatePostPageState extends State<CreatePostPage> {
                                 photo: File(
                                   path,
                                 ),
-                                photos: state.data!.photos,
-                                isRestrict: state.data!.isRestrict,
+                                photos: data.photos,
+                                isRestrict: data.isRestrict,
                               ),
                             ),
                           ),
                         ),
-                        const SizedBox(height: 8),
                         Visibility(
-                          visible: state.data!.photos.isNotEmpty,
-                          child: SizedBox(
-                            height: 100,
-                            child: ListView.separated(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: state.data!.photos.length,
-                              separatorBuilder:
-                                  (BuildContext context, int index) =>
-                                      const SizedBox(
-                                width: 16,
-                              ),
-                              itemBuilder: (context, index) {
-                                return GestureDetector(
-                                  onTap: () {
-                                    showImageModal(context, index,
-                                        state.data!.photos, "file");
-                                  },
-                                  child: attachedImage(
-                                    state.data!.photos[index],
-                                    "file",
-                                    context,
-                                    MediaQuery.of(context).size.width * 0.3,
+                          maintainState: false,
+                          visible: data.photos.isNotEmpty,
+                          child: Column(
+                            children: [
+                              const SizedBox(height: 8),
+                              SizedBox(
+                                height: 100,
+                                child: ListView.separated(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: data.photos.length,
+                                  separatorBuilder:
+                                      (BuildContext context, int index) =>
+                                          const SizedBox(
+                                    width: 16,
                                   ),
-                                );
-                              },
-                            ),
+                                  itemBuilder: (context, index) {
+                                    return GestureDetector(
+                                      onTap: () {
+                                        showImageModal(context, index,
+                                            data.photos, "file");
+                                      },
+                                      child: attachedImage(
+                                        data.photos[index],
+                                        "file",
+                                        context,
+                                        MediaQuery.of(context).size.width * 0.3,
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                         const SizedBox(height: 16),
                         Padding(
-                          padding: const EdgeInsets.only(
-                            top: 16,
-                            bottom: 10,
-                          ),
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: CapybaColors.capybaGreen,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              minimumSize: const Size(180, 50),
+                            padding: const EdgeInsets.only(
+                              top: 16,
+                              bottom: 10,
                             ),
-                            onPressed: () {
-                              FocusScope.of(context).unfocus();
-                              if (!_formKey.currentState!.validate()) {
-                                return;
-                              }
-
-                              createPostBloc.createPostInput.add(
-                                CreatePostRequested(
-                                  content: contentInputController.text,
-                                  title: titleInputController.text,
-                                  photos: state.data!.photos,
-                                  isRestrict: state.data!.isRestrict,
-                                ),
-                              );
-                              _formKey.currentState!.reset();
-                            },
-                            child: Text(
-                              "Criar",
-                              style: TextStyle(
+                            child: FormButton(
+                              handleSubmit: () => handleSubmit(data),
+                              formKey: _formKey,
+                              labelIsWidget: data is CreatePostLoadingState,
+                              labelString: "Criar",
+                              labelWidget: CircularProgressIndicator(
                                 color: CapybaColors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
                               ),
-                            ),
-                          ),
-                        ),
+                            )),
                       ],
                     ),
                   );
