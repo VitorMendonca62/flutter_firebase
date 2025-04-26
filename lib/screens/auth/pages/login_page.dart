@@ -66,10 +66,7 @@ class _LoginPageState extends State<LoginPage> {
 
   handleLoginWithGoogle() {
     _authBloc.authInput.add(
-      LoginRequested(
-        email: emailController.text,
-        password: passwordController.text,
-      ),
+      LoginWithGoogleRequested(),
     );
   }
 

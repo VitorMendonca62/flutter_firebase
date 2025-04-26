@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_firebase/colors.dart';
 import 'package:flutter_firebase/routes.dart';
 import 'package:flutter_firebase/screens/auth/blocs/photo/photo_bloc.dart';
+import 'package:flutter_firebase/utils/orthers.dart';
 import 'package:flutter_firebase/utils/photo.dart';
 import 'package:flutter_firebase/widgets/form_button.dart';
 import 'package:flutter_firebase/widgets/snackbar.dart';
@@ -60,7 +61,7 @@ class _PhotoRegisterPageState extends State<PhotoRegisterPage> {
         'Foto de perfil enviada com sucesso',
         context,
       );
-      Navigator.of(context).pushNamed(Routes.home);
+      goTo(Routes.home, context);
       data.wasHandled = true;
     });
   }

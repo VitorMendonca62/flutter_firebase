@@ -40,7 +40,7 @@ class _RegisterPageState extends State<RegisterPage> {
         'Registro realizado com sucesso',
         context,
       );
-      Navigator.of(context).pushNamed(Routes.photoRegister);
+     goTo(Routes.photoRegister, context);
       data.wasHandled = true;
     });
   }

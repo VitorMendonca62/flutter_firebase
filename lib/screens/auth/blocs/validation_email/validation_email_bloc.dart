@@ -27,7 +27,7 @@ class ValidationEmailBloc {
     try {
       _validationEmailControllerOutput.add(ValidationEmailLoadingState());
       if (event is ValidationEmailRequestedEvent) {
-        _validationEmailRepository.validateEmail();
+        await _validationEmailRepository.validateEmail();
         _validationEmailControllerOutput.add(ValidationEmailSubmitedState());
       }
     } catch (e) {
