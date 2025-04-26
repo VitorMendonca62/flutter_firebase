@@ -51,15 +51,13 @@ class UpdatePassword extends StatelessWidget {
           stream: updatePasswordBloc.updatePasswordOutput,
           initialData: UpdatePasswordInitialState(),
           builder: (context, state) {
-            if (state.data is UpdatePasswordSubmittedState &&
-                !state.data!.wasHandled) {
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                SnackBarNotification.success(
-                  'Senha atualizada com sucesso',
-                  context,
-                );
-                state.data!.wasHandled = true;
-              });
+            final UpdatePasswordState data = state.data!;
+
+            if (data is UpdatePasswordSubmittedState && !data.wasHandled) {
+              handleSubmited(data, context);
+            }
+            if (data is UpdatePasswordFailureState && !data.wasHandled) {
+              handleError(data, context);
             }
             return Form(
               key: formKey,

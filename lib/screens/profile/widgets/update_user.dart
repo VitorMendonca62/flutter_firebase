@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/colors.dart';
 import 'package:flutter_firebase/constants.dart';
-import 'package:flutter_firebase/screens/profile/bloc/update_password/update_password_bloc.dart';
 import 'package:flutter_firebase/screens/profile/bloc/update_user/update_user_bloc.dart';
 import 'package:flutter_firebase/utils/photo.dart';
 import 'package:flutter_firebase/widgets/form_button.dart';
@@ -39,17 +38,18 @@ class UpdateUser extends StatelessWidget {
     );
   }
 
-  handleSubmited(UpdatePasswordSubmittedState data, BuildContext context) {
+  handleSubmited(UpdateUserSubmittedState data, BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       SnackBarNotification.success(
-        'Usuário atualizado com sucesso',
+        'Usuário alterado com sucesso',
         context,
       );
       data.wasHandled = true;
+      data.imageFile = null;
     });
   }
 
-  handleError(UpdatePasswordFailureState data, context) {
+  handleError(UpdateUserFailureState data, context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       SnackBarNotification.error(
         data.exception,
@@ -65,17 +65,17 @@ class UpdateUser extends StatelessWidget {
       stream: updateUserBloc.updateUserOutput,
       initialData: UpdateUserInitialState(wasHandled: false),
       builder: (context, state) {
+        final UpdateUserState data = state.data!;
+
         bool oldWasHandled = false;
-        if (state.data is UpdateUserSubmittedState && !state.data!.wasHandled) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            SnackBarNotification.success(
-              'Usuário alterado com sucesso',
-              context,
-            );
-            oldWasHandled = state.data!.wasHandled;
-            state.data!.wasHandled = true;
-            state.data?.imageFile = null;
-          });
+        if (data is UpdateUserSubmittedState && !data.wasHandled) {
+          oldWasHandled = data.wasHandled;
+
+          handleSubmited(data, context);
+        }
+
+        if (data is UpdateUserFailureState && !data.wasHandled) {
+          handleError(data, context);
         }
         return Form(
           key: formKey,
@@ -93,8 +93,8 @@ class UpdateUser extends StatelessWidget {
               GestureDetector(
                 onTap: () => showImageSourceActionSheet(
                     context,
-                    state.data?.imageFile != null,
-                    state.data?.imageFile != null ? deletePhoto : updatePhoto,
+                    data.imageFile != null,
+                    data.imageFile != null ? deletePhoto : updatePhoto,
                     false),
                 child: Container(
                   width: 200,
@@ -103,8 +103,7 @@ class UpdateUser extends StatelessWidget {
                     shape: BoxShape.circle,
                     color: CapybaColors.gray2.withOpacity(0.1),
                     border: Border.all(
-                      color: (state.data is UpdateUserFailureState &&
-                              !oldWasHandled)
+                      color: (data is UpdateUserFailureState && !oldWasHandled)
                           ? CapybaColors.red
                           : CapybaColors.capybaGreen,
                       width: 2,
@@ -112,10 +111,10 @@ class UpdateUser extends StatelessWidget {
                   ),
                   child: Stack(
                     children: [
-                      if (state.data?.imageFile != null)
+                      if (data.imageFile != null)
                         ClipOval(
                           child: Image.file(
-                            state.data!.imageFile!,
+                            data.imageFile!,
                             width: 200,
                             height: 200,
                             fit: BoxFit.cover,
@@ -130,7 +129,7 @@ class UpdateUser extends StatelessWidget {
                             fit: BoxFit.cover,
                           ),
                         ),
-                      if (state.data is UpdateUserLoadingState)
+                      if (data is UpdateUserLoadingState)
                         const SizedBox(
                           width: 200,
                           height: 200,
@@ -173,12 +172,12 @@ class UpdateUser extends StatelessWidget {
                   updateUserBloc.updateUserInput.add(
                     UpdateUseRequestedEvent(
                       displayName: nameInputController.text,
-                      photo: state.data?.imageFile,
+                      photo: data.imageFile,
                     ),
                   );
                 },
                 formKey: formKey,
-                labelIsWidget: state.data is UpdateUserLoadingState,
+                labelIsWidget: data is UpdateUserLoadingState,
                 labelWidget: CircularProgressIndicator(
                   color: CapybaColors.white,
                 ),

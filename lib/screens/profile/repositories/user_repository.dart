@@ -61,9 +61,7 @@ class UserRepository {
   ) async {
     try {
       final user = FirebaseAuth.instance.currentUser!;
-      print("OI");
       await user.verifyBeforeUpdateEmail(newEmail);
-      print("OI2");
       await user.reload();
     } on FirebaseAuthException catch (e) {
       String message;
