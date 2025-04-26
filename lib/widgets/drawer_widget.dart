@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/colors.dart';
 import 'package:flutter_firebase/routes.dart';
+import 'package:flutter_firebase/utils/orthers.dart';
 import 'package:flutter_firebase/widgets/snackbar.dart';
 
 class DrawerWidget extends StatelessWidget {
@@ -25,10 +26,8 @@ class DrawerWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             GestureDetector(
-              onTap: () async {
-                Navigator.of(context).pushNamed(
-                  Routes.profile,
-                );
+              onTap: () {
+                goTo(Routes.profile, context);
               },
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -79,7 +78,7 @@ class DrawerWidget extends StatelessWidget {
                       );
                       return;
                     }
-                    Navigator.of(context).pushNamed(Routes.validateEmail);
+                    goTo(Routes.validateEmail, context);
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -106,9 +105,11 @@ class DrawerWidget extends StatelessWidget {
                 InkWell(
                   splashColor: CapybaColors.capybaDarkGreen,
                   borderRadius: BorderRadius.circular(12),
-                  onTap: () {
-                    Navigator.of(context).pushNamed(Routes.login);
-                    FirebaseAuth.instance.signOut();
+                  onTap: () async {
+                    await FirebaseAuth.instance.signOut();
+                    if (context.mounted) {
+                      goTo(Routes.login, context);
+                    }
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
