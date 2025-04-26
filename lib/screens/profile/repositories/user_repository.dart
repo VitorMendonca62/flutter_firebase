@@ -33,4 +33,26 @@ class UserRepository {
       throw Exception('Erro inesperado ao atualizar o perfil: $e');
     }
   }
+
+  Future<void> updatePassword(
+    String newPassword,
+  ) async {
+    try {
+      final user = FirebaseAuth.instance.currentUser!;
+      await user.updatePassword(newPassword);
+      await user.reload();
+    } on FirebaseAuthException catch (e) {
+      String message;
+      switch (e.code) {
+        case 'requires-recent-login':
+          message = 'Faça login novamente para atualizar o perfil.';
+          break;
+        default:
+          message = 'Erro ao atualizar o perfil: ${e.message}';
+      }
+      throw Exception(message);
+    } catch (e) {
+      throw Exception('Erro inesperado ao atualizar o perfil: $e');
+    }
+  }
 }

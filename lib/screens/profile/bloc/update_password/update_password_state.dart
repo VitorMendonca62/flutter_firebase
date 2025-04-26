@@ -1,28 +1,37 @@
 part of 'update_password_bloc.dart';
 
 abstract class UpdatePasswordState {
-  final String? oldPassword;
   final String? newPassword;
+  bool wasHandled;
 
-  UpdatePasswordState({required this.oldPassword, required this.newPassword});
+  UpdatePasswordState({
+    required this.newPassword,
+    required this.wasHandled,
+  });
 }
 
 class UpdatePasswordInitialState extends UpdatePasswordState {
-  UpdatePasswordInitialState() : super(oldPassword: null, newPassword: null);
+  UpdatePasswordInitialState()
+      : super(
+          newPassword: null,
+          wasHandled: false,
+        );
 }
 
 class UpdatePasswordLoadingState extends UpdatePasswordState {
-  UpdatePasswordLoadingState({
-    required super.oldPassword,
-    required super.newPassword,
-  }) : super();
+  UpdatePasswordLoadingState()
+      : super(
+          newPassword: null,
+          wasHandled: false,
+        );
 }
 
 class UpdatePasswordSubmittedState extends UpdatePasswordState {
   UpdatePasswordSubmittedState({
-    required super.oldPassword,
     required super.newPassword,
-  }) : super();
+  }) : super(
+          wasHandled: false,
+        );
 }
 
 class UpdatePasswordFailureState extends UpdatePasswordState {
@@ -30,7 +39,8 @@ class UpdatePasswordFailureState extends UpdatePasswordState {
 
   UpdatePasswordFailureState({
     required this.exception,
-    required super.oldPassword,
-    required super.newPassword,
-  });
+  }) : super(
+          newPassword: null,
+          wasHandled: false,
+        );
 }

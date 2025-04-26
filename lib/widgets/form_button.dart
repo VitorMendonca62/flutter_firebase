@@ -33,7 +33,6 @@ class FormButton extends StatelessWidget {
         if (!formKey.currentState!.validate()) {
           return;
         }
-
         handleSubmit();
       },
       child: labelIsWidget

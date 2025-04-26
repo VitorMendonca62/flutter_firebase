@@ -30,12 +30,12 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     _authBloc = AuthBloc();
     super.initState();
+    emailController.text = "vitor@gmail.com";
+    passwordController.text = "12345678";
   }
 
   @override
   Widget build(BuildContext context) {
-    emailController.text = "vitor@gmail.com";
-    passwordController.text = "12345678";
     return SafeArea(
       child: Scaffold(
         backgroundColor: CapybaColors.white,

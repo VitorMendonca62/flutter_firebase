@@ -32,6 +32,7 @@ class AuthRepository {
       String message;
       switch (e.code) {
         case 'user-not-found':
+        case 'invalid-credential':
         case 'wrong-password':
           message = 'Email e/ou senha inválida';
           break;

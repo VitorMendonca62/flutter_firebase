@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/colors.dart';
 import 'package:flutter_firebase/routes.dart';
+import 'package:flutter_firebase/widgets/snackbar.dart';
 
 class DrawerWidget extends StatelessWidget {
   const DrawerWidget({super.key});
@@ -71,6 +72,13 @@ class DrawerWidget extends StatelessWidget {
                   splashColor: CapybaColors.capybaDarkGreen,
                   borderRadius: BorderRadius.circular(12),
                   onTap: () {
+                    if (FirebaseAuth.instance.currentUser!.emailVerified) {
+                      SnackBarNotification.warning(
+                        "Seu e-mail já foi confirmado anteriormente. Você já pode usar todos os recursos do aplicativo normalmente.",
+                        context,
+                      );
+                      return;
+                    }
                     Navigator.of(context).pushNamed(Routes.validateEmail);
                   },
                   child: Padding(
