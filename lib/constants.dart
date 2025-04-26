@@ -1,6 +1,6 @@
 String? emailValidation(String? value) {
   if (value == null || value.isEmpty) {
-    return 'Email está inválido';
+    return 'Digite um email';
   }
 
   final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
@@ -36,3 +36,9 @@ String? confirmPasswordValidation(String? password, String? confirmPassword) {
 
   return null;
 }
+
+const String validEmail = "vitorqueiroz325@gmail.com";
+const String validPassword = "123456";
+
+const String invalidEmail = "invalid.email.com";
+const String invalidPassword = "12345";
