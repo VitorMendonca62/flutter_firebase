@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_firebase/models/post/post_model.dart';
 import 'package:flutter_firebase/routes.dart';
-import 'package:flutter_firebase/screens/post/bloc/post/post_bloc.dart';
+import 'package:flutter_firebase/screens/post/blocs/post/post_bloc.dart';
 import 'package:flutter_firebase/screens/post/widgets/card_comment.dart';
 import 'package:flutter_firebase/screens/post/widgets/comments_input.dart';
 import 'package:flutter_firebase/utils/orthers.dart';
