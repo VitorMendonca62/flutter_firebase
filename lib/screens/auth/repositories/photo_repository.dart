@@ -40,7 +40,7 @@ class PhotoRepository {
       String photoLink = await uploadPhotoInImgur(image);
       await user?.updatePhotoURL(photoLink);
     } on FirebaseAuthException catch (e) {
-      throw Exception('Erro ao fazer enviar foto: ${e.message}');
+      throw Exception('Erro ao realizar o upload da foto: ${e.message}');
     }
   }
 }

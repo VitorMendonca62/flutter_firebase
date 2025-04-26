@@ -7,7 +7,7 @@ import 'package:flutter_firebase/routes.dart';
 import 'package:flutter_firebase/screens/auth/blocs/auth/auth_bloc.dart';
 import 'package:flutter_firebase/screens/auth/widgets/auth_header.dart';
 import 'package:flutter_firebase/screens/auth/widgets/orther_providers.dart';
-import 'package:flutter_firebase/screens/auth/widgets/tests_button.dart';
+import 'package:flutter_firebase/widgets/tests_button.dart';
 import 'package:flutter_firebase/utils/orthers.dart';
 import 'package:flutter_firebase/widgets/form_button.dart';
 import 'package:flutter_firebase/widgets/form_input.dart';
