@@ -48,8 +48,8 @@ class CreatePostBloc {
       }
 
       if (event is RemovePhoto) {
-        File photo = event.photo;
-        event.photos.remove(photo);
+        int index = event.index;
+        event.photos.removeAt(index);
         _createPostControllerOutput.add(CreatePostLoadedState(
           isRestrict: event.isRestrict,
           photos: event.photos,

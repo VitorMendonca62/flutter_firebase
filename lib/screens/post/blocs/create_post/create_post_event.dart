@@ -19,8 +19,8 @@ class AddPhoto extends CreatePostEvent {
     required super.isRestrict,
   });
 }
-class ChangeSwitch extends CreatePostEvent {
 
+class ChangeSwitch extends CreatePostEvent {
   ChangeSwitch({
     required super.photos,
     required super.isRestrict,
@@ -28,10 +28,10 @@ class ChangeSwitch extends CreatePostEvent {
 }
 
 class RemovePhoto extends CreatePostEvent {
-  final File photo;
+  final int index;
 
   RemovePhoto({
-    required this.photo,
+    required this.index,
     required super.photos,
     required super.isRestrict,
   });
