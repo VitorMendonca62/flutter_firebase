@@ -235,6 +235,13 @@ class _LoginPageState extends State<LoginPage> {
                                       emailController.text = validEmail;
                                       passwordController.text = validPassword;
                                     },
+                                    label: "Usuário com email validado",
+                                  ),
+                                  TestsButton(
+                                    handleSubmit: () {
+                                      emailController.text = "vitormsi2005@gmail.com";
+                                      passwordController.text = validPassword;
+                                    },
                                     label: "Usuário existente",
                                   ),
                                   TestsButton(

@@ -4,6 +4,7 @@ import 'package:flutter_firebase/colors.dart';
 import 'package:flutter_firebase/routes.dart';
 import 'package:flutter_firebase/screens/auth/blocs/validation_email/validation_email_bloc.dart';
 import 'package:flutter_firebase/utils/orthers.dart';
+import 'package:flutter_firebase/widgets/app_bar.dart';
 import 'package:flutter_firebase/widgets/form_button.dart';
 import 'package:flutter_firebase/widgets/snackbar.dart';
 
@@ -71,6 +72,15 @@ class _ValidateEmailPageState extends State<ValidateEmailPage> {
 
     return SafeArea(
       child: Scaffold(
+        appBar: CustomAppBar(
+          constainsTitleLikeString: true,
+          titleLikeString: "Validar Email",
+          canBack: true,
+          onBack: () => goTo(
+            Routes.home,
+            context,
+          ),
+        ),
         backgroundColor: CapybaColors.white,
         body: SingleChildScrollView(
           child: Container(
@@ -95,15 +105,7 @@ class _ValidateEmailPageState extends State<ValidateEmailPage> {
                     child: Column(
                       children: [
                         Text(
-                          "Validar email",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 32,
-                            color: CapybaColors.gray1,
-                          ),
-                        ),
-                        Text(
-                          "Enviaremos um e-mail com um link de verificação para você. Para continuar, abra sua caixa de entrada, clique no link de confirmação e volte ao app. Assim que confirmar, seu acesso será liberado automaticamente.Caso não encontre, verifique também a pasta de spam ou lixo eletrônico.",
+                          "Enviaremos um e-mail com um link de verificação para você. Para continuar, abra sua caixa de entrada, clique no link de confirmação, volte ao app e realize o login novamente. Assim que confirmar, seu acesso será liberado automaticamente. Caso não encontre, verifique também a pasta de spam ou lixo eletrônico.",
                           textAlign: TextAlign.left,
                           style: TextStyle(
                             fontSize: 16,
@@ -112,7 +114,7 @@ class _ValidateEmailPageState extends State<ValidateEmailPage> {
                         ),
                         const SizedBox(height: 16),
                         FormButton(
-                          handleSubmit:() => handleSubmit(data, context),
+                          handleSubmit: () => handleSubmit(data, context),
                           formKey: _formKey,
                           labelIsWidget: data is ValidationEmailLoadingState,
                           labelWidget: CircularProgressIndicator(
