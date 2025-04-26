@@ -1,67 +1,47 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/colors.dart';
+import 'package:get/get.dart';
 
 class SnackBarNotification {
   static warning(String message, BuildContext context) {
-    return ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          message,
-          style: TextStyle(
-            color: CapybaColors.white,
-            fontWeight: FontWeight.bold,
-            fontSize: 16,
-          ),
-        ),
-        backgroundColor: CapybaColors.orange,
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
-        margin: const EdgeInsets.all(10),
-      ),
+    return Get.snackbar(
+      'Aviso',
+      message,
+      colorText: CapybaColors.white,
+      backgroundColor: CapybaColors.orange,
+      snackPosition: SnackPosition.TOP,
+      margin: const EdgeInsets.all(10),
+      borderRadius: 10,
+      isDismissible: true,
+      forwardAnimationCurve: Curves.easeOutCirc,
     );
   }
 
   static success(String message, BuildContext context) {
-    return ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          message,
-          style: TextStyle(
-            color: CapybaColors.white,
-            fontWeight: FontWeight.bold,
-            fontSize: 16,
-          ),
-        ),
-        backgroundColor: CapybaColors.capybaGreen,
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
-        margin: const EdgeInsets.all(10),
-      ),
+    return Get.snackbar(
+      'Sucesso',
+      message,
+      colorText: CapybaColors.white,
+      backgroundColor: CapybaColors.capybaDarkGreen,
+      snackPosition: SnackPosition.TOP,
+      margin: const EdgeInsets.all(10),
+      borderRadius: 10,
+      isDismissible: true,
+      forwardAnimationCurve: Curves.easeOutCirc,
     );
   }
 
   static error(String message, BuildContext context) {
-    return ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          message,
-          style: TextStyle(
-            color: CapybaColors.white,
-            fontWeight: FontWeight.bold,
-            fontSize: 16,
-          ),
-        ),
-        backgroundColor: CapybaColors.red,
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
-        margin: const EdgeInsets.all(10),
-      ),
+    return Get.snackbar(
+      'Erro',
+      message,
+      colorText: CapybaColors.white,
+      backgroundColor: CapybaColors.red,
+      snackPosition: SnackPosition.TOP,
+      margin: const EdgeInsets.all(10),
+      borderRadius: 10,
+      isDismissible: true,
+      forwardAnimationCurve: Curves.easeOutCirc,
     );
   }
 }
