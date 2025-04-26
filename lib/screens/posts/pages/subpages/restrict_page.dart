@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase/colors.dart';
 import 'package:flutter_firebase/routes.dart';
 import 'package:flutter_firebase/screens/posts/blocs/posts/posts_bloc.dart';
 import 'package:flutter_firebase/screens/posts/pages/container_page.dart';
@@ -87,11 +88,12 @@ class _RestrictPageState extends State<RestrictPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
+            Text(
               "Restritos",
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 24,
+                color: CapybaColors.black,
               ),
             ),
             const SizedBox(

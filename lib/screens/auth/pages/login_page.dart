@@ -45,10 +45,10 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 
-  handleError(AuthState data, context) {
+  handleError(AuthFailureState data, context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       SnackBarNotification.error(
-        (data as AuthFailureState).exception,
+        data.exception,
         context,
       );
       data.wasHandled = true;
