@@ -31,7 +31,7 @@ class PhotoBloc {
       }
 
       if (event is PhotoRequested) {
-        await _photoRepository.updatePhoto(event.photo);
+        await _photoRepository.updatePhoto(event.photo!);
         _photoControllerOutput.add(PhotoSubmitedState(
           imageFile: event.photo,
         ));

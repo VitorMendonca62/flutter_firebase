@@ -151,7 +151,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             ),
                             const SizedBox(height: 16),
                             FormButton(
-                              labelIsWidget: state.data is AuthLoadingState,
+                              labelIsWidget: data is AuthLoadingState,
                               labelWidget: CircularProgressIndicator(
                                 color: CapybaColors.white,
                               ),

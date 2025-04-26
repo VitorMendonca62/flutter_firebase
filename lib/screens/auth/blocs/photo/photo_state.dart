@@ -12,18 +12,18 @@ class PhotoInitialState extends PhotoState {
 }
 
 class PhotoLoadingState extends PhotoState {
-  PhotoLoadingState({required File imageFile})
-      : super(imageFile: imageFile, wasHandled: false);
+  PhotoLoadingState({required super.imageFile})
+      : super(wasHandled: false);
 }
 
 class PhotoLoadedState extends PhotoState {
-  PhotoLoadedState({required File imageFile})
-      : super(imageFile: imageFile, wasHandled: false);
+  PhotoLoadedState({required super.imageFile})
+      : super(wasHandled: false);
 }
 
 class PhotoSubmitedState extends PhotoState {
-  PhotoSubmitedState({required File imageFile})
-      : super(imageFile: imageFile, wasHandled: false);
+  PhotoSubmitedState({required super.imageFile})
+      : super(wasHandled: false);
 }
 
 class PhotoFailureState extends PhotoState {

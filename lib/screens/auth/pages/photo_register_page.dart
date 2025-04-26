@@ -36,6 +36,45 @@ class _PhotoRegisterPageState extends State<PhotoRegisterPage> {
     );
   }
 
+  deletePhoto(String path) {
+    return _photoBloc.photoInput.add(
+      PhotoUpdate(
+        photo: null,
+      ),
+    );
+  }
+
+  handleError(PhotoState data, BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      SnackBarNotification.error(
+        (data as PhotoFailureState).exception,
+        context,
+      );
+      data.wasHandled = true;
+    });
+  }
+
+  handleSubmited(PhotoState data, BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      SnackBarNotification.success(
+        'Foto de perfil enviada com sucesso',
+        context,
+      );
+      Navigator.of(context).pushNamed(Routes.home);
+      data.wasHandled = true;
+    });
+  }
+
+  handleRegister(PhotoState data, BuildContext context) {
+    data.imageFile != null
+        ? _photoBloc.photoInput.add(
+            PhotoRequested(
+              photo: data.imageFile!,
+            ),
+          )
+        : null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -69,29 +108,18 @@ class _PhotoRegisterPageState extends State<PhotoRegisterPage> {
                     stream: _photoBloc.photoOutput,
                     initialData: PhotoInitialState(),
                     builder: (context, state) {
+                      final PhotoState data = state.data!;
                       bool oldWasHandled = false;
 
-                      if (state.data is PhotoFailureState &&
-                          !state.data!.wasHandled) {
-                        SnackBarNotification.error(
-                          (state.data as PhotoFailureState).exception,
-                          context,
-                        );
-                        oldWasHandled = state.data!.wasHandled;
-                        state.data!.wasHandled = true;
+                      if (data is PhotoFailureState && !data.wasHandled) {
+                        handleError(data, context);
+                        oldWasHandled = data.wasHandled;
                       }
 
-                      if (state.data is PhotoSubmitedState &&
-                          !state.data!.wasHandled) {
-                        WidgetsBinding.instance.addPostFrameCallback((_) {
-                          SnackBarNotification.success(
-                            'Foto de perfil enviada com sucesso',
-                            context,
-                          );
-                          Navigator.of(context).pushNamed(Routes.home);
-                          state.data!.wasHandled = true;
-                        });
+                      if (data is PhotoSubmitedState && !data.wasHandled) {
+                        handleSubmited(data, context);
                       }
+
                       return Form(
                         key: _formKey,
                         child: Column(
@@ -100,8 +128,10 @@ class _PhotoRegisterPageState extends State<PhotoRegisterPage> {
                             GestureDetector(
                               onTap: () => showImageSourceActionSheet(
                                 context,
-                                true,
-                                updatePhoto,
+                                data.imageFile != null,
+                                data.imageFile != null
+                                    ? deletePhoto
+                                    : updatePhoto,
                               ),
                               child: Container(
                                   width: 200,
@@ -110,7 +140,7 @@ class _PhotoRegisterPageState extends State<PhotoRegisterPage> {
                                     shape: BoxShape.circle,
                                     color: CapybaColors.gray2.withOpacity(0.1),
                                     border: Border.all(
-                                      color: (state.data is PhotoFailureState &&
+                                      color: (data is PhotoFailureState &&
                                               !oldWasHandled)
                                           ? CapybaColors.red
                                           : CapybaColors.capybaGreen,
@@ -119,10 +149,10 @@ class _PhotoRegisterPageState extends State<PhotoRegisterPage> {
                                   ),
                                   child: Stack(
                                     children: [
-                                      if (state.data?.imageFile != null)
+                                      if (data.imageFile != null)
                                         ClipOval(
                                           child: Image.file(
-                                            state.data!.imageFile!,
+                                            data.imageFile!,
                                             width: 200,
                                             height: 200,
                                             fit: BoxFit.cover,
@@ -136,7 +166,7 @@ class _PhotoRegisterPageState extends State<PhotoRegisterPage> {
                                             color: CapybaColors.capybaGreen,
                                           ),
                                         ),
-                                      if (state.data is PhotoLoadingState)
+                                      if (data is PhotoLoadingState)
                                         const SizedBox(
                                           width: 200,
                                           height: 200,
@@ -147,17 +177,9 @@ class _PhotoRegisterPageState extends State<PhotoRegisterPage> {
                             ),
                             const SizedBox(height: 40),
                             FormButton(
-                              handleSubmit: () {
-                                state.data?.imageFile != null
-                                    ? _photoBloc.photoInput.add(
-                                        PhotoRequested(
-                                          photo: state.data!.imageFile!,
-                                        ),
-                                      )
-                                    : null;
-                              },
+                              handleSubmit: () => handleRegister(data, context),
                               formKey: _formKey,
-                              labelIsWidget: state.data is PhotoLoadingState,
+                              labelIsWidget: data is PhotoLoadingState,
                               labelWidget: CircularProgressIndicator(
                                 color: CapybaColors.white,
                               ),

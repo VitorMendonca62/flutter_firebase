@@ -12,7 +12,6 @@ import 'package:flutter_firebase/utils/orthers.dart';
 import 'package:flutter_firebase/widgets/form_button.dart';
 import 'package:flutter_firebase/widgets/form_input.dart';
 import 'package:flutter_firebase/widgets/snackbar.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -131,7 +130,7 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                                 const SizedBox(height: 16),
                                 FormButton(
-                                  labelIsWidget: state.data is AuthLoadingState,
+                                  labelIsWidget: data is AuthLoadingState,
                                   labelString: "Entrar",
                                   labelWidget: CircularProgressIndicator(
                                     color: CapybaColors.white,
