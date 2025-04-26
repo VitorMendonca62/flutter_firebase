@@ -5,12 +5,22 @@ import 'package:flutter_firebase/routes.dart';
 import 'package:flutter_firebase/utils/orthers.dart';
 import 'package:flutter_firebase/widgets/snackbar.dart';
 
-class DrawerWidget extends StatelessWidget {
+class DrawerWidget extends StatefulWidget {
   const DrawerWidget({super.key});
 
   @override
+  State<DrawerWidget> createState() => _DrawerWidgetState();
+}
+
+class _DrawerWidgetState extends State<DrawerWidget> {
+  @override
   Widget build(BuildContext context) {
-    final User user = FirebaseAuth.instance.currentUser!;
+    late User? user;
+    try {
+      user = FirebaseAuth.instance.currentUser!;
+    } catch (e) {
+      goTo(Routes.login, context);
+    }
     return Drawer(
       backgroundColor: CapybaColors.capybaGreen,
       width: MediaQuery.of(context).size.width * 0.85,
@@ -34,7 +44,7 @@ class DrawerWidget extends StatelessWidget {
                 children: [
                   ClipOval(
                     child: Image.network(
-                      user.photoURL!,
+                      user!.photoURL!,
                       width: 75,
                       height: 75,
                       fit: BoxFit.cover,
@@ -44,7 +54,7 @@ class DrawerWidget extends StatelessWidget {
                   Column(
                     children: [
                       Text(
-                        user.displayName!.split(" ").first,
+                        user!.displayName!.split(" ").first,
                         style: TextStyle(
                           color: CapybaColors.white,
                           fontSize: 24,

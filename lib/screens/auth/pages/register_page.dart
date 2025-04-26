@@ -40,7 +40,7 @@ class _RegisterPageState extends State<RegisterPage> {
         'Registro realizado com sucesso',
         context,
       );
-     goTo(Routes.photoRegister, context);
+      goTo(Routes.photoRegister, context);
       data.wasHandled = true;
     });
   }
@@ -51,6 +51,10 @@ class _RegisterPageState extends State<RegisterPage> {
         (data as AuthFailureState).exception,
         context,
       );
+
+      if (data.exception == "Null check operator used on a null value") {
+        goTo(Routes.login, context);
+      }
       data.wasHandled = true;
     });
   }
@@ -286,7 +290,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                   nameController.text = validName;
                                   emailController.text = validEmail;
                                   passwordController.text = validPassword;
-                                  confirmPasswordController.text = validPassword;
+                                  confirmPasswordController.text =
+                                      validPassword;
                                 },
                                 label: "Usuário válido",
                               ),

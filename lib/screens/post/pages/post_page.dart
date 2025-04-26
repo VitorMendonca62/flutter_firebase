@@ -65,7 +65,7 @@ class _PostPageState extends State<PostPage> {
             goTo(widget.isRestrict ? Routes.restrict : Routes.home, context);
           },
           constainsTitleLikeString: true,
-          titleLikeString: "POSTAGEM",
+          titleLikeString: widget.isRestrict ? "RESTRITO" : "POSTAGEM",
         ),
         backgroundColor: CapybaColors.white,
         body: SingleChildScrollView(

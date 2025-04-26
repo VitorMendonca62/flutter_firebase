@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/colors.dart';
+import 'package:flutter_firebase/routes.dart';
 import 'package:flutter_firebase/screens/posts/blocs/posts/posts_bloc.dart';
 import 'package:flutter_firebase/screens/posts/pages/container_page.dart';
 import 'package:flutter_firebase/screens/posts/widgets/post.dart';
 import 'package:flutter_firebase/screens/posts/widgets/post_nothing_data.dart';
+import 'package:flutter_firebase/utils/orthers.dart';
 import 'package:flutter_firebase/widgets/snackbar.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -45,14 +47,18 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  handleError(PostsState data, BuildContext context) {
+  handleError(PostsFailureState data, BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       SnackBarNotification.error(
-        (data as PostsFailureState).exception,
+        data.exception,
         context,
       );
     });
     data.wasHandled = true;
+
+    if (data.exception == "Null check operator used on a null value") {
+      goTo(Routes.login, context);
+    }
     return const Padding(
       padding: EdgeInsets.all(16),
       child: Center(
