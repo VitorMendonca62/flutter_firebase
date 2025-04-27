@@ -14,14 +14,22 @@ Aplicativo desenvolvido em Flutter utilizando Firebase como backend, seguindo a 
 - Dart SDK: '>=3.2.3 <4.0.0'
 - Git
 
-
 ## Pacotes Utilizados
-- Flutter Bloc: ^8.1.3
-- Firebase Auth: ^4.15.3
-- Cloud Firestore: ^4.13.6
-- Image Picker: ^1.0.4
-- Cached Network Image: ^3.3.0
-- Provider: ^6.1.1
+  - flutter_bloc: ^9.1.0
+  - firebase_core: ^3.13.0
+  - firebase_auth: ^5.5.2
+  - google_sign_in: ^6.2.2
+  - get: ^4.7.2
+  - image_picker: ^1.1.2
+  - permission_handler: ^12.0.0+1
+  - font_awesome_flutter: ^10.8.0
+  - cloud_firestore: ^5.6.6
+  - json_annotation: ^4.9.0
+  - timeago: ^3.7.0
+  - shimmer: ^3.0.0
+  - photo_view: ^0.15.0
+  - path: ^1.9.0
+  - flutter_dotenv: ^5.2.1
 
 ## Inicialização do Projeto
 
