@@ -54,7 +54,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   Column(
                     children: [
                       Text(
-                        user!.displayName!.split(" ").first,
+                        user.displayName!.split(" ").first,
                         style: TextStyle(
                           color: CapybaColors.white,
                           fontSize: 24,
