@@ -6,23 +6,30 @@ import 'package:flutter_firebase/utils/orthers.dart';
 import 'package:flutter_firebase/widgets/snackbar.dart';
 
 class DrawerWidget extends StatefulWidget {
-  const DrawerWidget({super.key});
+  const DrawerWidget({
+    super.key,
+  });
 
   @override
   State<DrawerWidget> createState() => _DrawerWidgetState();
 }
 
 class _DrawerWidgetState extends State<DrawerWidget> {
+  late User? user;
+
+  @override
+  void initState() {
+    user = FirebaseAuth.instance.currentUser!;
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    late User? user;
-    try {
-      user = FirebaseAuth.instance.currentUser!;
-    } catch (e) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        goTo(Routes.login, context);
-      });
-    }
     return Drawer(
       backgroundColor: CapybaColors.capybaGreen,
       width: MediaQuery.of(context).size.width * 0.85,
@@ -58,7 +65,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   Column(
                     children: [
                       Text(
-                        user.displayName!.split(" ").first,
+                        user!.displayName!.split(" ").first,
                         style: TextStyle(
                           color: CapybaColors.white,
                           fontSize: 24,
@@ -124,9 +131,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   onTap: () async {
                     await FirebaseAuth.instance.signOut();
                     if (context.mounted) {
-                      WidgetsBinding.instance.addPostFrameCallback((_) {
-                        goTo(Routes.login, context);
-                      });
+                      goTo(Routes.login, context);
                     }
                   },
                   child: Padding(

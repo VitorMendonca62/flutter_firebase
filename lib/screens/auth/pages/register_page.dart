@@ -52,9 +52,8 @@ class _RegisterPageState extends State<RegisterPage> {
         context,
       );
 
-      if (data.exception == "Null check operator used on a null value") {
-        goTo(Routes.login, context);
-      }
+      goTo(Routes.login, context);
+
       data.wasHandled = true;
     });
   }

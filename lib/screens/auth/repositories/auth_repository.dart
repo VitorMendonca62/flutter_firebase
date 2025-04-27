@@ -74,4 +74,18 @@ class AuthRepository {
       throw Exception('Erro ao fazer registro: $e');
     }
   }
+
+  Future<void> forgotPassword({
+    required String email,
+  }) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+    } on FirebaseAuthException catch (e) {
+      String message;
+      message = 'Erro ao fazer registro: ${e.message}';
+      throw Exception(message);
+    } catch (e) {
+      throw Exception('Erro ao fazer registro: $e');
+    }
+  }
 }

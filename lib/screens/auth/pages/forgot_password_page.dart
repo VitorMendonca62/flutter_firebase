@@ -4,40 +4,39 @@ import 'package:flutter/material.dart';
 import 'package:flutter_firebase/colors.dart';
 import 'package:flutter_firebase/constants.dart';
 import 'package:flutter_firebase/routes.dart';
-import 'package:flutter_firebase/screens/auth/blocs/auth/auth_bloc.dart';
+import 'package:flutter_firebase/screens/auth/blocs/forgot_password/forgot_password_bloc.dart';
 import 'package:flutter_firebase/screens/auth/widgets/auth_header.dart';
-import 'package:flutter_firebase/screens/auth/widgets/orther_providers.dart';
 import 'package:flutter_firebase/widgets/tests_button.dart';
 import 'package:flutter_firebase/utils/orthers.dart';
 import 'package:flutter_firebase/widgets/form_button.dart';
 import 'package:flutter_firebase/widgets/form_input.dart';
 import 'package:flutter_firebase/widgets/snackbar.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class ForgotPasswordPage extends StatefulWidget {
+  const ForgotPasswordPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<ForgotPasswordPage> createState() => _ForgotPasswordPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   final _formKey = GlobalKey<FormState>();
 
-  late final AuthBloc _authBloc;
+  late final ForgotPasswordBloc _forgotPasswordBloc;
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
   @override
   void initState() {
-    _authBloc = AuthBloc();
+    _forgotPasswordBloc = ForgotPasswordBloc();
     super.initState();
   }
 
-  handleSubmited(AuthState data, context) {
+  handleSubmited(ForgotPasswordState data, context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       SnackBarNotification.success(
-        'Login realizado com sucesso',
+        'Email enviado com sucesso',
         context,
       );
       goTo(Routes.home, context);
@@ -45,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 
-  handleError(AuthFailureState data, context) {
+  handleError(ForgotPasswordFailureState data, context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       SnackBarNotification.error(
         data.exception,
@@ -55,18 +54,11 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 
-  handleLogin() {
-    _authBloc.authInput.add(
-      LoginRequested(
+  handleForgotPassword() {
+    _forgotPasswordBloc.forgotPasswordInput.add(
+      ForgotPasswordRequestedEvent(
         email: emailController.text,
-        password: passwordController.text,
       ),
-    );
-  }
-
-  handleLoginWithGoogle() {
-    _authBloc.authInput.add(
-      LoginWithGoogleRequested(),
     );
   }
 
@@ -79,18 +71,21 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             children: [
               AuthHeader(
-                title: "Bem vindo de volta!",
-                subTitle: "Realize suas credenciais abaixo",
-                child: StreamBuilder<AuthState>(
-                  stream: _authBloc.authOutput,
-                  initialData: AuthInitialState(),
+                title: "Redefinir Senha",
+                subTitle:
+                    "Enviaremos um e-mail com um link para você. Para continuar, abra sua caixa de entrada, clique no link de redefinição, redefina a senha, volte ao app e realize o login. Caso não encontre, verifique também a pasta de spam ou lixo eletrônico.",
+                child: StreamBuilder<ForgotPasswordState>(
+                  stream: _forgotPasswordBloc.forgotPasswordOutput,
+                  initialData: ForgotPasswordInitialState(),
                   builder: (context, state) {
-                    final AuthState data = state.data!;
-                    if (data is AuthFailureState && !data.wasHandled) {
+                    final ForgotPasswordState data = state.data!;
+                    if (data is ForgotPasswordFailureState &&
+                        !data.wasHandled) {
                       handleError(data, context);
                     }
 
-                    if (data is AuthSubmitedState && !data.wasHandled) {
+                    if (data is ForgotPasswordSubmitedState &&
+                        !data.wasHandled) {
                       handleSubmited(data, context);
                     }
 
@@ -104,7 +99,7 @@ class _LoginPageState extends State<LoginPage> {
                               children: [
                                 FormInput(
                                   controller: emailController,
-                                  hintText: 'vitorqueiroz325@gmail.com',
+                                  hintText: validEmail,
                                   keyboardType: TextInputType.emailAddress,
                                   validator: emailValidation,
                                   obscureText: false,
@@ -114,71 +109,42 @@ class _LoginPageState extends State<LoginPage> {
                                   isDisabled: false,
                                 ),
                                 const SizedBox(height: 16),
-                                FormInput(
-                                  controller: passwordController,
-                                  hintText: '******',
-                                  keyboardType: TextInputType.text,
-                                  validator: passwordValidation,
-                                  obscureText: true,
-                                  labelText: 'Senha',
-                                  minLines: 1,
-                                  maxLines: 1,
-                                  isDisabled: false,
-                                ),
-                                const SizedBox(
-                                  height: 4,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      goTo(Routes.forgotPassword, context);
-                                    },
-                                    child: const Align(
-                                      alignment: Alignment.centerRight,
-                                      child: Text(
-                                        "Esqueceu sua senha?",
-                                        style: TextStyle(fontSize: 14),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 16),
                                 FormButton(
-                                  labelIsWidget: data is AuthLoadingState,
-                                  labelString: "Entrar",
+                                  labelIsWidget:
+                                      data is ForgotPasswordLoadingState,
+                                  labelString: "Enviar",
                                   labelWidget: CircularProgressIndicator(
                                     color: CapybaColors.white,
                                   ),
-                                  handleSubmit: handleLogin,
+                                  handleSubmit: handleForgotPassword,
                                   formKey: _formKey,
                                 ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 16),
-                          GestureDetector(
-                            onTap: () => WidgetsBinding.instance
-                                .addPostFrameCallback((_) {
-                              goTo(Routes.signup, context);
-                            }),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Text("Não possui uma conta? "),
-                                Text(
-                                  "Cadastre-se",
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: CapybaColors.capybaDarkGreen,
+                                const SizedBox(height: 12),
+                                ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: CapybaColors.white,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        side: BorderSide(
+                                          color: CapybaColors.capybaGreen,
+                                          width: 0.5,
+                                        )),
+                                    minimumSize: const Size(180, 50),
+                                  ),
+                                  onPressed: () {
+                                    goTo(Routes.login, context);
+                                  },
+                                  child: Text(
+                                    "Voltar",
+                                    style: TextStyle(
+                                      color: CapybaColors.black,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ),
                               ],
                             ),
-                          ),
-                          const SizedBox(height: 16),
-                          OrtherProviders(
-                            handleGoogleLogin: handleLoginWithGoogle,
                           ),
                           const SizedBox(height: 16),
                           Column(
@@ -229,34 +195,6 @@ class _LoginPageState extends State<LoginPage> {
                                       passwordController.text = validPassword;
                                     },
                                     label: "Email inválido",
-                                  ),
-                                  TestsButton(
-                                    handleSubmit: () {
-                                      emailController.text = validEmail;
-                                      passwordController.text = invalidPassword;
-                                    },
-                                    label: "Senha curta",
-                                  ),
-                                  TestsButton(
-                                    handleSubmit: () {
-                                      emailController.text = invalidEmail;
-                                      passwordController.text = invalidPassword;
-                                    },
-                                    label: "Ambos inválidos",
-                                  ),
-                                  TestsButton(
-                                    handleSubmit: () {
-                                      emailController.text = "";
-                                      passwordController.text = "";
-                                    },
-                                    label: "Campos vazios",
-                                  ),
-                                  TestsButton(
-                                    handleSubmit: () {
-                                      emailController.text = validEmail;
-                                      passwordController.text = validPassword;
-                                    },
-                                    label: "Usuário com email validado",
                                   ),
                                   TestsButton(
                                     handleSubmit: () {

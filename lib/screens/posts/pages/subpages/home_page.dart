@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/colors.dart';
-import 'package:flutter_firebase/routes.dart';
 import 'package:flutter_firebase/screens/posts/blocs/posts/posts_bloc.dart';
 import 'package:flutter_firebase/screens/posts/pages/container_page.dart';
 import 'package:flutter_firebase/screens/posts/widgets/post.dart';
 import 'package:flutter_firebase/screens/posts/widgets/post_nothing_data.dart';
-import 'package:flutter_firebase/utils/orthers.dart';
 import 'package:flutter_firebase/widgets/snackbar.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -26,6 +24,11 @@ class _HomePageState extends State<HomePage> {
     _postsBloc = PostsBloc();
     _postsBloc.postsInput.add(const GetPosts());
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   handleLoading(PostsState data, BuildContext context) {
@@ -53,9 +56,6 @@ class _HomePageState extends State<HomePage> {
         data.exception,
         context,
       );
-      if (data.exception == "Null check operator used on a null value") {
-        goTo(Routes.login, context);
-      }
     });
     data.wasHandled = true;
 
