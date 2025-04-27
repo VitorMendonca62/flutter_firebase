@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/colors.dart';
 
-class FormInput extends StatelessWidget {
+class FormInput extends StatefulWidget {
   final TextEditingController controller;
   final String hintText;
   final String labelText;
@@ -26,29 +26,34 @@ class FormInput extends StatelessWidget {
   });
 
   @override
+  State<FormInput> createState() => _FormInputState();
+}
+
+class _FormInputState extends State<FormInput> {
+  bool _passwordVisible = false;
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          labelText,
+          widget.labelText,
           style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w500,
           ),
         ),
-        const SizedBox(
-          height: 4,
-        ),
+        const SizedBox(height: 4),
         TextFormField(
-          controller: controller,
-          keyboardType: keyboardType,
+          controller: widget.controller,
+          keyboardType: widget.keyboardType,
           cursorColor: CapybaColors.black,
           style: const TextStyle(fontSize: 20),
-          obscureText: obscureText,
-          enabled: !isDisabled,
-          minLines: minLines,
-          maxLines: maxLines,
+          obscureText: widget.obscureText && !_passwordVisible,
+          enabled: !widget.isDisabled,
+          minLines: widget.minLines,
+          maxLines: widget.maxLines,
           decoration: InputDecoration(
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(13),
@@ -87,15 +92,31 @@ class FormInput extends StatelessWidget {
             ),
             errorStyle: TextStyle(fontSize: 14, color: CapybaColors.red),
             contentPadding: const EdgeInsets.fromLTRB(23, 16, 23, 16),
-            hintText: hintText,
+            hintText: widget.hintText,
             hintStyle: TextStyle(
               color: CapybaColors.gray200,
               fontWeight: FontWeight.normal,
             ),
             filled: true,
-            fillColor: isDisabled ? CapybaColors.gray300 : CapybaColors.white,
+            fillColor:
+                widget.isDisabled ? CapybaColors.gray300 : CapybaColors.white,
+            suffixIcon: widget.obscureText
+                ? IconButton(
+                    icon: Icon(
+                      _passwordVisible
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                      color: CapybaColors.gray200,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _passwordVisible = !_passwordVisible;
+                      });
+                    },
+                  )
+                : null,
           ),
-          validator: validator,
+          validator: widget.validator,
         ),
       ],
     );
