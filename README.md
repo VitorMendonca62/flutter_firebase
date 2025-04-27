@@ -1,8 +1,8 @@
 # Flutter Firebase - Capyba Challenge
 
 <div style="display: flex; gap: 10px;">
-<img src="https://storage.googleapis.com/cms-storage-bucket/6a07d8a62f4308d2b854.svg" width="150">
-<img src="https://firebase.google.com/static/images/brand-guidelines/logo-built_black.png" width="150">
+<img src="https://img.shields.io/badge/Flutter-02569B?logo=flutter&logoColor=white&style=for-the-badge" width="150">
+<img src="https://img.shields.io/badge/Firebase-FFCA28?logo=firebase&logoColor=000000&style=for-the-badge" width="150">
 </div>
 
 ## Descrição
@@ -13,6 +13,7 @@ Aplicativo desenvolvido em Flutter utilizando Firebase como backend, seguindo a 
 - Firebase Core: ^2.24.2
 - Dart SDK: '>=3.2.3 <4.0.0'
 - Git
+
 
 ## Pacotes Utilizados
 - Flutter Bloc: ^8.1.3
