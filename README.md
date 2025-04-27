@@ -1,16 +1,108 @@
-# flutter_firebase
+# Flutter Firebase - Capyba Challenge
 
-A new Flutter project.
+<div style="display: flex; gap: 10px;">
+<img src="https://storage.googleapis.com/cms-storage-bucket/6a07d8a62f4308d2b854.svg" width="150">
+<img src="https://firebase.google.com/static/images/brand-guidelines/logo-built_black.png" width="150">
+</div>
 
-## Getting Started
+## Descrição
+Aplicativo desenvolvido em Flutter utilizando Firebase como backend, seguindo a arquitetura BLoC Pattern para gerenciamento de estado. O app permite interação social através de posts, comentários e likes.
 
-This project is a starting point for a Flutter application.
+## Pré-requisitos
+- Flutter SDK: 3.19.3
+- Firebase Core: ^2.24.2
+- Dart SDK: '>=3.2.3 <4.0.0'
+- Git
 
-A few resources to get you started if this is your first Flutter project:
+## Pacotes Utilizados
+- Flutter Bloc: ^8.1.3
+- Firebase Auth: ^4.15.3
+- Cloud Firestore: ^4.13.6
+- Image Picker: ^1.0.4
+- Cached Network Image: ^3.3.0
+- Provider: ^6.1.1
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Inicialização do Projeto
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1. Clone o repositório:
+```bash
+git clone https://github.com/VitorMendonca62/flutter_firebase.git
+```
+
+2. Configure o Firebase:
+```bash
+flutter pub add firebase_core
+flutterfire configure
+```
+
+3. Adicione seu arquivo `google-services.json` em:
+```
+android/app/google-services.json
+```
+
+4. Instale as dependências:
+```bash
+flutter pub get
+```
+
+5. Execute o projeto:
+```bash
+flutter run
+```
+
+## Estrutura do Projeto
+```
+lib/
+lib/
+├── models/
+│   ├── comment/
+│   ├── post/
+├── screens/
+│   ├── galery_page.dart
+│   ├── auth/
+│   │   ├── blocs/
+│   │   └── pages/
+│   ├── post/
+│   ├── posts/
+│   └── profile/
+├── utils/
+├── widgets/
+├── colors.dart
+├── constants.dart
+├── firebase_options.dart
+├── main.dart
+├── routes.dart
+├── guards/
+```
+
+## Funcionalidades
+
+### Autenticação
+- Login com email/senha
+- Login com Google
+- Registro de usuários
+
+### Posts
+- Criação de posts com imagens
+- Feed de posts
+- Feed de posts restristos
+- Likes e comentários
+
+### Perfil
+- Edição de perfil
+- Visualização de perfil
+- Validação de email
+- Alteração de senha
+
+## Padrão BLoC
+O projeto utiliza o BLoC Pattern para:
+- Gerenciamento de estado
+- Separação de responsabilidades
+- Fluxo de dados unidirecional
+
+## Como Contribuir
+1. Faça um Fork
+2. Crie sua branch (`git checkout -b feature/NovaFeature`)
+3. Commit suas mudanças (`git commit -m 'Adiciona nova feature'`)
+4. Push para a branch (`git push origin feature/NovaFeature`)
+5. Abra um Pull Request
