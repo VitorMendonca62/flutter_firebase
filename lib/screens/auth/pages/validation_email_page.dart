@@ -76,10 +76,12 @@ class _ValidateEmailPageState extends State<ValidateEmailPage> {
           constainsTitleLikeString: true,
           titleLikeString: "Validar Email",
           canBack: true,
-          onBack: () => goTo(
-            Routes.home,
-            context,
-          ),
+          onBack: () => WidgetsBinding.instance.addPostFrameCallback((_) {
+            goTo(
+              Routes.home,
+              context,
+            );
+          }),
         ),
         backgroundColor: CapybaColors.white,
         body: SingleChildScrollView(

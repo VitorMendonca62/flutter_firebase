@@ -19,7 +19,9 @@ class _DrawerWidgetState extends State<DrawerWidget> {
     try {
       user = FirebaseAuth.instance.currentUser!;
     } catch (e) {
-      goTo(Routes.login, context);
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        goTo(Routes.login, context);
+      });
     }
     return Drawer(
       backgroundColor: CapybaColors.capybaGreen,
@@ -37,7 +39,9 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           children: [
             GestureDetector(
               onTap: () {
-                goTo(Routes.profile, context);
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  goTo(Routes.profile, context);
+                });
               },
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -88,7 +92,9 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                       );
                       return;
                     }
-                    goTo(Routes.validateEmail, context);
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      goTo(Routes.validateEmail, context);
+                    });
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -118,7 +124,9 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   onTap: () async {
                     await FirebaseAuth.instance.signOut();
                     if (context.mounted) {
-                      goTo(Routes.login, context);
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        goTo(Routes.login, context);
+                      });
                     }
                   },
                   child: Padding(

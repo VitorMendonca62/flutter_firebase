@@ -59,10 +59,12 @@ class _ProfilePageState extends State<ProfilePage> {
           constainsTitleLikeString: true,
           titleLikeString: "Perfil de usuário",
           canBack: true,
-          onBack: () => goTo(
-            Routes.home,
-            context,
-          ),
+          onBack: () => WidgetsBinding.instance.addPostFrameCallback((_) {
+            goTo(
+              Routes.home,
+              context,
+            );
+          }),
         ),
         backgroundColor: CapybaColors.white,
         body: SingleChildScrollView(

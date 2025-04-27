@@ -140,7 +140,10 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           const SizedBox(height: 16),
                           GestureDetector(
-                            onTap: () => goTo(Routes.signup, context),
+                            onTap: () => WidgetsBinding.instance
+                                .addPostFrameCallback((_) {
+                              goTo(Routes.signup, context);
+                            }),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -239,7 +242,8 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                   TestsButton(
                                     handleSubmit: () {
-                                      emailController.text = "vitormsi2005@gmail.com";
+                                      emailController.text =
+                                          "vitormsi2005@gmail.com";
                                       passwordController.text = validPassword;
                                     },
                                     label: "Usuário existente",

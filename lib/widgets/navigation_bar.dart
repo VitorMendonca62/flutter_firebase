@@ -33,11 +33,15 @@ class _CapybaBottomNavigationBarState extends State<CapybaBottomNavigationBar> {
         if (currentPageIndex != index) {
           switch (index) {
             case 0:
-              goTo(Routes.home, context);
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                goTo(Routes.home, context);
+              });
               break;
             case 1:
               if (FirebaseAuth.instance.currentUser!.emailVerified) {
-                goTo(Routes.restrict, context);
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  goTo(Routes.restrict, context);
+                });
               } else {
                 WidgetsBinding.instance.addPostFrameCallback((_) {
                   SnackBarNotification.error(

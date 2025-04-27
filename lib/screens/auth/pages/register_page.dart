@@ -168,7 +168,10 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                       ),
                       GestureDetector(
-                        onTap: () => goTo(Routes.signup, context),
+                        onTap: () =>
+                            WidgetsBinding.instance.addPostFrameCallback((_) {
+                          goTo(Routes.signup, context);
+                        }),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [

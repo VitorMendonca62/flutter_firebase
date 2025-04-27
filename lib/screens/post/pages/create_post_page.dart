@@ -88,10 +88,12 @@ class _CreatePostPageState extends State<CreatePostPage> {
           constainsTitleLikeString: true,
           titleLikeString: "Criar novo post",
           canBack: true,
-          onBack: () => goTo(
-            Routes.home,
-            context,
-          ),
+          onBack: () => WidgetsBinding.instance.addPostFrameCallback((_) {
+            goTo(
+              Routes.home,
+              context,
+            );
+          }),
         ),
         backgroundColor: CapybaColors.white,
         body: SingleChildScrollView(
@@ -246,13 +248,19 @@ class _CreatePostPageState extends State<CreatePostPage> {
                                       child: Stack(
                                         children: [
                                           SizedBox(
-                                            width: MediaQuery.of(context).size.width * 0.4,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.4,
                                             height: 100,
                                             child: attachedImage(
                                               data.photos[index],
                                               "file",
                                               context,
-                                              MediaQuery.of(context).size.width * 0.4,
+                                              MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.4,
                                             ),
                                           ),
                                           Positioned(
@@ -262,11 +270,13 @@ class _CreatePostPageState extends State<CreatePostPage> {
                                               onTap: () =>
                                                   handleDelete(data, index),
                                               child: Container(
-                                                padding: const EdgeInsets.all(2),
+                                                padding:
+                                                    const EdgeInsets.all(2),
                                                 decoration: BoxDecoration(
                                                   borderRadius:
                                                       BorderRadius.circular(20),
-                                                  color: CapybaColors.capybaGreen,
+                                                  color:
+                                                      CapybaColors.capybaGreen,
                                                 ),
                                                 child: Icon(
                                                   Icons.delete,

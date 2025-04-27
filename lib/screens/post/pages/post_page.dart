@@ -62,7 +62,9 @@ class _PostPageState extends State<PostPage> {
         appBar: CustomAppBar(
           canBack: true,
           onBack: () {
-            goTo(widget.isRestrict ? Routes.restrict : Routes.home, context);
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              goTo(widget.isRestrict ? Routes.restrict : Routes.home, context);
+            });
           },
           constainsTitleLikeString: true,
           titleLikeString: widget.isRestrict ? "RESTRITO" : "POSTAGEM",
@@ -290,6 +292,10 @@ class _PostPageState extends State<PostPage> {
                                     ElevatedButton(
                                       onPressed: () {
                                         FocusScope.of(context).unfocus();
+                                        if (!_commentsFormKey.currentState!
+                                            .validate()) {
+                                          return;
+                                        }
                                         _postBloc.postInput.add(CommentPost(
                                           postId: widget.post.id!,
                                           content: commentsInputController.text,
