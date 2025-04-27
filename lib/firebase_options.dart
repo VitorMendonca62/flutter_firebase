@@ -3,6 +3,7 @@
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
@@ -49,17 +50,17 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDABwXNqtppHDlZ2CAt3AJzjVZlcBMV8as',
-    appId: '1:178230949280:android:195472e02651b5247720c5',
+  static FirebaseOptions android = FirebaseOptions(
+    apiKey: dotenv.env['FIREBASE_ANDROID_API_KEY']!,
+    appId: dotenv.env['FIREBASE_ANDROID_API_ID']!,
     messagingSenderId: '178230949280',
     projectId: 'desafio-capyba-f75d0',
     storageBucket: 'desafio-capyba-f75d0.firebasestorage.app',
   );
 
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBP6cD-aJG2fu7_GrlIGZUwmIt_46zx4PY',
-    appId: '1:178230949280:ios:7405e024a21340057720c5',
+  static FirebaseOptions ios = FirebaseOptions(
+    apiKey: dotenv.env['FIREBASE_IOS_API_KEY']!,
+    appId: dotenv.env['FIREBASE_IOS_API_ID']!,
     messagingSenderId: '178230949280',
     projectId: 'desafio-capyba-f75d0',
     storageBucket: 'desafio-capyba-f75d0.firebasestorage.app',
