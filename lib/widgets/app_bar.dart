@@ -5,6 +5,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool constainsTitleLikeString;
   final String titleLikeString;
   final bool canBack;
+  final List<Widget>? actions;
   final void Function()? onBack;
 
   @override
@@ -14,6 +15,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     required this.titleLikeString,
     this.onBack,
     required this.canBack,
+    this.actions,
   });
 
   @override
@@ -29,9 +31,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       backgroundColor: Colors.transparent,
       elevation: 0,
+      actions: actions,
       iconTheme: IconThemeData(
         size: 28,
-        color: CapybaColors.white,
+        color: CapybaColors.black,
       ),
       leading: canBack
           ? IconButton(

@@ -23,6 +23,15 @@ class PostLoadedState extends PostState {
       : super(wasHandled: false);
 }
 
+class PostDeletedState extends PostState {
+  PostDeletedState()
+      : super(
+          wasHandled: false,
+          comments: [],
+          post: null,
+        );
+}
+
 class PostsFailureState extends PostState {
   final String exception;
 

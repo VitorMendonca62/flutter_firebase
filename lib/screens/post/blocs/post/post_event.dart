@@ -36,6 +36,13 @@ class UnLikePost extends PostEvent {
   });
 }
 
+class DeletePost extends PostEvent {
+  const DeletePost({
+    required super.postId,
+    required super.isRestrict,
+  });
+}
+
 class CommentPost extends PostEvent {
   final String content;
   final PostModel? post;

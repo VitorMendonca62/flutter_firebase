@@ -182,7 +182,8 @@ class PostRepository {
       await collection.add({
         "title": title,
         "content": content,
-        "author": currentUser!.displayName,
+        "authorId": currentUser!.uid,
+        "author": currentUser.displayName,
         "authorPhoto": currentUser.photoURL,
         "comments": 0,
         "likes": 0,
@@ -190,6 +191,37 @@ class PostRepository {
         "updatedAt": timeNow,
         "photos": photos,
       });
+    } on FirebaseException catch (e) {
+      String message;
+      if (isRestrict) {
+        switch (e.code) {
+          case 'permission-denied':
+            message = 'Você precisa validar seu email para ter permissão';
+            break;
+          default:
+            message = 'Erro ao criar post: ${e.message}';
+        }
+      } else {
+        switch (e.code) {
+          case 'permission-denied':
+            message = 'Você precisa estar logado';
+            break;
+          default:
+            message = 'Erro ao criar post: ${e.message}';
+        }
+      }
+      throw Exception(message);
+    }
+  }
+
+  delete(String postId, bool isRestrict) async {
+    try {
+      final collection = FirebaseFirestore.instance.collection(
+        isRestrict ? "restrict" : 'home',
+      );
+      final postDocument = collection.doc(postId);
+
+      await postDocument.delete();
     } on FirebaseException catch (e) {
       String message;
       if (isRestrict) {

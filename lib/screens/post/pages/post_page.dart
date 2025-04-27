@@ -55,8 +55,49 @@ class _PostPageState extends State<PostPage> {
     return (words.length / wordsPerMinute).ceil();
   }
 
+  void _showDeleteDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Confirmar exclusão'),
+          content: const Text('Tem certeza que deseja excluir esta postagem?'),
+          actions: [
+            TextButton(
+              child: Text(
+                'Cancelar',
+                style: TextStyle(color: CapybaColors.gray2),
+              ),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+            TextButton(
+              child: Text(
+                'Excluir',
+                style: TextStyle(
+                  color: CapybaColors.red,
+                ),
+              ),
+              onPressed: () {
+                _postBloc.postInput.add(DeletePost(
+                  postId: widget.post.id!,
+                  isRestrict: widget.isRestrict,
+                ));
+                Navigator.of(context).pop();
+                goTo(
+                    widget.isRestrict ? Routes.restrict : Routes.home, context);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final bool isAuthor =
+        widget.post.authorId == FirebaseAuth.instance.currentUser!.uid;
+
     return SafeArea(
       child: Scaffold(
         appBar: CustomAppBar(
@@ -68,6 +109,30 @@ class _PostPageState extends State<PostPage> {
           },
           constainsTitleLikeString: true,
           titleLikeString: widget.isRestrict ? "RESTRITO" : "POSTAGEM",
+          actions: isAuthor
+              ? [
+                  IconButton(
+                    icon: const Icon(Icons.edit),
+                    onPressed: () {
+                      // Navigator.pushNamed(
+                      //   context,
+                      //   Routes.editPost,
+                      //   arguments: {
+                      //     'post': widget.post,
+                      //     'isRestrict': widget.isRestrict,
+                      //   },
+                      // );
+                    },
+                  ),
+                  IconButton(
+                    icon: Icon(
+                      Icons.delete,
+                      color: CapybaColors.red,
+                    ),
+                    onPressed: _showDeleteDialog,
+                  ),
+                ]
+              : null,
         ),
         backgroundColor: CapybaColors.white,
         body: SingleChildScrollView(

@@ -47,8 +47,19 @@ class PostBloc {
           event.type,
           event.isRestrict,
         );
-        _postControllerOutput
-            .add(PostLoadedState(post: event.post, comments: event.comments));
+        _postControllerOutput.add(PostLoadedState(
+          post: event.post,
+          comments: event.comments,
+        ));
+      }
+
+      if (event is DeletePost) {
+        await _postRepository.delete(
+          event.postId,
+          event.isRestrict,
+        );
+        _postControllerOutput.add(PostDeletedState(
+        ));
       }
 
       if (event is CommentPost) {

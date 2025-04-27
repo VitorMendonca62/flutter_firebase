@@ -11,6 +11,7 @@ class PostModel {
   final String title;
   final String content;
   final String author;
+  final String authorId;
   final String authorPhoto;
   int comments;
   int likes;
@@ -24,6 +25,7 @@ class PostModel {
     required this.title,
     required this.content,
     required this.author,
+    required this.authorId,
     required this.authorPhoto,
     required this.comments,
     required this.likes,
@@ -39,6 +41,7 @@ class PostModel {
       title: doc['title'],
       content: doc['content'],
       author: doc['author'],
+      authorId: doc['authorId'],
       authorPhoto: doc['authorPhoto'],
       comments: doc['comments'],
       likes: doc['likes'],

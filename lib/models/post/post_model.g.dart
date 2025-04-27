@@ -11,6 +11,7 @@ PostModel _$PostModelFromJson(Map<String, dynamic> json) => PostModel(
       title: json['title'] as String,
       content: json['content'] as String,
       author: json['author'] as String,
+      authorId: json['authorId'] as String,
       authorPhoto: json['authorPhoto'] as String,
       comments: (json['comments'] as num).toInt(),
       likes: (json['likes'] as num).toInt(),
