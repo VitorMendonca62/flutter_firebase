@@ -53,12 +53,12 @@ class _HomePageState extends State<HomePage> {
         data.exception,
         context,
       );
+      if (data.exception == "Null check operator used on a null value") {
+        goTo(Routes.login, context);
+      }
     });
     data.wasHandled = true;
 
-    if (data.exception == "Null check operator used on a null value") {
-      goTo(Routes.login, context);
-    }
     return const Padding(
       padding: EdgeInsets.all(16),
       child: Center(
