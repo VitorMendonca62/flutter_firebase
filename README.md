@@ -85,6 +85,8 @@ lib/
 
 ### Posts
 - Criação de posts com imagens
+- Deletar post
+- Editar post
 - Feed de posts
 - Feed de posts restristos
 - Likes e comentários
