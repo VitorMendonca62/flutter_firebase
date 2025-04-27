@@ -122,7 +122,7 @@ void showImageModal(
                 child: GalleryPage(
                   initialIndex: initialValue,
                   images: photos.map<ImageProvider<Object>>((source) {
-                    if (type == "file" && source is File) {
+                    if (source is File && type == "file") {
                       final bytes = source.readAsBytesSync();
                       return MemoryImage(bytes);
                     }

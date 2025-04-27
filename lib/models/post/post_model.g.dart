@@ -26,6 +26,7 @@ Map<String, dynamic> _$PostModelToJson(PostModel instance) => <String, dynamic>{
       'title': instance.title,
       'content': instance.content,
       'author': instance.author,
+      'authorId': instance.authorId,
       'authorPhoto': instance.authorPhoto,
       'comments': instance.comments,
       'likes': instance.likes,

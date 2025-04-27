@@ -244,4 +244,61 @@ class PostRepository {
       throw Exception(message);
     }
   }
+
+  editPost(
+    String postId,
+    String? title,
+    String? content,
+    List<dynamic> oldPhotos,
+    List<String>? newPhotos,
+    Timestamp timeNow,
+    bool isRestrict,
+  ) async {
+    try {
+      final collection = FirebaseFirestore.instance.collection(
+        isRestrict ? "restrict" : 'home',
+      );
+
+      List<dynamic> photos = oldPhotos;
+
+      if (newPhotos != null) {
+        photos = [...photos, ...newPhotos];
+      }
+
+      final Map<String, dynamic> updatedData = {
+        if (title != null) "title": title,
+        if (content != null) "content": content,
+        "photos": photos,
+        "updatedAt": timeNow,
+      };
+
+      await collection.doc(postId).update(updatedData);
+    } on FirebaseException catch (e) {
+      String message;
+      if (isRestrict) {
+        switch (e.code) {
+          case 'permission-denied':
+            message = 'Você precisa validar seu email para ter permissão';
+            break;
+          case 'not-found':
+            message = 'Post não encontrado';
+            break;
+          default:
+            message = 'Erro ao criar post: ${e.message}';
+        }
+      } else {
+        switch (e.code) {
+          case 'permission-denied':
+            message = 'Você precisa estar logado';
+            break;
+          case 'not-found':
+            message = 'Post não encontrado';
+            break;
+          default:
+            message = 'Erro ao criar post: ${e.message}';
+        }
+      }
+      throw Exception(message);
+    }
+  }
 }

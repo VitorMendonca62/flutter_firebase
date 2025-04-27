@@ -5,6 +5,7 @@ import 'package:flutter_firebase/screens/auth/pages/photo_register_page.dart';
 import 'package:flutter_firebase/screens/auth/pages/register_page.dart';
 import 'package:flutter_firebase/screens/auth/pages/validation_email_page.dart';
 import 'package:flutter_firebase/screens/post/pages/create_post_page.dart';
+import 'package:flutter_firebase/screens/post/pages/edit_post_page.dart';
 import 'package:flutter_firebase/screens/posts/pages/subpages/home_page.dart';
 import 'package:flutter_firebase/screens/posts/pages/subpages/restrict_page.dart';
 import 'package:flutter_firebase/screens/profile/pages/profile_page.dart';
@@ -17,6 +18,7 @@ class Routes {
   static String home = '/home';
   static String restrict = '/restrict';
   static String createPost = '/createPost';
+  static String editPost = '/editPost';
   static String profile = '/profile';
   static String validateEmail = '/validateEmail';
 
@@ -70,6 +72,14 @@ class Routes {
     GetPage(
       name: createPost,
       page: () => const CreatePostPage(),
+      middlewares: [
+        AuthGuard(),
+        PhotoGuard(),
+      ],
+    ),
+    GetPage(
+      name: editPost,
+      page: () => const EditPostPage(),
       middlewares: [
         AuthGuard(),
         PhotoGuard(),

@@ -114,14 +114,16 @@ class _PostPageState extends State<PostPage> {
                   IconButton(
                     icon: const Icon(Icons.edit),
                     onPressed: () {
-                      // Navigator.pushNamed(
-                      //   context,
-                      //   Routes.editPost,
-                      //   arguments: {
-                      //     'post': widget.post,
-                      //     'isRestrict': widget.isRestrict,
-                      //   },
-                      // );
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        goTo(
+                          Routes.editPost,
+                          context,
+                          {
+                            'post': widget.post,
+                            'isRestrict': widget.isRestrict,
+                          },
+                        );
+                      });
                     },
                   ),
                   IconButton(
