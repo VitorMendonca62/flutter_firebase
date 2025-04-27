@@ -114,10 +114,10 @@ O projeto utiliza o BLoC Pattern para:
 ### Telas do Aplicativo
 <img src="assets/screenshots/login.jpg" width="200" alt="Tela de Login">
 <img src="assets/screenshots/resgistro.jpg" width="200" alt="Tela de Registro">
+<img src="assets/screenshots/area-teste.jpg" width="200" alt="Área de Teste">
 <img src="assets/screenshots/feed.jpg" width="200" alt="Feed de Posts">
 <img src="assets/screenshots/adicionar-foto.jpg" width="200" alt="Adicionar Foto">
 <img src="assets/screenshots/criacao-de-posts.jpg" width="200" alt="Criar Post">
 <img src="assets/screenshots/perfil.jpg" width="200" alt="Tela de Perfil">
-<img src="assets/screenshots/area-teste.jpg" width="200" alt="Área de Teste">
 
 </div>
