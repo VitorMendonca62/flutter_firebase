@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/colors.dart';
-import 'package:flutter_firebase/routes.dart';
-import 'package:flutter_firebase/utils/orthers.dart';
 import 'package:flutter_firebase/widgets/app_bar.dart';
 import 'package:flutter_firebase/widgets/drawer_widget.dart';
 import 'package:flutter_firebase/widgets/navigation_bar.dart';
@@ -9,10 +7,13 @@ import 'package:flutter_firebase/widgets/navigation_bar.dart';
 class ContainerPage extends StatefulWidget {
   final Widget child;
   final int currentPageIndex;
+  final VoidCallback handleLogout;
+
   const ContainerPage({
     super.key,
     required this.child,
     required this.currentPageIndex,
+    required this.handleLogout,
   });
 
   @override
@@ -66,11 +67,7 @@ class _ContainerPageState extends State<ContainerPage> {
                 right: 0,
                 bottom: 0,
                 child: FloatingActionButton(
-                  onPressed: () {
-                    WidgetsBinding.instance.addPostFrameCallback((_) {
-                      goTo(Routes.createPost, context);
-                    });
-                  },
+                  onPressed: widget.handleLogout,
                   backgroundColor: CapybaColors.capybaGreen,
                   child: Icon(
                     Icons.add,

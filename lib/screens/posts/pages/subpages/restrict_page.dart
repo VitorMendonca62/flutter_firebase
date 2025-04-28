@@ -81,6 +81,9 @@ class _RestrictPageState extends State<RestrictPage> {
     }
     return ContainerPage(
       currentPageIndex: 1,
+      handleLogout: () {
+        _postsBloc.postsInput.add(const LogoutEvent());
+      },
       child: RefreshIndicator(
         onRefresh: () async {
           _postsBloc.postsInput.add(const GetPosts(isRestrict: true));

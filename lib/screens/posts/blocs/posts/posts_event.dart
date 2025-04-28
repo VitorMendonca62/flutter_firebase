@@ -14,6 +14,12 @@ class GetPosts extends PostsEvent {
   });
 }
 
+class LogoutEvent extends PostsEvent {
+  const LogoutEvent({
+    super.isRestrict,
+  });
+}
+
 class PostPost extends PostsEvent {
   final PostModel post;
 

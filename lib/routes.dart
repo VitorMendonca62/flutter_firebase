@@ -28,23 +28,14 @@ class Routes {
     GetPage(
       name: login,
       page: () => const LoginPage(),
-      middlewares: [
-        NoAuthGuard(),
-      ],
     ),
     GetPage(
       name: signup,
       page: () => const RegisterPage(),
-      middlewares: [
-        NoAuthGuard(),
-      ],
     ),
     GetPage(
       name: forgotPassword,
       page: () => const ForgotPasswordPage(),
-      middlewares: [
-        NoAuthGuard(),
-      ],
     ),
     GetPage(
       name: photoRegister,

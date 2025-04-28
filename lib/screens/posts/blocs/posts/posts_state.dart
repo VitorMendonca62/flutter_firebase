@@ -23,6 +23,10 @@ class PostsLoadedState extends PostsState {
   PostsLoadedState({required super.posts}) : super(wasHandled: false);
 }
 
+class LogoutState extends PostsState {
+  LogoutState() : super(wasHandled: false, posts: []);
+}
+
 class PostsFailureState extends PostsState {
   final String exception;
 

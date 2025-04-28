@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:flutter_firebase/screens/auth/repositories/auth_repository.dart';
+
 import '../../repositories/posts_repository.dart';
 import 'package:flutter_firebase/models/post/post_model.dart';
 
@@ -8,6 +10,7 @@ part 'posts_state.dart';
 
 class PostsBloc {
   final _postsRepository = PostsRepository();
+  final _authRepository = AuthRepository();
 
   final StreamController<PostsEvent> _postsControllerInput =
       StreamController<PostsEvent>();
@@ -25,6 +28,11 @@ class PostsBloc {
     try {
       if (!(event is LikePost || event is UnLikePost)) {
         _postsControllerOutput.add(PostsLoadingState());
+      }
+
+      if (event is LogoutEvent) {
+        await _authRepository.logout();
+        _postsControllerOutput.add(LogoutState());
       }
 
       if (event is GetPosts) {

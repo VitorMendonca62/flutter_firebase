@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/colors.dart';
+import 'package:flutter_firebase/routes.dart';
 import 'package:flutter_firebase/screens/posts/blocs/posts/posts_bloc.dart';
 import 'package:flutter_firebase/screens/posts/pages/container_page.dart';
 import 'package:flutter_firebase/screens/posts/widgets/post.dart';
 import 'package:flutter_firebase/screens/posts/widgets/post_nothing_data.dart';
+import 'package:flutter_firebase/utils/orthers.dart';
 import 'package:flutter_firebase/widgets/snackbar.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -67,9 +69,19 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  handleLogout(LogoutState data, BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      goTo(Routes.login, context);
+    });
+    data.wasHandled = true;
+  }
+
   @override
   Widget build(BuildContext context) {
     return ContainerPage(
+      handleLogout: () {
+        _postsBloc.postsInput.add(const LogoutEvent());
+      },
       currentPageIndex: 0,
       child: RefreshIndicator(
         onRefresh: () async {
@@ -94,6 +106,10 @@ class _HomePageState extends State<HomePage> {
               initialData: PostsInitialState(),
               builder: (context, state) {
                 final PostsState data = state.data!;
+
+                if (data is LogoutState) {
+                  return handleLogout(data, context);
+                }
 
                 if (data is PostsLoadingState) {
                   return handleLoading(data, context);
