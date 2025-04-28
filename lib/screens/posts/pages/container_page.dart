@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/colors.dart';
+import 'package:flutter_firebase/routes.dart';
+import 'package:flutter_firebase/utils/orthers.dart';
 import 'package:flutter_firebase/widgets/app_bar.dart';
 import 'package:flutter_firebase/widgets/drawer_widget.dart';
 import 'package:flutter_firebase/widgets/navigation_bar.dart';
@@ -57,7 +59,7 @@ class _ContainerPageState extends State<ContainerPage> {
             currentPageIndex: currentPageIndex,
           ),
         ),
-        drawer: const DrawerWidget(),
+        drawer: DrawerWidget(handleLogout: widget.handleLogout),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 12),
           child: Stack(
@@ -67,7 +69,11 @@ class _ContainerPageState extends State<ContainerPage> {
                 right: 0,
                 bottom: 0,
                 child: FloatingActionButton(
-                  onPressed: widget.handleLogout,
+                  onPressed: () {
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      goTo(Routes.createPost, context);
+                    });
+                  },
                   backgroundColor: CapybaColors.capybaGreen,
                   child: Icon(
                     Icons.add,

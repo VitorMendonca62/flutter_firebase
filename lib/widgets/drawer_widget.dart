@@ -6,8 +6,11 @@ import 'package:flutter_firebase/utils/orthers.dart';
 import 'package:flutter_firebase/widgets/snackbar.dart';
 
 class DrawerWidget extends StatefulWidget {
+  final VoidCallback handleLogout;
+
   const DrawerWidget({
     super.key,
+    required this.handleLogout,
   });
 
   @override
@@ -128,12 +131,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 InkWell(
                   splashColor: CapybaColors.capybaDarkGreen,
                   borderRadius: BorderRadius.circular(12),
-                  onTap: () async {
-                    await FirebaseAuth.instance.signOut();
-                    if (context.mounted) {
-                      goTo(Routes.login, context);
-                    }
-                  },
+                  onTap: widget.handleLogout,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(

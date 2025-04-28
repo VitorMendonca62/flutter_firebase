@@ -74,6 +74,13 @@ class _HomePageState extends State<HomePage> {
       goTo(Routes.login, context);
     });
     data.wasHandled = true;
+
+    return const Padding(
+      padding: EdgeInsets.all(16),
+      child: Center(
+        child: Text("Erro ao carregar postagens"),
+      ),
+    );
   }
 
   @override
