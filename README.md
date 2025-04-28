@@ -1,4 +1,4 @@
-# Flutter Firebase - Capyba Challenge
+# Flutter Firebase
 
 <div style="display: flex; gap: 10px;">
 <img src="https://img.shields.io/badge/Flutter-02569B?logo=flutter&logoColor=white&style=for-the-badge" width="150">
