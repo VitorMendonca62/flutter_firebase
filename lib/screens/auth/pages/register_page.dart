@@ -40,7 +40,7 @@ class _RegisterPageState extends State<RegisterPage> {
         'Registro realizado com sucesso',
         context,
       );
-      goTo(Routes.photoRegister, context);
+      goTo(PathRouter.photoRegister, context);
       data.wasHandled = true;
     });
   }
@@ -51,9 +51,7 @@ class _RegisterPageState extends State<RegisterPage> {
         (data as AuthFailureState).exception,
         context,
       );
-
-      goTo(Routes.login, context);
-
+      goTo(PathRouter.login, context);
       data.wasHandled = true;
     });
   }
@@ -169,7 +167,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       GestureDetector(
                         onTap: () =>
                             WidgetsBinding.instance.addPostFrameCallback((_) {
-                          goTo(Routes.signup, context);
+                          pushRoute(PathRouter.login, context);
                         }),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,

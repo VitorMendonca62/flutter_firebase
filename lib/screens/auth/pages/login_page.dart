@@ -40,7 +40,7 @@ class _LoginPageState extends State<LoginPage> {
         'Login realizado com sucesso',
         context,
       );
-      goTo(Routes.home, context);
+      goTo(PathRouter.home, context);
       data.wasHandled = true;
     });
   }
@@ -132,7 +132,8 @@ class _LoginPageState extends State<LoginPage> {
                                   padding: const EdgeInsets.all(8.0),
                                   child: GestureDetector(
                                     onTap: () {
-                                      goTo(Routes.forgotPassword, context);
+                                      pushRoute(
+                                          PathRouter.forgotPassword, context);
                                     },
                                     child: const Align(
                                       alignment: Alignment.centerRight,
@@ -160,7 +161,7 @@ class _LoginPageState extends State<LoginPage> {
                           GestureDetector(
                             onTap: () => WidgetsBinding.instance
                                 .addPostFrameCallback((_) {
-                              goTo(Routes.signup, context);
+                              pushRoute(PathRouter.signup, context);
                             }),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,

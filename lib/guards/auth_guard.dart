@@ -1,30 +1,31 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/routes.dart';
-import 'package:get/get.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:go_router/go_router.dart';
 
-class AuthGuard extends GetMiddleware {
-  @override
-  RouteSettings? redirect(String? route) {
-    final user = FirebaseAuth.instance.currentUser;
+String? authGuard(BuildContext context, GoRouterState state) {
+  final isLoggedIn = FirebaseAuth.instance.currentUser != null;
 
-    if (user == null) {
-      return RouteSettings(name: Routes.login);
-    }
+  if (!isLoggedIn) return PathRouter.login;
 
-    return null;
-  }
+  return null;
 }
 
-class NoAuthGuard extends GetMiddleware {
-  @override
-  RouteSettings? redirect(String? route) {
-    final user = FirebaseAuth.instance.currentUser;
+String? noAuthGuard(BuildContext context, GoRouterState state) {
+  final isLoggedIn = FirebaseAuth.instance.currentUser != null;
 
-    if (user is User) {
-      return RouteSettings(name: Routes.home);
-    }
+  if (isLoggedIn) return PathRouter.home;
 
-    return null;
+  return null;
+}
+
+String? photoGuard(BuildContext context, GoRouterState state) {
+  final user = FirebaseAuth.instance.currentUser;
+  final hasPhoto = user?.photoURL != null && user!.photoURL!.isNotEmpty;
+
+  if (!hasPhoto && state.path != '/photo-register') {
+    return PathRouter.photoRegister;
   }
+
+  return null;
 }

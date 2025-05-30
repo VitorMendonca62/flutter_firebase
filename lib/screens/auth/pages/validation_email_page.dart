@@ -33,7 +33,7 @@ class _ValidateEmailPageState extends State<ValidateEmailPage> {
         'Email enviado!',
         context,
       );
-      goTo(Routes.home, context);
+      pushRoute(PathRouter.home, context);
       data.wasHandled = true;
     });
   }
@@ -44,7 +44,7 @@ class _ValidateEmailPageState extends State<ValidateEmailPage> {
         "Seu e-mail já foi confirmado anteriormente. Você já pode usar todos os recursos do aplicativo normalmente.",
         context,
       );
-      goTo(Routes.home, context);
+      pushRoute(PathRouter.home, context);
     });
   }
 
@@ -77,8 +77,8 @@ class _ValidateEmailPageState extends State<ValidateEmailPage> {
           titleLikeString: "Validar Email",
           canBack: true,
           onBack: () => WidgetsBinding.instance.addPostFrameCallback((_) {
-            goTo(
-              Routes.home,
+            pushRoute(
+              PathRouter.home,
               context,
             );
           }),

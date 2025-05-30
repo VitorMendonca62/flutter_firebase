@@ -61,7 +61,7 @@ class _PhotoRegisterPageState extends State<PhotoRegisterPage> {
         'Foto de perfil enviada com sucesso',
         context,
       );
-      goTo(Routes.home, context);
+      goTo(PathRouter.home, context);
       data.wasHandled = true;
     });
   }

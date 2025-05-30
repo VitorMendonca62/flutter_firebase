@@ -34,13 +34,13 @@ class _CapybaBottomNavigationBarState extends State<CapybaBottomNavigationBar> {
           switch (index) {
             case 0:
               WidgetsBinding.instance.addPostFrameCallback((_) {
-                goTo(Routes.home, context);
+                pushRoute(PathRouter.home, context);
               });
               break;
             case 1:
               if (FirebaseAuth.instance.currentUser!.emailVerified) {
                 WidgetsBinding.instance.addPostFrameCallback((_) {
-                  goTo(Routes.restrict, context);
+                  pushRoute(PathRouter.restrict, context);
                 });
               } else {
                 WidgetsBinding.instance.addPostFrameCallback((_) {

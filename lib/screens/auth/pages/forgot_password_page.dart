@@ -39,7 +39,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         'Email enviado com sucesso',
         context,
       );
-      goTo(Routes.home, context);
+      goTo(PathRouter.login, context);
       data.wasHandled = true;
     });
   }
@@ -132,7 +132,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                     minimumSize: const Size(180, 50),
                                   ),
                                   onPressed: () {
-                                    goTo(Routes.login, context);
+                                    goTo(PathRouter.login, context);
                                   },
                                   child: Text(
                                     "Voltar",

@@ -50,7 +50,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             GestureDetector(
               onTap: () {
                 WidgetsBinding.instance.addPostFrameCallback((_) {
-                  goTo(Routes.profile, context);
+                  pushRoute(PathRouter.profile, context);
                 });
               },
               child: Row(
@@ -103,7 +103,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                       return;
                     }
                     WidgetsBinding.instance.addPostFrameCallback((_) {
-                      goTo(Routes.validateEmail, context);
+                      pushRoute(PathRouter.validateEmail, context);
                     });
                   },
                   child: Padding(

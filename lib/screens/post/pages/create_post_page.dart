@@ -89,8 +89,8 @@ class _CreatePostPageState extends State<CreatePostPage> {
           titleLikeString: "Criar novo post",
           canBack: true,
           onBack: () => WidgetsBinding.instance.addPostFrameCallback((_) {
-            goTo(
-              Routes.home,
+            pushRoute(
+              PathRouter.home,
               context,
             );
           }),

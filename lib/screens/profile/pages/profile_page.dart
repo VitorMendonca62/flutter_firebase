@@ -60,8 +60,8 @@ class _ProfilePageState extends State<ProfilePage> {
           titleLikeString: "Perfil de usuário",
           canBack: true,
           onBack: () => WidgetsBinding.instance.addPostFrameCallback((_) {
-            goTo(
-              Routes.home,
+            pushRoute(
+              PathRouter.home,
               context,
             );
           }),

@@ -71,7 +71,7 @@ class _HomePageState extends State<HomePage> {
 
   handleLogout(LogoutState data, BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      goTo(Routes.login, context);
+      goTo(PathRouter.login, context);
     });
     data.wasHandled = true;
 

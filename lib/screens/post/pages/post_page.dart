@@ -83,8 +83,9 @@ class _PostPageState extends State<PostPage> {
                   isRestrict: widget.isRestrict,
                 ));
                 Navigator.of(context).pop();
-                goTo(
-                    widget.isRestrict ? Routes.restrict : Routes.home, context);
+                pushRoute(
+                    widget.isRestrict ? PathRouter.restrict : PathRouter.home,
+                    context);
               },
             ),
           ],
@@ -104,7 +105,10 @@ class _PostPageState extends State<PostPage> {
           canBack: true,
           onBack: () {
             WidgetsBinding.instance.addPostFrameCallback((_) {
-              goTo(widget.isRestrict ? Routes.restrict : Routes.home, context);
+              pushRoute(
+                widget.isRestrict ? PathRouter.restrict : PathRouter.home,
+                context,
+              );
             });
           },
           constainsTitleLikeString: true,
@@ -115,8 +119,8 @@ class _PostPageState extends State<PostPage> {
                     icon: const Icon(Icons.edit),
                     onPressed: () {
                       WidgetsBinding.instance.addPostFrameCallback((_) {
-                        goTo(
-                          Routes.editPost,
+                        pushRoute(
+                          PathRouter.editPost,
                           context,
                           {
                             'post': widget.post,

@@ -71,7 +71,7 @@ class _ContainerPageState extends State<ContainerPage> {
                 child: FloatingActionButton(
                   onPressed: () {
                     WidgetsBinding.instance.addPostFrameCallback((_) {
-                      goTo(Routes.createPost, context);
+                      pushRoute(PathRouter.createPost, context);
                     });
                   },
                   backgroundColor: CapybaColors.capybaGreen,

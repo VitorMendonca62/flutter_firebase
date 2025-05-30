@@ -109,8 +109,8 @@ class _EditPostPageState extends State<EditPostPage> {
           titleLikeString: "Editar post",
           canBack: true,
           onBack: () => WidgetsBinding.instance.addPostFrameCallback((_) {
-            goTo(
-              Routes.home,
+            pushRoute(
+              PathRouter.home,
               context,
             );
           }),

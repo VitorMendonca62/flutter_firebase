@@ -1,12 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/colors.dart';
-import 'package:flutter_firebase/routes.dart';
 import 'package:flutter_firebase/screens/posts/blocs/posts/posts_bloc.dart';
 import 'package:flutter_firebase/screens/posts/pages/container_page.dart';
 import 'package:flutter_firebase/screens/posts/widgets/post.dart';
 import 'package:flutter_firebase/screens/posts/widgets/post_nothing_data.dart';
-import 'package:flutter_firebase/utils/orthers.dart';
 import 'package:flutter_firebase/widgets/snackbar.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -70,7 +68,7 @@ class _RestrictPageState extends State<RestrictPage> {
         "Você precisa validar seu email para ter permissão",
         context,
       );
-      goTo(Routes.home, context);
+      // goTo(Routes.home, context);
     });
   }
 
@@ -115,7 +113,7 @@ class _RestrictPageState extends State<RestrictPage> {
                 if (data is PostsFailureState && !data.wasHandled) {
                   if (data.exception ==
                       "Você precisa validar seu email para ter permissão") {
-                    Navigator.of(context).pushReplacementNamed(Routes.home);
+                    // Navigator.of(context).pushReplacementNamed(Routes.home);
                   }
                   return handleError(data, context);
                 }
