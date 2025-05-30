@@ -6,6 +6,7 @@ import 'package:flutter_firebase/colors.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_firebase/routes.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:toastification/toastification.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -30,19 +31,25 @@ class MyApp extends StatelessWidget {
     await Permission.camera.request();
     await Permission.photos.request();
   }
+
   @override
-  
   Widget build(BuildContext context) {
     requestPermissions();
-    return MaterialApp.router(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: CapybaColors.capybaGreen,
-        ),
-        fontFamily: 'Montserrat',
+    return ToastificationWrapper(
+      config: ToastificationConfig(
+        marginBuilder: (context, alignment) =>
+            const EdgeInsets.fromLTRB(0, 16, 0, 110),
       ),
-      routerConfig: router,
+      child: MaterialApp.router(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: CapybaColors.capybaGreen,
+          ),
+          fontFamily: 'Montserrat',
+        ),
+        routerConfig: router,
+      ),
     );
   }
 }
